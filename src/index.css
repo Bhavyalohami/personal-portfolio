@@ -1,13 +1,255 @@
+/* @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
 body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  background-color: #0E1116;
+  color: #E6FBFF;
+  overflow-x: hidden;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #1A1F29;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #242B38;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #3EDCE6;
+}
+
+
+.typing-text {
+  display: inline-block;
+  overflow: hidden;
+  white-space: nowrap;
+  border-right: 2px solid #7DF9FF;
+  animation: 
+    typing 3.5s steps(40, end) infinite,
+    blinkCaret 0.75s step-end infinite;
+}
+
+
+.scan-line {
+  position: relative;
+  overflow: hidden;
+}
+
+.scan-line::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #7DF9FF, transparent);
+  animation: scanLine 8s linear infinite;
+}
+
+
+.glass-effect {
+  background: rgba(26, 31, 41, 0.7);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(125, 249, 255, 0.1);
+}
+
+
+.card-hover {
+  transition: all 0.3s ease;
+  border: 1px solid #242B38;
+}
+
+.card-hover:hover {
+  transform: translateY(-5px);
+  border-color: #7DF9FF;
+  box-shadow: 0 10px 30px rgba(125, 249, 255, 0.1);
+}
+
+
+.neon-border {
+  position: relative;
+  border: 1px solid transparent;
+  background: linear-gradient(#242B38, #242B38) padding-box,
+              linear-gradient(135deg, #7DF9FF, #3EDCE6) border-box;
+}
+
+
+.terminal-cursor {
+  animation: blink 1s infinite;
+}
+
+@keyframes blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+
+
+.grid-pattern {
+  background-image: 
+    linear-gradient(rgba(125, 249, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(125, 249, 255, 0.05) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  
+  body {
+    background: white !important;
+    color: black !important;
+  }
+  
+  .print-break {
+    page-break-before: always;
+  }
+} */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&display=swap');
+@import url('https://api.fontshare.com/v2/css?f[]=clash-display@400,500,600,700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Futuristic Scrollbar */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: #0A0C10; }
+::-webkit-scrollbar-thumb { background: #1E2630; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #6AE2FF; }
+
+/* Smooth Scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Particle Canvas Background */
+#particle-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+@keyframes slow-pan {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+.animate-slow-pan {
+  animation: slow-pan 15s ease-in-out infinite;
+}
+
+.animated-gradient-text {
+  background: linear-gradient(90deg, #6ae2ff, #4aa8ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Glass Morphism */
+.glass-panel {
+  @apply backdrop-blur-xl bg-white/5 border border-white/10;
+}
+
+/* Text Gradient Animation */
+.animated-gradient-text {
+  background: linear-gradient(90deg, #6AE2FF, #00B8D9, #A3F0FF, #6AE2FF);
+  background-size: 300% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: gradientShift 4s ease infinite;
+}
+
+@keyframes gradientShift {
+  0% { background-position: 0% center; }
+  100% { background-position: 200% center; }
+}
+
+/* 3D Tilt Effect on Hover */
+.tilt-card {
+  transition: transform 0.3s ease;
+  transform-style: preserve-3d;
+  perspective: 1000px;
+}
+
+.tilt-card:hover {
+  transform: rotateX(2deg) rotateY(2deg) scale(1.02);
+}
+
+/* Glitch Effect */
+.glitch {
+  position: relative;
+}
+
+.glitch::before,
+.glitch::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.glitch::before {
+  animation: glitch-effect 3s infinite;
+  color: #ff00ff;
+  z-index: -1;
+}
+
+.glitch::after {
+  animation: glitch-effect 2s infinite reverse;
+  color: #00ffff;
+  z-index: -2;
+}
+
+@keyframes glitch-effect {
+  0% { transform: translate(0); }
+  20% { transform: translate(-3px, 3px); }
+  40% { transform: translate(-3px, -3px); }
+  60% { transform: translate(3px, 3px); }
+  80% { transform: translate(3px, -3px); }
+  100% { transform: translate(0); }
+}
+
+/* Floating Particles */
+.particle {
+  position: absolute;
+  pointer-events: none;
+  opacity: 0.1;
+  background: #6AE2FF;
+  border-radius: 50%;
+  filter: blur(20px);
+  animation: particle-float 20s infinite linear;
+}
+
+@keyframes particle-float {
+  from { transform: translateY(100vh) rotate(0deg); }
+  to { transform: translateY(-100vh) rotate(360deg); }
+}
+
+/* Marquee Scroll */
+.marquee-container {
+  mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
 }
