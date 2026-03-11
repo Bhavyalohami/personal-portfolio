@@ -14,7 +14,7 @@ import './index.css';
 
 function App() {
   return (
-    <Router  basename="/devoated_icecream">
+    <BrowserRouter  basename="/">
       <div className="App font-inter min-h-screen flex flex-col bg-graphite text-text-light">
         <div className="fixed inset-0 grid-pattern pointer-events-none"></div>
         <Header />
@@ -32,7 +32,7 @@ function App() {
         </main>
         <Footer />
       </div>
-    </Router>
+    </BrowserRouter>
   );
 }
 
