@@ -101,9 +101,9 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        'sans': ['Inter', 'system-ui', 'sans-serif'],
+        'sans': ['Manrope', 'Inter', 'system-ui', 'sans-serif'],
         'mono': ['JetBrains Mono', 'monospace'],
-        'display': ['Georgia', 'Charter', 'Times New Roman', 'serif'],
+        'display': ['Space Grotesk', 'Inter', 'system-ui', 'sans-serif'],
       },
       colors: {
         'graphite': '#EEF5FF',

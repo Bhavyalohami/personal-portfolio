@@ -1,56 +1,49 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import { FaBuilding, FaMapMarkerAlt } from 'react-icons/fa';
-import { MagneticButton, PageShell, SectionHeader, reveal } from '../components/Premium';
+import React, { memo } from 'react';
+import { MagneticButton, PageShell } from '../components/Premium';
+import { ArchiveTable, StoryHero, StoryScroller, storyAssets } from '../components/Storytelling';
 import { experiences } from '../data/portfolio';
 
 const Experience = () => {
+  const steps = experiences.map((item) => ({
+    kicker: `${item.company} / ${item.period}`,
+    title: item.role,
+    body: item.description,
+    visualBody: `${item.company} - ${item.location}`,
+    points: item.wins,
+    tags: [item.company, item.location],
+  }));
+
+  const rows = experiences.map((item) => ({
+    name: item.role,
+    stack: item.company,
+    signal: item.period,
+  }));
+
   return (
     <PageShell>
-      <section className="px-4 pb-24 pt-32 md:px-6">
+      <StoryHero
+        eyebrow="EXPERIENCE.LOG"
+        title="A timeline of shipped interfaces"
+        copy="Experience is now shown as a product log: each role becomes a chapter with wins, constraints, and outcomes."
+        meta={experiences.map((item) => item.period)}
+        image={storyAssets.projects}
+      />
+
+      <StoryScroller
+        eyebrow="Career sequence"
+        title="Roles revealed as chapters"
+        copy="Scroll through the timeline and the sticky panel updates with the active role, company, and delivery signals."
+        steps={steps}
+        image={storyAssets.projects}
+      />
+
+      <section className="story-grid-bg border-b border-steel px-4 py-20 md:px-6 md:py-28">
         <div className="mx-auto max-w-7xl">
-          <SectionHeader
-            eyebrow="Experience"
-            title="A timeline of shipped interfaces"
-            copy="Each step is shown like a product milestone, with the work, context, and practical outcomes easy to scan."
-          />
-
-          <div className="relative mx-auto max-w-5xl">
-            <div className="absolute left-4 top-0 hidden h-full w-px bg-gradient-to-b from-transparent via-ice-blue/45 to-transparent md:left-1/2 md:block" />
-            <div className="space-y-8">
-              {experiences.map((item, index) => (
-                <motion.article
-                  key={`${item.company}-${item.period}`}
-                  variants={reveal}
-                  initial="hidden"
-                  whileInView="visible"
-                  custom={index * 0.08}
-                  viewport={{ once: true, margin: '-80px' }}
-                  className={`relative grid gap-6 md:grid-cols-2 ${index % 2 === 0 ? '' : 'md:[&>*:first-child]:col-start-2'}`}
-                >
-                  <div className="premium-card rounded-[1.75rem] p-7">
-                    <p className="font-mono text-xs uppercase tracking-[0.28em] text-ice-blue">{item.period}</p>
-                    <h2 className="mt-3 font-display text-3xl font-bold">{item.role}</h2>
-                    <div className="mt-4 flex flex-wrap gap-4 text-sm text-slate-500">
-                      <span className="flex items-center gap-2"><FaBuilding /> {item.company}</span>
-                      <span className="flex items-center gap-2"><FaMapMarkerAlt /> {item.location}</span>
-                    </div>
-                    <p className="mt-5 leading-7 text-slate-600">{item.description}</p>
-                    <div className="mt-6 grid gap-2">
-                      {item.wins.map((win) => (
-                        <span key={win} className="rounded-full border border-steel bg-card/70 px-4 py-2 text-sm text-slate-600">
-                          {win}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                </motion.article>
-              ))}
-            </div>
-          </div>
-
-          <div className="mt-16 flex justify-center">
-            <MagneticButton to="/resume">View resume</MagneticButton>
+          <p className="story-chip mb-5 w-fit">Work archive</p>
+          <h2 className="story-heading mb-10">Role index</h2>
+          <ArchiveTable rows={rows} />
+          <div className="mt-12 flex justify-center">
+            <MagneticButton to="/resume">Open resume</MagneticButton>
           </div>
         </div>
       </section>
@@ -58,4 +51,4 @@ const Experience = () => {
   );
 };
 
-export default Experience;
+export default memo(Experience);

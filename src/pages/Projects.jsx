@@ -1,157 +1,73 @@
-import React, { useMemo, useState } from 'react';
-import { AnimatePresence, motion } from 'framer-motion';
-import { FaExternalLinkAlt, FaGithub, FaSearch } from 'react-icons/fa';
-import { MagneticButton, OptimizedImage, PageShell, SectionHeader, TiltPanel, reveal } from '../components/Premium';
+import React, { memo } from 'react';
+import { FaExternalLinkAlt, FaGithub } from 'react-icons/fa';
+import { MagneticButton, PageShell } from '../components/Premium';
+import { ArchiveTable, StoryHero, StoryScroller, storyAssets, useStoryRows } from '../components/Storytelling';
 import { projects } from '../data/portfolio';
 
 const Projects = () => {
-  const [filter, setFilter] = useState('All');
-  const [query, setQuery] = useState('');
-  const categories = useMemo(() => ['All', ...Array.from(new Set(projects.map((project) => project.category)))], []);
-
-  const filtered = useMemo(
-    () =>
-      projects.filter((project) => {
-        const matchCategory = filter === 'All' || project.category === filter;
-        const haystack = `${project.title} ${project.summary} ${project.tags.join(' ')}`.toLowerCase();
-        return matchCategory && haystack.includes(query.toLowerCase());
-      }),
-    [filter, query]
-  );
-
-  const featured = projects.find((project) => project.featured) || projects[0];
+  const archiveRows = useStoryRows(projects);
+  const projectSteps = projects.map((project, index) => ({
+    kicker: `${project.category} / ${project.period}`,
+    title: project.title,
+    body: project.story,
+    visualBody: project.summary,
+    points: project.metrics,
+    tags: project.tags,
+    image: storyAssets.projects,
+    quadrant: index,
+  }));
 
   return (
     <PageShell>
-      <section className="px-4 pb-16 pt-32 md:px-6">
+      <StoryHero
+        eyebrow="SYS.ARCHIVE_V3"
+        title="Projects that switch on scroll"
+        copy="The work page is now a guided archive. Each project owns a scroll chapter, and the visual board highlights the matching product scene as you pass it."
+        meta={['Real Estate', 'HRMS', 'Healthcare', 'Performance']}
+        image={storyAssets.projects}
+      />
+
+      <StoryScroller
+        eyebrow="Active project log"
+        title="One product story at a time"
+        copy="Scroll through the cards on the left. React Intersection Observer updates the sticky visual, project label, stack, and highlighted quadrant."
+        steps={projectSteps}
+        image={storyAssets.projects}
+      />
+
+      <section className="story-grid-bg border-b border-steel px-4 py-20 md:px-6 md:py-28">
         <div className="mx-auto max-w-7xl">
-          <SectionHeader
-            eyebrow="Projects"
-            title="Work that feels like a product launch"
-            copy="A premium showcase with editorial cards, filtering, hover reveals, and case-study style storytelling."
-          />
+          <div className="mb-10">
+            <p className="story-chip mb-5 w-fit">Archive table</p>
+            <h2 className="story-heading">Project index</h2>
+          </div>
+          <ArchiveTable rows={archiveRows} />
 
-          <TiltPanel className="mb-10 overflow-hidden rounded-[2rem]">
-            <div className="grid lg:grid-cols-[1.05fr_0.95fr]">
-              <div className="relative min-h-[420px] overflow-hidden">
-                <OptimizedImage
-                  priority
-                  src={featured.image}
-                  alt={featured.title}
-                  aspect="absolute inset-0"
-                  className="absolute inset-0"
-                  imgClassName="transition-transform duration-700 hover:scale-105"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/65 via-slate-950/20 to-transparent" />
-                <div className="absolute bottom-6 left-6 right-6">
-                  <span className="rounded-full bg-ice-blue px-3 py-1 font-mono text-xs font-bold text-white">Featured</span>
-                </div>
-              </div>
-              <div className="p-8 md:p-10">
-                <p className="font-mono text-xs uppercase tracking-[0.32em] text-ice-blue">{featured.period}</p>
-                <h2 className="mt-4 font-display text-4xl font-bold md:text-6xl">{featured.title}</h2>
-                <p className="mt-5 leading-7 text-slate-600">{featured.story}</p>
-                <div className="mt-7 grid gap-3 sm:grid-cols-3">
-                  {featured.metrics.map((metric) => (
-                    <div key={metric} className="rounded-2xl border border-steel bg-card/70 p-4 text-sm text-slate-600">
-                      {metric}
-                    </div>
+          <div className="mt-10 grid gap-5 md:grid-cols-2">
+            {projects.map((project, index) => (
+              <article key={project.title} className="story-panel bg-card p-6 transition hover:-translate-x-1 hover:-translate-y-1 hover:shadow-[8px_8px_0_rgba(31,111,235,0.22)]">
+                <p className="story-chip mb-5 w-fit">{String(index + 1).padStart(3, '0')}</p>
+                <h3 className="font-display text-3xl font-black uppercase leading-none">{project.title}</h3>
+                <p className="mt-4 leading-7 text-slate-600">{project.summary}</p>
+                <div className="mt-6 flex flex-wrap gap-2">
+                  {project.tags.map((tag) => (
+                    <span key={tag} className="story-chip bg-soft-ice/60">{tag}</span>
                   ))}
                 </div>
-                <div className="mt-7 flex flex-wrap gap-2">
-                  {featured.tags.map((tag) => (
-                    <span key={tag} className="rounded-full bg-soft-ice/70 px-3 py-1 text-xs text-slate-600">
-                      {tag}
-                    </span>
-                  ))}
+                <div className="mt-7 flex gap-3">
+                  <a href="https://github.com/" className="story-chip bg-card" aria-label="GitHub">
+                    <FaGithub />
+                  </a>
+                  <button type="button" className="story-chip bg-card" aria-label="Live preview">
+                    <FaExternalLinkAlt />
+                  </button>
                 </div>
-              </div>
-            </div>
-          </TiltPanel>
-
-          <div className="mb-8 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-            <div className="flex flex-wrap gap-2">
-              {categories.map((category) => (
-                <button
-                  key={category}
-                  onClick={() => setFilter(category)}
-                  className={`rounded-full px-4 py-2 font-mono text-xs uppercase tracking-[0.18em] transition ${
-                    filter === category
-                      ? 'bg-ice-blue text-white'
-                      : 'border border-steel bg-card/70 text-slate-500 hover:border-ice-blue hover:bg-soft-ice/70 hover:text-ice-blue'
-                  }`}
-                >
-                  {category}
-                </button>
-              ))}
-            </div>
-            <label className="relative block">
-              <FaSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />
-              <input
-                value={query}
-                onChange={(event) => setQuery(event.target.value)}
-                placeholder="Search stack or project"
-                className="w-full rounded-full border border-steel bg-card/70 py-3 pl-11 pr-5 text-sm outline-none transition focus:border-ice-blue md:w-72"
-              />
-            </label>
+              </article>
+            ))}
           </div>
 
-          <AnimatePresence mode="popLayout">
-            <motion.div layout className="grid auto-rows-fr gap-6 md:grid-cols-2">
-              {filtered.map((project, index) => (
-                <motion.article
-                  layout
-                  key={project.title}
-                  variants={reveal}
-                  initial="hidden"
-                  animate="visible"
-                  exit={{ opacity: 0, scale: 0.94 }}
-                  custom={index * 0.06}
-                  className="group premium-card flex h-full flex-col overflow-hidden rounded-[1.75rem]"
-                >
-                  <div className="relative">
-                    <OptimizedImage
-                      src={project.image}
-                      alt={project.title}
-                      aspect="aspect-[16/10]"
-                      imgClassName="transition-transform duration-700 group-hover:scale-110"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950/65 via-transparent to-transparent" />
-                    <div className="absolute left-5 top-5 rounded-full bg-[#071B3F]/65 px-3 py-1 font-mono text-xs text-white backdrop-blur">
-                      {project.category}
-                    </div>
-                  </div>
-                  <div className="flex flex-1 flex-col p-7">
-                    <p className="font-mono text-xs uppercase tracking-[0.24em] text-slate-400">{project.period}</p>
-                    <h3 className="mt-3 font-display text-3xl font-bold">{project.title}</h3>
-                    <p className="mt-4 flex-1 leading-7 text-slate-600">{project.summary}</p>
-                    <div className="mt-6 flex flex-wrap gap-2">
-                      {project.tags.map((tag) => (
-                        <span key={tag} className="rounded-full border border-steel px-3 py-1 text-xs text-slate-500">
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
-                    <div className="mt-7 flex items-center gap-3">
-                      <a href="https://github.com/" className="rounded-full border border-steel p-3 text-slate-500 transition hover:text-ice-blue" aria-label="GitHub">
-                        <FaGithub />
-                      </a>
-                      <button type="button" className="rounded-full border border-steel p-3 text-slate-500 transition hover:text-ice-blue" aria-label="Live preview">
-                        <FaExternalLinkAlt />
-                      </button>
-                    </div>
-                  </div>
-                </motion.article>
-              ))}
-            </motion.div>
-          </AnimatePresence>
-
-          <div className="mt-16 rounded-[2rem] border border-steel bg-card/70 p-8 text-center md:p-12">
-            <h2 className="font-display text-4xl font-bold">Have a build that needs this level of care?</h2>
-            <p className="mx-auto mt-4 max-w-2xl text-slate-500">I can help shape the interface, ship the React frontend, and connect the experience to real product logic.</p>
-            <div className="mt-7 flex justify-center">
-              <MagneticButton to="/contact">Start a conversation</MagneticButton>
-            </div>
+          <div className="mt-12 flex justify-center">
+            <MagneticButton to="/contact">Talk about a build</MagneticButton>
           </div>
         </div>
       </section>
@@ -159,4 +75,4 @@ const Projects = () => {
   );
 };
 
-export default Projects;
+export default memo(Projects);

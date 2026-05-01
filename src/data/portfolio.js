@@ -19,13 +19,16 @@ import {
   SiTailwindcss,
 } from 'react-icons/si';
 
+const publicBase =
+  typeof window !== 'undefined' && window.location.hostname.endsWith('github.io') ? '/personal-portfolio' : '';
+
 export const profile = {
   name: 'Bhavya Lohami',
   role: 'React / Full-Stack Developer',
   location: 'Jaipur, India',
   email: 'bhavyalohami@gmail.com',
   phone: '+91-9680844601',
-  resume: '/Bhavya_Resume.pdf',
+  resume: `${publicBase}/Bhavya_Resume.pdf`,
   intro:
     'I build polished, scalable web experiences with React, Next.js, Django, REST APIs, and thoughtful product thinking.',
   socials: [

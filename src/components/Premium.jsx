@@ -26,7 +26,7 @@ export const PageShell = memo(function PageShell({ children, className = '' }) {
       animate="animate"
       exit="exit"
       transition={{ duration: 0.38, ease: [0.22, 1, 0.36, 1] }}
-      className={`relative min-h-screen overflow-hidden bg-graphite text-text-light ${className}`}
+      className={`relative min-h-screen bg-graphite text-text-light ${className}`}
     >
       <div className="pointer-events-none fixed inset-0 z-0 premium-bg" />
       <div className="pointer-events-none fixed inset-0 z-0 noise-layer opacity-[0.035]" />

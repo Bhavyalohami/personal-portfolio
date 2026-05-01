@@ -66,9 +66,7 @@ function AnimatedRoutes() {
 
 function App() {
   const basename =
-    window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
-      ? '/'
-      : process.env.PUBLIC_URL || '/';
+    window.location.hostname.endsWith('github.io') ? '/personal-portfolio' : '/';
 
   return (
     <BrowserRouter basename={basename}>
