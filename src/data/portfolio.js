@@ -32,8 +32,8 @@ export const profile = {
   intro:
     'I build polished, scalable web experiences with React, Next.js, Django, REST APIs, and thoughtful product thinking.',
   socials: [
-    { label: 'GitHub', href: 'https://github.com/', icon: FaGithub },
-    { label: 'LinkedIn', href: 'https://linkedin.com/', icon: FaLinkedin },
+    { label: 'GitHub', href: 'https://github.com/Bhavyalohami', icon: FaGithub },
+    { label: 'LinkedIn', href: 'https://www.linkedin.com/in/bhavya-lohami-62a53718a/', icon: FaLinkedin },
     { label: 'Email', href: 'mailto:bhavyalohami@gmail.com', icon: FaEnvelope },
   ],
 };

@@ -2,7 +2,7 @@ import React, { memo } from 'react';
 import { FaExternalLinkAlt, FaGithub } from 'react-icons/fa';
 import { MagneticButton, PageShell } from '../components/Premium';
 import { ArchiveTable, StoryHero, StoryScroller, storyAssets, useStoryRows } from '../components/Storytelling';
-import { projects } from '../data/portfolio';
+import { profile, projects } from '../data/portfolio';
 
 const Projects = () => {
   const archiveRows = useStoryRows(projects);
@@ -55,7 +55,7 @@ const Projects = () => {
                   ))}
                 </div>
                 <div className="mt-7 flex gap-3">
-                  <a href="https://github.com/" className="story-chip bg-card" aria-label="GitHub">
+                  <a href={profile.socials.find((social) => social.label === 'GitHub')?.href} className="story-chip bg-card" aria-label="GitHub">
                     <FaGithub />
                   </a>
                   <button type="button" className="story-chip bg-card" aria-label="Live preview">
