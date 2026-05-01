@@ -31,12 +31,12 @@ function RouteFallback() {
   return (
     <div className="min-h-screen bg-graphite px-4 pt-32 text-text-light md:px-6">
       <div className="mx-auto max-w-7xl">
-        <div className="h-4 w-40 animate-pulse rounded-full bg-white/10" />
-        <div className="mt-8 h-20 max-w-2xl animate-pulse rounded-3xl bg-white/10" />
+        <div className="h-4 w-40 animate-pulse rounded-full bg-soft-ice" />
+        <div className="mt-8 h-20 max-w-2xl animate-pulse rounded-3xl bg-soft-ice" />
         <div className="mt-6 grid gap-4 md:grid-cols-3">
-          <div className="h-52 animate-pulse rounded-3xl bg-white/10" />
-          <div className="h-52 animate-pulse rounded-3xl bg-white/10" />
-          <div className="h-52 animate-pulse rounded-3xl bg-white/10" />
+          <div className="h-52 animate-pulse rounded-3xl bg-soft-ice" />
+          <div className="h-52 animate-pulse rounded-3xl bg-soft-ice" />
+          <div className="h-52 animate-pulse rounded-3xl bg-soft-ice" />
         </div>
       </div>
     </div>
@@ -75,7 +75,7 @@ function App() {
       <ScrollToTop />
       <Preloader />
       <CustomCursor />
-      <div className="min-h-screen bg-graphite font-sans text-text-light selection:bg-ice-blue selection:text-graphite">
+      <div className="min-h-screen bg-graphite font-sans text-text-light selection:bg-ice-blue selection:text-white">
         <Header />
         <main>
           <AnimatedRoutes />

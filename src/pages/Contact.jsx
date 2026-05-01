@@ -37,7 +37,7 @@ const Contact = () => {
               <TiltPanel className="rounded-[2rem] p-7">
                 <p className="font-mono text-xs uppercase tracking-[0.32em] text-ice-blue">Open to work</p>
                 <h2 className="mt-4 font-display text-4xl font-bold">Tell me what you are building.</h2>
-                <p className="mt-4 leading-7 text-white/62">
+                <p className="mt-4 leading-7 text-slate-600">
                   I respond best to product goals, user problems, and technical constraints. Send the rough version.
                   I can help shape it.
                 </p>
@@ -45,13 +45,13 @@ const Contact = () => {
                   {contactCards.map((card) => {
                     const Icon = card.icon;
                     const content = (
-                      <div className="flex items-center gap-4 rounded-2xl border border-white/10 bg-white/[0.04] p-4 transition hover:border-ice-blue/45">
-                        <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-ice-blue text-graphite">
+                      <div className="flex items-center gap-4 rounded-2xl border border-steel bg-card/70 p-4 transition hover:border-ice-blue/45">
+                        <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-ice-blue text-white">
                           <Icon />
                         </div>
                         <div>
-                          <p className="font-mono text-xs uppercase tracking-[0.2em] text-white/38">{card.label}</p>
-                          <p className="text-white/78">{card.value}</p>
+                          <p className="font-mono text-xs uppercase tracking-[0.2em] text-slate-400">{card.label}</p>
+                          <p className="text-slate-700">{card.value}</p>
                         </div>
                       </div>
                     );
@@ -73,7 +73,7 @@ const Contact = () => {
                     <a
                       key={social.label}
                       href={social.href}
-                      className="rounded-3xl border border-white/10 bg-white/[0.04] p-5 text-white/68 transition hover:border-ice-blue/50 hover:text-ice-blue"
+                      className="rounded-3xl border border-steel bg-card/70 p-5 text-slate-600 transition hover:border-ice-blue/50 hover:text-ice-blue"
                     >
                       <Icon className="mb-5 text-2xl" />
                       <span className="font-display text-xl font-bold">{social.label}</span>
@@ -90,7 +90,7 @@ const Contact = () => {
                   <h2 className="mt-3 font-display text-4xl font-bold">Start the signal</h2>
                 </div>
                 <div className="h-16 w-16 rounded-full border border-ice-blue/30 p-1">
-                  <div className="flex h-full w-full items-center justify-center rounded-full bg-ice-blue text-lg font-bold text-graphite">
+                  <div className="flex h-full w-full items-center justify-center rounded-full bg-ice-blue text-lg font-bold text-white">
                     {filled}/3
                   </div>
                 </div>
@@ -102,7 +102,7 @@ const Contact = () => {
                     initial={{ opacity: 0, y: -10 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -10 }}
-                    className="mb-5 flex items-center gap-3 rounded-2xl border border-emerald-400/30 bg-emerald-400/10 p-4 text-emerald-200"
+                    className="mb-5 flex items-center gap-3 rounded-2xl border border-emerald-400/30 bg-emerald-400/10 p-4 text-emerald-700"
                   >
                     <FaCheckCircle /> Message staged successfully. I will get back to you soon.
                   </motion.div>
@@ -115,20 +115,20 @@ const Contact = () => {
                   ['email', 'Email address', 'you@example.com'],
                 ].map(([name, label, placeholder]) => (
                   <motion.label key={name} variants={reveal} initial="hidden" animate="visible" className="block">
-                    <span className="mb-2 block font-mono text-xs uppercase tracking-[0.22em] text-white/42">{label}</span>
+                    <span className="mb-2 block font-mono text-xs uppercase tracking-[0.22em] text-slate-400">{label}</span>
                     <input
                       name={name}
                       value={form[name]}
                       onChange={(event) => setForm({ ...form, [name]: event.target.value })}
                       required
                       placeholder={placeholder}
-                      className="w-full rounded-2xl border border-white/10 bg-black/22 px-5 py-4 outline-none transition placeholder:text-white/22 focus:border-ice-blue focus:bg-ice-blue/5"
+                      className="w-full rounded-2xl border border-steel bg-card/80 px-5 py-4 outline-none transition placeholder:text-slate-400 focus:border-ice-blue focus:bg-ice-blue/5"
                     />
                   </motion.label>
                 ))}
 
                 <label className="block">
-                  <span className="mb-2 block font-mono text-xs uppercase tracking-[0.22em] text-white/42">Project note</span>
+                  <span className="mb-2 block font-mono text-xs uppercase tracking-[0.22em] text-slate-400">Project note</span>
                   <textarea
                     name="message"
                     value={form.message}
@@ -136,7 +136,7 @@ const Contact = () => {
                     required
                     rows="7"
                     placeholder="Tell me what you want to build, improve, launch, or redesign."
-                    className="w-full resize-none rounded-2xl border border-white/10 bg-black/22 px-5 py-4 outline-none transition placeholder:text-white/22 focus:border-ice-blue focus:bg-ice-blue/5"
+                    className="w-full resize-none rounded-2xl border border-steel bg-card/80 px-5 py-4 outline-none transition placeholder:text-slate-400 focus:border-ice-blue focus:bg-ice-blue/5"
                   />
                 </label>
 
@@ -146,7 +146,7 @@ const Contact = () => {
                       key={prompt}
                       type="button"
                       onClick={() => setForm((prev) => ({ ...prev, message: `${prev.message}${prev.message ? '\n' : ''}${prompt}: ` }))}
-                      className="rounded-full border border-white/10 px-3 py-2 text-xs text-white/55 transition hover:border-ice-blue hover:text-ice-blue"
+                      className="rounded-full border border-steel px-3 py-2 text-xs text-slate-500 transition hover:border-ice-blue hover:text-ice-blue"
                     >
                       + {prompt}
                     </button>
@@ -156,7 +156,7 @@ const Contact = () => {
                 <motion.button
                   whileHover={{ y: -3 }}
                   whileTap={{ scale: 0.98 }}
-                  className="flex w-full items-center justify-center gap-3 rounded-2xl bg-ice-blue px-6 py-4 font-bold uppercase tracking-[0.18em] text-graphite"
+                  className="flex w-full items-center justify-center gap-3 rounded-2xl bg-ice-blue px-6 py-4 font-bold uppercase tracking-[0.18em] text-white"
                 >
                   <FaPaperPlane /> Send message
                 </motion.button>

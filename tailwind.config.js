@@ -103,16 +103,16 @@ module.exports = {
       fontFamily: {
         'sans': ['Inter', 'system-ui', 'sans-serif'],
         'mono': ['JetBrains Mono', 'monospace'],
-        'display': ['Clash Display', 'Inter', 'sans-serif'], // For bold headlines
+        'display': ['Georgia', 'Charter', 'Times New Roman', 'serif'],
       },
       colors: {
-        'graphite': '#0A0C10',
-        'steel': '#161B22',
-        'card': '#1E2630',
-        'ice-blue': '#6AE2FF',
-        'soft-ice': '#A3F0FF',
-        'deep-ice': '#00B8D9',
-        'text-light': '#E2F0FA',
+        'graphite': '#EEF5FF',
+        'steel': '#D7E4F5',
+        'card': '#FBFDFF',
+        'ice-blue': '#1F6FEB',
+        'soft-ice': '#D9E9FF',
+        'deep-ice': '#0B4DB3',
+        'text-light': '#142033',
       },
       animation: {
         'fade-in-up': 'fadeInUp 0.9s cubic-bezier(0.2, 0.9, 0.3, 1) forwards',
@@ -163,9 +163,9 @@ module.exports = {
         },
       },
       backgroundImage: {
-        'gradient-ice': 'linear-gradient(135deg, #6AE2FF 0%, #00B8D9 100%)',
-        'gradient-glow': 'radial-gradient(circle at 50% 50%, rgba(106, 226, 255, 0.15) 0%, transparent 50%)',
-        'gradient-mesh': 'url("data:image/svg+xml,%3Csvg width=\'60\' height=\'60\' viewBox=\'0 0 60 60\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cpath d=\'M30 0v60M0 30h60\' stroke=\'%236AE2FF\' stroke-width=\'0.5\' stroke-opacity=\'0.1\' fill=\'none\'/%3E%3C/svg%3E")',
+        'gradient-ice': 'linear-gradient(135deg, #1F6FEB 0%, #0B4DB3 100%)',
+        'gradient-glow': 'radial-gradient(circle at 50% 50%, rgba(31, 111, 235, 0.14) 0%, transparent 50%)',
+        'gradient-mesh': 'url("data:image/svg+xml,%3Csvg width=\'60\' height=\'60\' viewBox=\'0 0 60 60\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cpath d=\'M30 0v60M0 30h60\' stroke=\'%231F6FEB\' stroke-width=\'0.5\' stroke-opacity=\'0.12\' fill=\'none\'/%3E%3C/svg%3E")',
       },
     },
   },

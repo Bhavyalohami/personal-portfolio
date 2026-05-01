@@ -44,17 +44,17 @@ const whyMe = [
 const HeroVisual = memo(function HeroVisual({ featured }) {
   return (
     <TiltPanel className="rounded-[2rem] p-3 md:p-4">
-      <div className="relative min-h-[500px] overflow-hidden rounded-[1.55rem] bg-[#0A0F16]">
+      <div className="relative min-h-[500px] overflow-hidden rounded-[1.55rem] bg-[#0B2A5B]">
         <OptimizedImage
           priority
           src="https://images.pexels.com/photos/3861969/pexels-photo-3861969.jpeg?auto=compress&cs=tinysrgb&w=1300"
           alt="Developer workstation"
           aspect="absolute inset-0"
           className="absolute inset-0"
-          imgClassName="opacity-62 mix-blend-luminosity"
+          imgClassName="opacity-68 mix-blend-luminosity"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#07090D] via-[#07090D]/40 to-transparent" />
-        <div className="absolute left-5 top-5 rounded-2xl border border-ice-blue/20 bg-black/40 p-4 backdrop-blur-xl">
+        <div className="absolute inset-0 bg-gradient-to-t from-[#071B3F] via-[#0B4DB3]/35 to-transparent" />
+        <div className="absolute left-5 top-5 rounded-2xl border border-white/15 bg-[#071B3F]/65 p-4 text-white backdrop-blur-xl">
           <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-ice-blue">Featured build</p>
           <p className="mt-2 max-w-xs font-display text-3xl font-bold">{featured.title}</p>
         </div>
@@ -64,9 +64,9 @@ const HeroVisual = memo(function HeroVisual({ featured }) {
             ['5', 'Projects'],
             ['15+', 'Stack'],
           ].map(([value, label]) => (
-            <div key={label} className="rounded-2xl border border-white/10 bg-white/[0.07] p-4 backdrop-blur-xl">
+            <div key={label} className="rounded-2xl border border-white/20 bg-white/92 p-4 backdrop-blur-xl">
               <p className="font-display text-3xl font-bold text-ice-blue">{value}</p>
-              <p className="text-[10px] uppercase tracking-[0.18em] text-white/48">{label}</p>
+              <p className="text-[10px] uppercase tracking-[0.18em] text-slate-400">{label}</p>
             </div>
           ))}
         </div>
@@ -86,11 +86,11 @@ const WhatIDoCard = memo(function WhatIDoCard({ item, index }) {
       custom={index * 0.08}
       className="premium-card rounded-[1.75rem] p-7"
     >
-      <div className="mb-12 flex h-14 w-14 items-center justify-center rounded-2xl bg-ice-blue text-graphite">
+      <div className="mb-12 flex h-14 w-14 items-center justify-center rounded-2xl bg-ice-blue text-white">
         <Icon />
       </div>
       <h3 className="font-display text-3xl font-bold">{item.title}</h3>
-      <p className="mt-4 leading-7 text-white/62">{item.copy}</p>
+      <p className="mt-4 leading-7 text-slate-600">{item.copy}</p>
     </motion.article>
   );
 });
@@ -113,16 +113,16 @@ const FeaturedProjectCard = memo(function FeaturedProjectCard({ project, index }
       />
       <div className="flex flex-1 flex-col p-6">
         <div className="mb-4 flex items-center justify-between gap-3">
-          <span className="rounded-full bg-ice-blue px-3 py-1 font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-graphite">
+          <span className="rounded-full bg-ice-blue px-3 py-1 font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-white">
             {project.category}
           </span>
-          <span className="font-mono text-xs text-white/38">{project.period}</span>
+          <span className="font-mono text-xs text-slate-400">{project.period}</span>
         </div>
         <h3 className="font-display text-3xl font-bold">{project.title}</h3>
-        <p className="mt-4 flex-1 leading-7 text-white/60">{project.summary}</p>
+        <p className="mt-4 flex-1 leading-7 text-slate-600">{project.summary}</p>
         <div className="mt-6 flex flex-wrap gap-2">
           {project.tags.slice(0, 4).map((tag) => (
-            <span key={tag} className="rounded-full border border-white/10 px-3 py-1 text-xs text-white/56">
+            <span key={tag} className="rounded-full border border-steel px-3 py-1 text-xs text-slate-500">
               {tag}
             </span>
           ))}
@@ -152,7 +152,7 @@ const Home = () => {
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.55 }}
-              className="mb-5 inline-flex rounded-full border border-white/10 bg-white/[0.045] px-4 py-2 font-mono text-xs uppercase tracking-[0.24em] text-ice-blue"
+              className="mb-5 inline-flex rounded-full border border-steel bg-card/80 px-4 py-2 font-mono text-xs uppercase tracking-[0.24em] text-ice-blue"
             >
               {profile.role} / Jaipur, India
             </motion.p>
@@ -175,7 +175,7 @@ const Home = () => {
               initial={{ opacity: 0, y: 18 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.55, delay: 0.34 }}
-              className="mt-7 max-w-[21.5rem] text-base leading-8 text-white/68 sm:max-w-xl md:text-xl"
+              className="mt-7 max-w-[21.5rem] text-base leading-8 text-slate-600 sm:max-w-xl md:text-xl"
             >
               I create fast, polished developer experiences that combine product logic, premium motion, and clean React
               architecture.
@@ -256,11 +256,11 @@ const Home = () => {
                   viewport={{ once: true }}
                   custom={index * 0.035}
                   whileHover={{ y: -6 }}
-                  className="rounded-3xl border border-white/10 bg-white/[0.045] p-5 transition hover:border-ice-blue/45"
+                  className="rounded-3xl border border-steel bg-card/80 p-5 transition hover:border-ice-blue/45"
                 >
                   <Icon className="mb-8 text-3xl text-ice-blue" />
                   <h3 className="font-display text-2xl font-bold">{skill.name}</h3>
-                  <div className="mt-4 h-1.5 rounded-full bg-white/10">
+                  <div className="mt-4 h-1.5 rounded-full bg-soft-ice">
                     <motion.div
                       initial={{ width: 0 }}
                       whileInView={{ width: `${skill.level}%` }}
@@ -277,12 +277,12 @@ const Home = () => {
       </section>
 
       <section className="px-4 pb-28 md:px-6">
-        <div className="mx-auto max-w-7xl overflow-hidden rounded-[2rem] border border-white/10 bg-white/[0.04]">
+        <div className="mx-auto max-w-7xl overflow-hidden rounded-[2rem] border border-steel bg-card/70">
           <div className="grid lg:grid-cols-[0.95fr_1.05fr]">
             <div className="p-8 md:p-12">
               <p className="font-mono text-xs uppercase tracking-[0.34em] text-ice-blue">Why me</p>
               <h2 className="mt-4 font-display text-4xl font-bold md:text-6xl">I bridge polished UI and practical delivery.</h2>
-              <p className="mt-5 max-w-2xl leading-7 text-white/62">
+              <p className="mt-5 max-w-2xl leading-7 text-slate-600">
                 The result is a portfolio that feels creative, but is still engineered for real-world performance,
                 maintainability, and responsive behavior.
               </p>
@@ -290,7 +290,7 @@ const Home = () => {
                 <MagneticButton to="/resume">See resume</MagneticButton>
               </div>
             </div>
-            <div className="grid gap-px bg-white/10 sm:grid-cols-2">
+            <div className="grid gap-px bg-steel sm:grid-cols-2">
               {whyMe.map((item, index) => (
                 <motion.div
                   key={item}
@@ -298,7 +298,7 @@ const Home = () => {
                   whileInView={{ opacity: 1, scale: 1 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.45, delay: index * 0.05 }}
-                  className="flex min-h-[180px] flex-col justify-between bg-[#090D13] p-6"
+                  className="flex min-h-[180px] flex-col justify-between bg-card p-6"
                 >
                   <FaCode className="text-3xl text-ice-blue" />
                   <span className="font-display text-2xl font-bold">{item}</span>

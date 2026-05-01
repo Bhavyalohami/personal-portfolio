@@ -25,18 +25,18 @@ const Header = () => {
         animate={{ y: 0, opacity: 1 }}
         className={`mx-auto flex max-w-7xl items-center justify-between rounded-full border px-4 py-3 transition-all duration-500 ${
           scrolled
-            ? 'border-white/12 bg-[#080B10]/78 shadow-2xl shadow-black/30 backdrop-blur-2xl'
-            : 'border-white/8 bg-white/[0.035] backdrop-blur-xl'
+            ? 'border-steel bg-card/88 shadow-2xl shadow-blue-950/10 backdrop-blur-2xl'
+            : 'border-steel bg-card/72 backdrop-blur-xl'
         }`}
       >
         <Link to="/" className="group flex items-center gap-3">
-          <span className="relative flex h-10 w-10 items-center justify-center overflow-hidden rounded-full border border-ice-blue/35 bg-ice-blue/10">
+          <span className="relative flex h-10 w-10 items-center justify-center overflow-hidden rounded-full border border-ice-blue/20 bg-soft-ice">
             <span className="absolute inset-0 bg-ice-blue/20 blur-xl transition-transform group-hover:scale-150" />
             <span className="relative font-display text-sm font-bold text-ice-blue">BL</span>
           </span>
           <span className="hidden leading-tight sm:block">
-            <span className="block font-display text-sm font-bold text-white">Bhavya Lohami</span>
-            <span className="block font-mono text-[10px] uppercase tracking-[0.24em] text-white/45">Developer portfolio</span>
+            <span className="block font-display text-sm font-bold text-text-light">Bhavya Lohami</span>
+            <span className="block font-mono text-[10px] uppercase tracking-[0.24em] text-slate-500">Developer portfolio</span>
           </span>
         </Link>
 
@@ -48,7 +48,7 @@ const Header = () => {
                 key={item.name}
                 to={item.path}
                 className={`relative rounded-full px-4 py-2 text-xs font-semibold uppercase tracking-[0.15em] transition-colors ${
-                  active ? 'text-graphite' : 'text-white/58 hover:text-white'
+                  active ? 'text-white' : 'text-slate-600 hover:text-text-light'
                 }`}
               >
                 {active && (
@@ -68,14 +68,14 @@ const Header = () => {
           <a
             href={profile.resume}
             download
-            className="hidden items-center gap-2 rounded-full bg-white px-4 py-2 text-xs font-bold uppercase tracking-[0.14em] text-graphite transition hover:bg-ice-blue md:flex"
+            className="hidden items-center gap-2 rounded-full bg-ice-blue px-4 py-2 text-xs font-bold uppercase tracking-[0.14em] text-white transition hover:bg-deep-ice md:flex"
           >
             <FiDownload /> Resume
           </a>
           <button
             type="button"
             onClick={() => setOpen((value) => !value)}
-            className="rounded-full border border-white/10 bg-white/5 p-3 text-ice-blue lg:hidden"
+            className="rounded-full border border-steel bg-card p-3 text-ice-blue lg:hidden"
             aria-label="Toggle navigation"
           >
             {open ? <FiX /> : <FiMenu />}
@@ -89,7 +89,7 @@ const Header = () => {
             initial={{ opacity: 0, y: -12, scale: 0.98 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -12, scale: 0.98 }}
-            className="mx-auto mt-3 max-w-7xl rounded-3xl border border-white/10 bg-[#080B10]/95 p-4 shadow-2xl backdrop-blur-2xl lg:hidden"
+            className="mx-auto mt-3 max-w-7xl rounded-3xl border border-steel bg-card/95 p-4 shadow-2xl shadow-blue-950/10 backdrop-blur-2xl lg:hidden"
           >
             <div className="grid gap-2 sm:grid-cols-2">
               {navLinks.map((item) => (
@@ -97,7 +97,7 @@ const Header = () => {
                   key={item.name}
                   to={item.path}
                   className={`rounded-2xl px-4 py-3 font-display text-lg ${
-                    location.pathname === item.path ? 'bg-ice-blue text-graphite' : 'bg-white/[0.04] text-white'
+                    location.pathname === item.path ? 'bg-ice-blue text-white' : 'bg-soft-ice text-text-light'
                   }`}
                 >
                   {item.name}

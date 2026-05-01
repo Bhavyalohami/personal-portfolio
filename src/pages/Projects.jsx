@@ -42,25 +42,25 @@ const Projects = () => {
                   className="absolute inset-0"
                   imgClassName="transition-transform duration-700 hover:scale-105"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-graphite via-graphite/30 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/65 via-slate-950/20 to-transparent" />
                 <div className="absolute bottom-6 left-6 right-6">
-                  <span className="rounded-full bg-ice-blue px-3 py-1 font-mono text-xs font-bold text-graphite">Featured</span>
+                  <span className="rounded-full bg-ice-blue px-3 py-1 font-mono text-xs font-bold text-white">Featured</span>
                 </div>
               </div>
               <div className="p-8 md:p-10">
                 <p className="font-mono text-xs uppercase tracking-[0.32em] text-ice-blue">{featured.period}</p>
                 <h2 className="mt-4 font-display text-4xl font-bold md:text-6xl">{featured.title}</h2>
-                <p className="mt-5 leading-7 text-white/64">{featured.story}</p>
+                <p className="mt-5 leading-7 text-slate-600">{featured.story}</p>
                 <div className="mt-7 grid gap-3 sm:grid-cols-3">
                   {featured.metrics.map((metric) => (
-                    <div key={metric} className="rounded-2xl border border-white/10 bg-white/[0.04] p-4 text-sm text-white/70">
+                    <div key={metric} className="rounded-2xl border border-steel bg-card/70 p-4 text-sm text-slate-600">
                       {metric}
                     </div>
                   ))}
                 </div>
                 <div className="mt-7 flex flex-wrap gap-2">
                   {featured.tags.map((tag) => (
-                    <span key={tag} className="rounded-full bg-white/[0.06] px-3 py-1 text-xs text-white/62">
+                    <span key={tag} className="rounded-full bg-soft-ice/70 px-3 py-1 text-xs text-slate-600">
                       {tag}
                     </span>
                   ))}
@@ -76,7 +76,9 @@ const Projects = () => {
                   key={category}
                   onClick={() => setFilter(category)}
                   className={`rounded-full px-4 py-2 font-mono text-xs uppercase tracking-[0.18em] transition ${
-                    filter === category ? 'bg-ice-blue text-graphite' : 'border border-white/10 bg-white/[0.04] text-white/58 hover:text-white'
+                    filter === category
+                      ? 'bg-ice-blue text-white'
+                      : 'border border-steel bg-card/70 text-slate-500 hover:border-ice-blue hover:bg-soft-ice/70 hover:text-ice-blue'
                   }`}
                 >
                   {category}
@@ -84,12 +86,12 @@ const Projects = () => {
               ))}
             </div>
             <label className="relative block">
-              <FaSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-white/35" />
+              <FaSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />
               <input
                 value={query}
                 onChange={(event) => setQuery(event.target.value)}
                 placeholder="Search stack or project"
-                className="w-full rounded-full border border-white/10 bg-white/[0.04] py-3 pl-11 pr-5 text-sm outline-none transition focus:border-ice-blue md:w-72"
+                className="w-full rounded-full border border-steel bg-card/70 py-3 pl-11 pr-5 text-sm outline-none transition focus:border-ice-blue md:w-72"
               />
             </label>
           </div>
@@ -114,27 +116,27 @@ const Projects = () => {
                       aspect="aspect-[16/10]"
                       imgClassName="transition-transform duration-700 group-hover:scale-110"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-graphite via-transparent to-transparent" />
-                    <div className="absolute left-5 top-5 rounded-full bg-black/45 px-3 py-1 font-mono text-xs text-ice-blue backdrop-blur">
+                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950/65 via-transparent to-transparent" />
+                    <div className="absolute left-5 top-5 rounded-full bg-[#071B3F]/65 px-3 py-1 font-mono text-xs text-white backdrop-blur">
                       {project.category}
                     </div>
                   </div>
                   <div className="flex flex-1 flex-col p-7">
-                    <p className="font-mono text-xs uppercase tracking-[0.24em] text-white/38">{project.period}</p>
+                    <p className="font-mono text-xs uppercase tracking-[0.24em] text-slate-400">{project.period}</p>
                     <h3 className="mt-3 font-display text-3xl font-bold">{project.title}</h3>
-                    <p className="mt-4 flex-1 leading-7 text-white/60">{project.summary}</p>
+                    <p className="mt-4 flex-1 leading-7 text-slate-600">{project.summary}</p>
                     <div className="mt-6 flex flex-wrap gap-2">
                       {project.tags.map((tag) => (
-                        <span key={tag} className="rounded-full border border-white/10 px-3 py-1 text-xs text-white/55">
+                        <span key={tag} className="rounded-full border border-steel px-3 py-1 text-xs text-slate-500">
                           {tag}
                         </span>
                       ))}
                     </div>
                     <div className="mt-7 flex items-center gap-3">
-                      <a href="https://github.com/" className="rounded-full border border-white/10 p-3 text-white/58 transition hover:text-ice-blue" aria-label="GitHub">
+                      <a href="https://github.com/" className="rounded-full border border-steel p-3 text-slate-500 transition hover:text-ice-blue" aria-label="GitHub">
                         <FaGithub />
                       </a>
-                      <button type="button" className="rounded-full border border-white/10 p-3 text-white/58 transition hover:text-ice-blue" aria-label="Live preview">
+                      <button type="button" className="rounded-full border border-steel p-3 text-slate-500 transition hover:text-ice-blue" aria-label="Live preview">
                         <FaExternalLinkAlt />
                       </button>
                     </div>
@@ -144,9 +146,9 @@ const Projects = () => {
             </motion.div>
           </AnimatePresence>
 
-          <div className="mt-16 rounded-[2rem] border border-white/10 bg-white/[0.04] p-8 text-center md:p-12">
+          <div className="mt-16 rounded-[2rem] border border-steel bg-card/70 p-8 text-center md:p-12">
             <h2 className="font-display text-4xl font-bold">Have a build that needs this level of care?</h2>
-            <p className="mx-auto mt-4 max-w-2xl text-white/58">I can help shape the interface, ship the React frontend, and connect the experience to real product logic.</p>
+            <p className="mx-auto mt-4 max-w-2xl text-slate-500">I can help shape the interface, ship the React frontend, and connect the experience to real product logic.</p>
             <div className="mt-7 flex justify-center">
               <MagneticButton to="/contact">Start a conversation</MagneticButton>
             </div>

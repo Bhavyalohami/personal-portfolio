@@ -50,16 +50,18 @@ export const SectionHeader = memo(function SectionHeader({ eyebrow, title, copy,
       )}
       <h2 className="font-display text-4xl font-bold leading-[0.95] md:text-6xl">
         {words.map((word, index) => (
-          <motion.span
-            key={`${word}-${index}`}
-            initial={{ opacity: 0, y: 30, rotateX: -45 }}
-            whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.45, delay: index * 0.035 }}
-            className="mr-3 inline-block origin-bottom"
-          >
-            {word}
-          </motion.span>
+          <React.Fragment key={`${word}-${index}`}>
+            <motion.span
+              initial={{ opacity: 0, y: 30, rotateX: -45 }}
+              whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.45, delay: index * 0.035 }}
+              className="inline-block origin-bottom"
+            >
+              {word}
+            </motion.span>
+            {index < words.length - 1 ? ' ' : null}
+          </React.Fragment>
         ))}
       </h2>
       {copy && <p className="mx-auto mt-5 max-w-2xl text-base leading-7 text-text-light/62 md:text-lg">{copy}</p>}
@@ -82,11 +84,11 @@ export const MagneticButton = memo(function MagneticButton({ to, href, children,
   };
 
   const base =
-    'group inline-flex items-center justify-center gap-3 rounded-full px-6 py-3 text-sm font-bold uppercase tracking-[0.18em] transition-colors';
+    'group inline-flex items-center justify-center gap-3 rounded-full px-6 py-3 text-sm font-bold uppercase tracking-[0.18em] transition-colors shadow-[0_0_0_1px_rgba(20,32,51,0.08)]';
   const styles =
     variant === 'primary'
-      ? 'bg-ice-blue text-graphite shadow-[0_18px_55px_rgba(106,226,255,0.26)] hover:bg-soft-ice'
-      : 'border border-white/15 bg-white/[0.04] text-text-light hover:border-ice-blue/60 hover:text-ice-blue';
+      ? 'bg-ice-blue text-white shadow-[0_18px_55px_rgba(31,111,235,0.22)] hover:bg-deep-ice'
+      : 'border border-steel bg-card/80 text-text-light hover:border-ice-blue/60 hover:text-ice-blue';
 
   return (
     <motion.div
@@ -134,14 +136,14 @@ export const TiltPanel = memo(function TiltPanel({ children, className = '' }) {
 export const Marquee = memo(function Marquee({ items }) {
   const row = useMemo(() => [...items, ...items, ...items], [items]);
   return (
-    <div className="marquee-container overflow-hidden border-y border-white/10 py-5">
+    <div className="marquee-container overflow-hidden border-y border-steel py-5">
       <motion.div
         animate={{ x: ['0%', '-50%'] }}
         transition={{ duration: 26, repeat: Infinity, ease: 'linear' }}
         className="flex min-w-max gap-8"
       >
         {row.map((item, index) => (
-          <span key={`${item}-${index}`} className="font-display text-3xl font-bold uppercase text-white/16 md:text-5xl">
+          <span key={`${item}-${index}`} className="font-display text-3xl font-bold uppercase text-slate-400/35 md:text-5xl">
             {item}
           </span>
         ))}
@@ -168,16 +170,17 @@ export const OptimizedImage = memo(function OptimizedImage({
   }, [src]);
 
   return (
-    <div className={`relative overflow-hidden bg-white/[0.06] ${aspect} ${className}`}>
+    <div className={`relative overflow-hidden bg-slate-950/[0.04] ${aspect} ${className}`}>
       {!loaded && <div className="absolute inset-0 image-skeleton" aria-hidden="true" />}
       <img
         src={webpSrc}
         alt={alt}
         loading={priority ? 'eager' : 'lazy'}
-        decoding="async"
+        decoding={priority ? 'sync' : 'async'}
         fetchPriority={priority ? 'high' : 'auto'}
         onLoad={() => setLoaded(true)}
-        className={`h-full w-full object-cover transition duration-700 ${loaded ? 'opacity-100' : 'opacity-0'} ${imgClassName}`}
+        onError={() => setLoaded(true)}
+        className={`h-full w-full object-cover transition duration-700 ${imgClassName}`}
       />
     </div>
   );
@@ -215,7 +218,7 @@ export function CustomCursor() {
   return (
     <motion.div
       style={{ x: springX, y: springY }}
-      className={`pointer-events-none fixed left-0 top-0 z-[80] hidden h-7 w-7 rounded-full border border-ice-blue/80 mix-blend-difference transition-opacity md:block ${
+      className={`pointer-events-none fixed left-0 top-0 z-[80] hidden h-7 w-7 rounded-full border border-ice-blue/80 transition-opacity md:block ${
         visible ? 'opacity-100' : 'opacity-0'
       }`}
     />
@@ -237,7 +240,7 @@ export function Preloader() {
       initial={{ y: 0 }}
       animate={{ y: '-100%' }}
       transition={{ delay: 0.45, duration: 0.45, ease: [0.76, 0, 0.24, 1] }}
-      className="fixed inset-0 z-[90] flex items-center justify-center bg-[#05070A]"
+      className="fixed inset-0 z-[90] flex items-center justify-center bg-graphite"
     >
       <div className="text-center">
         <motion.div

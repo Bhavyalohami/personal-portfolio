@@ -31,14 +31,14 @@ const Experience = () => {
                   <div className="premium-card rounded-[1.75rem] p-7">
                     <p className="font-mono text-xs uppercase tracking-[0.28em] text-ice-blue">{item.period}</p>
                     <h2 className="mt-3 font-display text-3xl font-bold">{item.role}</h2>
-                    <div className="mt-4 flex flex-wrap gap-4 text-sm text-white/55">
+                    <div className="mt-4 flex flex-wrap gap-4 text-sm text-slate-500">
                       <span className="flex items-center gap-2"><FaBuilding /> {item.company}</span>
                       <span className="flex items-center gap-2"><FaMapMarkerAlt /> {item.location}</span>
                     </div>
-                    <p className="mt-5 leading-7 text-white/62">{item.description}</p>
+                    <p className="mt-5 leading-7 text-slate-600">{item.description}</p>
                     <div className="mt-6 grid gap-2">
                       {item.wins.map((win) => (
-                        <span key={win} className="rounded-full border border-white/10 bg-white/[0.04] px-4 py-2 text-sm text-white/62">
+                        <span key={win} className="rounded-full border border-steel bg-card/70 px-4 py-2 text-sm text-slate-600">
                           {win}
                         </span>
                       ))}
