@@ -124,6 +124,7 @@ img {
 .story-chip {
   display: inline-flex;
   align-items: center;
+  max-width: 100%;
   border: 1px solid rgba(31, 111, 235, 0.28);
   padding: 0.46rem 0.72rem;
   font-family: 'JetBrains Mono', monospace;
@@ -133,6 +134,7 @@ img {
   text-transform: uppercase;
   color: #1f6feb;
   background: rgba(251, 253, 255, 0.72);
+  overflow-wrap: anywhere;
 }
 
 .story-display {
@@ -142,6 +144,7 @@ img {
   line-height: 0.82;
   letter-spacing: 0;
   text-transform: uppercase;
+  overflow-wrap: anywhere;
 }
 
 .story-heading {
@@ -151,6 +154,7 @@ img {
   line-height: 0.86;
   letter-spacing: 0;
   text-transform: uppercase;
+  overflow-wrap: anywhere;
 }
 
 @media (max-width: 640px) {
@@ -162,6 +166,10 @@ img {
   .story-heading {
     font-size: clamp(2.35rem, 10.5vw, 3.25rem);
     line-height: 0.92;
+  }
+
+  .story-panel-shadow {
+    box-shadow: 0 7px 0 rgba(31, 111, 235, 0.18);
   }
 }
 

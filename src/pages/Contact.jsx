@@ -1,8 +1,8 @@
 import React, { memo, useMemo, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { FaCheckCircle, FaPaperPlane } from 'react-icons/fa';
-import { PageShell } from '../components/Premium';
-import { StoryHero, StoryScroller, storyAssets } from '../components/Storytelling';
+import { FaCheckCircle, FaExternalLinkAlt, FaPaperPlane } from 'react-icons/fa';
+import { OptimizedImage, PageShell } from '../components/Premium';
+import { storyAssets } from '../components/Storytelling';
 import { contactCards, profile } from '../data/portfolio';
 
 const prompts = ['Project idea', 'Timeline', 'Budget range', 'What should feel premium?'];
@@ -11,30 +11,6 @@ const Contact = () => {
   const [form, setForm] = useState({ name: '', email: '', message: '' });
   const [sent, setSent] = useState(false);
   const filled = useMemo(() => Object.values(form).filter(Boolean).length, [form]);
-
-  const contactSteps = [
-    {
-      kicker: '01 / Signal',
-      title: 'Open a direct channel',
-      body: 'The contact page starts like a terminal: identify the sender, attach the reply address, and transmit the project payload.',
-      points: contactCards.map((card) => `${card.label}: ${card.value}`),
-      tags: ['Email', 'Phone', 'Location'],
-    },
-    {
-      kicker: '02 / Context',
-      title: 'Describe the build',
-      body: 'The strongest messages include what you are building, why it matters, what feels broken today, and what timeline matters.',
-      points: prompts,
-      tags: ['Brief', 'UX', 'Scope'],
-    },
-    {
-      kicker: '03 / Response',
-      title: 'Turn the brief into next steps',
-      body: 'After the message, the flow should confirm the transmission and make the next action clear without losing the premium feel.',
-      points: ['Success feedback', 'Direct email fallback', 'Vercel API ready'],
-      tags: ['Submit', 'Email', 'Lead'],
-    },
-  ];
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -45,45 +21,59 @@ const Contact = () => {
 
   return (
     <PageShell>
-      <StoryHero
-        eyebrow="CONTACT.TRANSMISSION"
-        title="Init contact sequence"
-        copy="A Stitch-inspired terminal contact page, rebuilt in our blue palette with direct channels and a cleaner message console."
-        meta={['Available for work', profile.email, profile.location]}
-        image={storyAssets.system}
-      />
-
-      <StoryScroller
-        eyebrow="Contact protocol"
-        title="A message flow with a story"
-        copy="The form is no longer just inputs. It explains the channel, the context, and the response loop as the user scrolls."
-        steps={contactSteps}
-        image={storyAssets.system}
-      />
-
-      <section className="story-grid-bg border-b border-steel px-4 py-20 md:px-6 md:py-28">
-        <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[0.78fr_1.22fr]">
-          <aside className="story-panel bg-card p-7">
-            <p className="story-chip mb-6 w-fit">Direct channels</p>
-            <div className="space-y-4">
-              {contactCards.map((card) => {
-                const Icon = card.icon;
-                const content = (
-                  <div className="story-panel flex items-center gap-4 bg-card p-4 transition hover:-translate-x-1 hover:-translate-y-1 hover:shadow-[6px_6px_0_rgba(31,111,235,0.2)]">
-                    <div className="flex h-12 w-12 items-center justify-center bg-ice-blue text-white">
-                      <Icon />
-                    </div>
-                    <div>
-                      <p className="font-mono text-xs uppercase tracking-[0.2em] text-slate-400">{card.label}</p>
-                      <p className="text-slate-700">{card.value}</p>
-                    </div>
-                  </div>
-                );
-                return card.href ? <a key={card.label} href={card.href}>{content}</a> : <div key={card.label}>{content}</div>;
-              })}
+      <section className="story-grid-bg border-b border-steel px-4 pb-20 pt-32 md:px-6 md:pb-28">
+        <div className="mx-auto max-w-7xl">
+          <div className="grid gap-10 lg:grid-cols-[1.05fr_0.95fr]">
+            <div>
+              <p className="story-chip mb-6 w-fit">STATUS: AVAILABLE FOR WORK</p>
+              <h1 className="font-display text-[clamp(4.2rem,11vw,11rem)] font-black uppercase leading-[0.78]">
+                Init contact_
+              </h1>
+              <p className="mt-7 max-w-xl text-xl leading-8 text-slate-600">
+                Execute a connection sequence. Drop a line below to initiate a collaboration or request a secure transmission.
+              </p>
             </div>
-          </aside>
 
+            <aside className="border-l-4 border-ice-blue pl-7 lg:mt-24">
+              <p className="font-mono text-xs uppercase tracking-[0.28em] text-slate-500">Direct channels</p>
+              <div className="mt-8 space-y-5">
+                {contactCards
+                  .filter((card) => card.href)
+                  .map((card) => (
+                    <a
+                      key={card.label}
+                      href={card.href}
+                      className="group flex items-center justify-between border-b border-steel pb-3 font-display text-4xl font-black uppercase"
+                    >
+                      {card.label}
+                      <FaExternalLinkAlt className="text-2xl text-ice-blue transition group-hover:translate-x-1 group-hover:-translate-y-1" />
+                    </a>
+                  ))}
+                <a
+                  href={profile.socials.find((social) => social.label === 'GitHub')?.href}
+                  className="group flex items-center justify-between border-b border-steel pb-3 font-display text-4xl font-black uppercase"
+                >
+                  GitHub
+                  <FaExternalLinkAlt className="text-2xl text-ice-blue transition group-hover:translate-x-1 group-hover:-translate-y-1" />
+                </a>
+                <a
+                  href={profile.socials.find((social) => social.label === 'LinkedIn')?.href}
+                  className="group flex items-center justify-between border-b border-steel pb-3 font-display text-4xl font-black uppercase"
+                >
+                  LinkedIn
+                  <FaExternalLinkAlt className="text-2xl text-ice-blue transition group-hover:translate-x-1 group-hover:-translate-y-1" />
+                </a>
+              </div>
+              <div className="story-panel story-panel-shadow mt-12 bg-card p-2">
+                <OptimizedImage src={storyAssets.projects} alt="Portfolio system preview" aspect="aspect-[16/9]" />
+              </div>
+            </aside>
+          </div>
+        </div>
+      </section>
+
+      <section className="border-b border-steel bg-card/70 px-4 py-20 md:px-6 md:py-28">
+        <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[1.15fr_0.85fr]">
           <form onSubmit={handleSubmit} className="story-panel story-panel-shadow bg-card">
             <div className="flex items-center justify-between border-b border-steel bg-soft-ice/55 px-5 py-3">
               <span className="font-mono text-xs font-bold uppercase tracking-[0.18em]">~/contact/form.sh</span>
@@ -155,6 +145,19 @@ const Contact = () => {
               </motion.button>
             </div>
           </form>
+
+          <aside className="story-panel bg-card p-7">
+            <p className="story-chip mb-6 w-fit">Message brief</p>
+            <h2 className="font-display text-4xl font-black uppercase leading-none">What helps me reply fast</h2>
+            <div className="mt-8 space-y-4">
+              {prompts.map((prompt, index) => (
+                <div key={prompt} className="story-panel bg-soft-ice/45 p-4">
+                  <p className="font-mono text-xs uppercase tracking-[0.2em] text-ice-blue">0{index + 1}</p>
+                  <p className="mt-2 font-display text-2xl font-black uppercase">{prompt}</p>
+                </div>
+              ))}
+            </div>
+          </aside>
         </div>
       </section>
     </PageShell>

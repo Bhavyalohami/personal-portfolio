@@ -18,20 +18,38 @@ const quadrantClass = {
   3: 'right-[3%] bottom-[4%]',
 };
 
-export const StoryHero = memo(function StoryHero({ eyebrow, title, copy, meta = [], image = storyAssets.system, children }) {
+export const StoryHero = memo(function StoryHero({
+  eyebrow,
+  title,
+  copy,
+  meta = [],
+  image = storyAssets.system,
+  children,
+  variant = 'split',
+}) {
   const words = title.split(' ');
+  const centered = variant === 'poster';
+  const visualLeft = variant === 'visual-left';
+  const compact = variant === 'compact';
+  const shellClass = compact ? 'min-h-[72vh]' : 'min-h-[calc(100vh-8rem)]';
+  const gridClass = centered
+    ? `${shellClass} flex items-center`
+    : `grid ${shellClass} items-center gap-10 lg:grid-cols-[1.05fr_0.95fr]`;
+  const textClass = centered ? 'mx-auto max-w-6xl text-center' : visualLeft ? 'lg:order-2' : '';
+  const visualClass = visualLeft ? 'lg:order-1' : '';
+
   return (
-    <section className="story-grid-bg relative overflow-hidden border-b border-steel px-4 pb-20 pt-32 md:px-6">
-      <div className="mx-auto grid min-h-[calc(100vh-8rem)] max-w-7xl items-center gap-10 lg:grid-cols-[1.05fr_0.95fr]">
-        <div>
+    <section className={`story-grid-bg relative overflow-hidden border-b border-steel px-4 pb-20 pt-32 md:px-6 ${compact ? 'md:pb-16' : ''}`}>
+      <div className={`mx-auto max-w-7xl ${gridClass}`}>
+        <div className={textClass}>
           <motion.p
             initial={{ opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
-            className="story-chip mb-6 w-fit"
+            className={`story-chip mb-6 w-fit ${centered ? 'mx-auto' : ''}`}
           >
             {eyebrow}
           </motion.p>
-          <h1 className="story-display max-w-5xl">
+          <h1 className={`story-display ${centered ? 'mx-auto max-w-6xl' : 'max-w-5xl'}`}>
             {words.map((word, index) => (
               <React.Fragment key={`${word}-${index}`}>
                 <motion.span
@@ -50,11 +68,11 @@ export const StoryHero = memo(function StoryHero({ eyebrow, title, copy, meta = 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.25 }}
-            className="mt-7 max-w-2xl text-lg leading-8 text-slate-600 md:text-xl"
+            className={`mt-7 max-w-2xl text-lg leading-8 text-slate-600 md:text-xl ${centered ? 'mx-auto' : ''}`}
           >
             {copy}
           </motion.p>
-          <div className="mt-8 flex flex-wrap gap-3">
+          <div className={`mt-8 flex flex-wrap gap-3 ${centered ? 'justify-center' : ''}`}>
             {meta.map((item) => (
               <span key={item} className="story-chip bg-card">
                 {item}
@@ -64,12 +82,16 @@ export const StoryHero = memo(function StoryHero({ eyebrow, title, copy, meta = 
           {children}
         </div>
 
-        <StoryVisual
-          image={image}
-          label="01 / STORY"
-          title="System map"
-          body="A product-minded developer portfolio told as a sequence of decisions, interfaces, and shipped outcomes."
-        />
+        {!centered && (
+          <div className={visualClass}>
+            <StoryVisual
+              image={image}
+              label="01 / STORY"
+              title={variant === 'visual-left' ? 'Profile map' : 'System map'}
+              body="A product-minded developer portfolio told as a sequence of decisions, interfaces, and shipped outcomes."
+            />
+          </div>
+        )}
       </div>
     </section>
   );
@@ -142,15 +164,17 @@ const StoryStep = memo(function StoryStep({ step, index, active, onActive }) {
   );
 });
 
-export const StoryScroller = memo(function StoryScroller({ eyebrow, title, copy, steps, image, className = '' }) {
+export const StoryScroller = memo(function StoryScroller({ eyebrow, title, copy, steps, image, className = '', variant = 'split' }) {
   const [active, setActive] = useState(0);
   const activeStep = steps[active] || steps[0];
   const activeImage = activeStep?.image || image;
+  const cardsOnly = variant === 'cards-only';
+  const dense = variant === 'dense';
 
   return (
     <section className={`story-grid-bg border-b border-steel px-4 py-20 md:px-6 md:py-28 ${className}`}>
       <div className="mx-auto max-w-7xl">
-        <div className="mb-12 grid gap-6 lg:grid-cols-[0.9fr_1.1fr] lg:items-end">
+        <div className={`mb-12 grid gap-6 lg:items-end ${cardsOnly ? 'lg:grid-cols-[1fr_0.75fr]' : 'lg:grid-cols-[0.9fr_1.1fr]'}`}>
           <div>
             <p className="story-chip mb-5 w-fit">{eyebrow}</p>
             <h2 className="story-heading">{title}</h2>
@@ -158,19 +182,8 @@ export const StoryScroller = memo(function StoryScroller({ eyebrow, title, copy,
           <p className="max-w-2xl text-lg leading-8 text-slate-600 lg:ml-auto">{copy}</p>
         </div>
 
-        <div className="mb-8 lg:hidden">
-          <StoryVisual
-            image={activeImage}
-            label={`${String(active + 1).padStart(2, '0')} / ${String(steps.length).padStart(2, '0')}`}
-            title={activeStep.title}
-            body={activeStep.visualBody || activeStep.body}
-            tags={activeStep.tags}
-            quadrant={activeStep.quadrant}
-          />
-        </div>
-
-        <div className="grid gap-8 lg:grid-cols-[0.84fr_1.16fr]">
-          <div className="space-y-8 lg:py-[20vh]">
+        <div className={`grid gap-8 ${cardsOnly ? '' : 'lg:grid-cols-[0.84fr_1.16fr]'}`}>
+          <div className={`${cardsOnly ? 'grid gap-5 md:grid-cols-2 xl:grid-cols-3' : `space-y-8 ${dense ? 'lg:py-10' : 'lg:py-[20vh]'}`}`}>
             {steps.map((step, index) => (
               <StoryStep
                 key={`${step.title}-${index}`}
@@ -182,6 +195,7 @@ export const StoryScroller = memo(function StoryScroller({ eyebrow, title, copy,
             ))}
           </div>
 
+          {!cardsOnly && (
           <div data-story-sticky className="hidden lg:sticky lg:top-32 lg:block lg:self-start">
             <StoryVisual
               image={activeImage}
@@ -192,6 +206,7 @@ export const StoryScroller = memo(function StoryScroller({ eyebrow, title, copy,
               quadrant={activeStep.quadrant}
             />
           </div>
+          )}
         </div>
       </div>
     </section>
