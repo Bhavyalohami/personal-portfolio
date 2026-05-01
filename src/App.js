@@ -1,34 +1,84 @@
-import React from 'react';
-import { Routes, Route, BrowserRouter } from 'react-router-dom';
+import React, { Suspense, lazy, useEffect } from 'react';
+import { BrowserRouter, Route, Routes, useLocation } from 'react-router-dom';
+import { AnimatePresence } from 'framer-motion';
 import Header from './components/Header';
 import Footer from './components/Footer';
-import Home from './pages/Home';
-import About from './pages/About';
-import Skills from './pages/Skills';
-import Projects from './pages/Projects';
-import Experience from './pages/Experience';
-import Education from './pages/Education';
-import Resume from './pages/Resume';
-import Contact from './pages/Contact';
+import { CustomCursor, Preloader } from './components/Premium';
 import './index.css';
 
-function App() {
+const Home = lazy(() => import('./pages/Home'));
+const About = lazy(() => import('./pages/About'));
+const Skills = lazy(() => import('./pages/Skills'));
+const Projects = lazy(() => import('./pages/Projects'));
+const Experience = lazy(() => import('./pages/Experience'));
+const Education = lazy(() => import('./pages/Education'));
+const Resume = lazy(() => import('./pages/Resume'));
+const Contact = lazy(() => import('./pages/Contact'));
+
+function ScrollToTop() {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.requestAnimationFrame(() => {
+      window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+    });
+  }, [pathname]);
+
+  return null;
+}
+
+function RouteFallback() {
   return (
-    <BrowserRouter  basename="/personal-portfolio">
-      <div className="App font-inter min-h-screen flex flex-col bg-graphite text-text-light">
-        <div className="fixed inset-0 grid-pattern pointer-events-none"></div>
+    <div className="min-h-screen bg-graphite px-4 pt-32 text-text-light md:px-6">
+      <div className="mx-auto max-w-7xl">
+        <div className="h-4 w-40 animate-pulse rounded-full bg-white/10" />
+        <div className="mt-8 h-20 max-w-2xl animate-pulse rounded-3xl bg-white/10" />
+        <div className="mt-6 grid gap-4 md:grid-cols-3">
+          <div className="h-52 animate-pulse rounded-3xl bg-white/10" />
+          <div className="h-52 animate-pulse rounded-3xl bg-white/10" />
+          <div className="h-52 animate-pulse rounded-3xl bg-white/10" />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function AnimatedRoutes() {
+  const location = useLocation();
+
+  return (
+    <AnimatePresence mode="wait">
+      <Suspense fallback={<RouteFallback />}>
+        <Routes location={location} key={location.pathname}>
+          <Route path="/" element={<Home />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/skills" element={<Skills />} />
+          <Route path="/projects" element={<Projects />} />
+          <Route path="/experience" element={<Experience />} />
+          <Route path="/education" element={<Education />} />
+          <Route path="/resume" element={<Resume />} />
+          <Route path="/contact" element={<Contact />} />
+        </Routes>
+      </Suspense>
+    </AnimatePresence>
+  );
+}
+
+function App() {
+  const basename =
+    window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+      ? '/'
+      : process.env.PUBLIC_URL || '/';
+
+  return (
+    <BrowserRouter basename={basename}>
+      <ScrollToTop />
+      <Preloader />
+      <CustomCursor />
+      <div className="min-h-screen bg-graphite font-sans text-text-light selection:bg-ice-blue selection:text-graphite">
         <Header />
-        <main className="flex-grow relative z-10">
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/skills" element={<Skills />} />
-            <Route path="/projects" element={<Projects />} />
-            <Route path="/experience" element={<Experience />} />
-            <Route path="/education" element={<Education />} />
-            <Route path="/resume" element={<Resume />} />
-            <Route path="/contact" element={<Contact />} />
-          </Routes>
+        <main>
+          <AnimatedRoutes />
         </main>
         <Footer />
       </div>

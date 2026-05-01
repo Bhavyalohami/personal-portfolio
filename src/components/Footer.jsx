@@ -1,181 +1,68 @@
-// import React from 'react';
-// import { Link } from 'react-router-dom';
-// import { FaGithub, FaLinkedin, FaTwitter, FaEnvelope, FaHeart, FaTerminal } from 'react-icons/fa';
-
-// const Footer = () => {
-//   const year = new Date().getFullYear();
-
-//   const sections = [
-//     {
-//       title: 'EXPLORE',
-//       links: ['Home', 'About', 'Projects', 'Contact'],
-//     },
-//     {
-//       title: 'RESOURCES',
-//       links: ['Skills', 'Experience', 'Education', 'Resume'],
-//     },
-//     {
-//       title: 'LEGAL',
-//       links: ['Privacy', 'Terms', 'Cookies'],
-//     },
-//   ];
-
-//   const socials = [
-//     { icon: <FaGithub />, url: '#', label: 'GitHub' },
-//     { icon: <FaLinkedin />, url: '#', label: 'LinkedIn' },
-//     { icon: <FaTwitter />, url: '#', label: 'Twitter' },
-//     { icon: <FaEnvelope />, url: '#', label: 'Email' },
-//   ];
-
-//   return (
-//     <footer className="relative border-t border-steel/50 bg-graphite/90 backdrop-blur-sm">
-//       <div className="container mx-auto px-4 md:px-6 py-16">
-//         <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
-//           {/* Brand */}
-//           <div className="space-y-4">
-//             <div className="flex items-center space-x-3">
-//               <div className="w-10 h-10 rounded-lg bg-gradient-ice flex items-center justify-center text-graphite">
-//                 <FaTerminal />
-//               </div>
-//               <span className="text-2xl font-bold bg-gradient-ice bg-clip-text text-transparent">BHAVYA</span>
-//             </div>
-//             <p className="text-text-light/50 text-sm leading-relaxed">
-//               Building the future with code. Full-stack developer passionate about creating exceptional digital experiences.
-//             </p>
-//             <div className="flex space-x-4 pt-4">
-//               {socials.map((social, i) => (
-//                 <a
-//                   key={i}
-//                   href={social.url}
-//                   target="_blank"
-//                   rel="noopener noreferrer"
-//                   className="w-10 h-10 rounded-full border border-steel flex items-center justify-center text-soft-ice hover:text-ice-blue hover:border-ice-blue transition-all duration-300"
-//                 >
-//                   {social.icon}
-//                 </a>
-//               ))}
-//             </div>
-//           </div>
-
-//           {/* Links */}
-//           {sections.map((section) => (
-//             <div key={section.title}>
-//               <h4 className="text-sm font-mono text-ice-blue mb-4 tracking-wider">{section.title}</h4>
-//               <ul className="space-y-3">
-//                 {section.links.map((link) => (
-//                   <li key={link}>
-//                     <Link
-//                       to={`/${link.toLowerCase()}`}
-//                       className="text-text-light/60 hover:text-ice-blue transition-colors text-sm"
-//                     >
-//                       {link}
-//                     </Link>
-//                   </li>
-//                 ))}
-//               </ul>
-//             </div>
-//           ))}
-//         </div>
-
-//         {/* Bottom Bar */}
-//         <div className="mt-16 pt-8 border-t border-steel/50 flex flex-col md:flex-row justify-between items-center text-xs text-text-light/40">
-//           <p>© {year} BHAVYA LOHAMI. All rights reserved.</p>
-//           <p className="flex items-center mt-2 md:mt-0">
-//             Built with <FaHeart className="mx-1 text-deep-ice animate-pulse" /> and cold coffee
-//           </p>
-//         </div>
-//       </div>
-//     </footer>
-//   );
-// };
-
-// export default Footer;
-
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { FaGithub, FaLinkedin, FaTwitter, FaEnvelope, FaHeart, FaTerminal } from 'react-icons/fa';
+import { motion } from 'framer-motion';
+import { FaArrowUp } from 'react-icons/fa';
+import { navLinks, profile } from '../data/portfolio';
 
 const Footer = () => {
   const year = new Date().getFullYear();
 
-  const sections = [
-    {
-      title: 'EXPLORE',
-      links: ['Home', 'About', 'Projects', 'Contact'],
-    },
-    {
-      title: 'RESOURCES',
-      links: ['Skills', 'Experience', 'Education', 'Resume'],
-    },
-    {
-      title: 'LEGAL',
-      links: ['Privacy', 'Terms', 'Cookies'],
-    },
-  ];
-
-  const socials = [
-    { icon: <FaGithub />, url: '#', label: 'GitHub' },
-    { icon: <FaLinkedin />, url: '#', label: 'LinkedIn' },
-    { icon: <FaTwitter />, url: '#', label: 'Twitter' },
-    { icon: <FaEnvelope />, url: '#', label: 'Email' },
-  ];
-
   return (
-    <footer className="relative border-t border-white/10 bg-graphite/40 backdrop-blur-md">
-      <div className="container mx-auto px-4 md:px-6 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
-          {/* Brand */}
-          <div className="space-y-4">
-            <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 rounded-lg bg-gradient-ice flex items-center justify-center text-graphite shadow-lg">
-                <FaTerminal />
-              </div>
-              <span className="text-2xl font-bold bg-gradient-ice bg-clip-text text-transparent">BHAVYA</span>
+    <footer className="relative overflow-hidden border-t border-white/10 bg-[#06080B]">
+      <div className="absolute inset-0 premium-bg opacity-60" />
+      <div className="relative mx-auto max-w-7xl px-4 py-14 md:px-6">
+        <div className="grid gap-10 lg:grid-cols-[1.2fr_0.8fr_0.8fr]">
+          <div>
+            <p className="font-mono text-xs uppercase tracking-[0.35em] text-ice-blue">Available for ambitious builds</p>
+            <h2 className="mt-4 max-w-2xl font-display text-4xl font-bold leading-tight md:text-6xl">
+              Let us make the web feel less ordinary.
+            </h2>
+            <div className="mt-7 flex flex-wrap gap-3">
+              <Link to="/contact" className="rounded-full bg-ice-blue px-5 py-3 text-sm font-bold uppercase tracking-[0.16em] text-graphite">
+                Start a project
+              </Link>
+              <a href={profile.resume} download className="rounded-full border border-white/15 px-5 py-3 text-sm font-bold uppercase tracking-[0.16em] text-white/80">
+                Download resume
+              </a>
             </div>
-            <p className="text-text-light/50 text-sm leading-relaxed">
-              Building the future with code. Full‑stack developer passionate about creating exceptional digital experiences.
-            </p>
-            <div className="flex space-x-4 pt-4">
-              {socials.map((social, i) => (
-                <a
-                  key={i}
-                  href={social.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center text-soft-ice hover:text-ice-blue hover:border-ice-blue hover:bg-white/5 transition-all duration-300 backdrop-blur-sm"
-                >
-                  {social.icon}
-                </a>
+          </div>
+
+          <div>
+            <h3 className="mb-4 font-mono text-xs uppercase tracking-[0.28em] text-white/40">Navigate</h3>
+            <div className="grid grid-cols-2 gap-3">
+              {navLinks.map((item) => (
+                <Link key={item.name} to={item.path} className="text-sm text-white/62 transition hover:text-ice-blue">
+                  {item.name}
+                </Link>
               ))}
             </div>
           </div>
 
-          {/* Links */}
-          {sections.map((section) => (
-            <div key={section.title}>
-              <h4 className="text-sm font-mono text-ice-blue mb-4 tracking-wider">{section.title}</h4>
-              <ul className="space-y-3">
-                {section.links.map((link) => (
-                  <li key={link}>
-                    <Link
-                      to={`/${link.toLowerCase()}`}
-                      className="text-text-light/60 hover:text-ice-blue transition-colors text-sm"
-                    >
-                      {link}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
+          <div>
+            <h3 className="mb-4 font-mono text-xs uppercase tracking-[0.28em] text-white/40">Connect</h3>
+            <div className="space-y-3">
+              {profile.socials.map((social) => {
+                const Icon = social.icon;
+                return (
+                  <a key={social.label} href={social.href} className="flex items-center gap-3 text-white/62 transition hover:text-ice-blue">
+                    <Icon /> {social.label}
+                  </a>
+                );
+              })}
             </div>
-          ))}
+          </div>
         </div>
 
-        {/* Bottom Bar */}
-        <div className="mt-16 pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center text-xs text-text-light/40">
-          <p>© {year} BHAVYA LOHAMI. All rights reserved.</p>
-          <p className="flex items-center mt-2 md:mt-0">
-            Built with <FaHeart className="mx-1 text-deep-ice animate-pulse" /> and cold coffee
-          </p>
+        <div className="mt-12 flex flex-col justify-between gap-4 border-t border-white/10 pt-6 text-sm text-white/42 md:flex-row md:items-center">
+          <p>Copyright {year} Bhavya Lohami. Built with React, Tailwind, and Framer Motion.</p>
+          <motion.button
+            whileHover={{ y: -4 }}
+            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+            className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/12 text-ice-blue"
+            aria-label="Back to top"
+          >
+            <FaArrowUp />
+          </motion.button>
         </div>
       </div>
     </footer>

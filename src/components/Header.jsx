@@ -1,212 +1,112 @@
-
-// import React, { useState, useEffect } from 'react';
-// import { Link, useLocation } from 'react-router-dom';
-// import { FiMenu, FiX } from 'react-icons/fi';
-// import { FaTerminal } from 'react-icons/fa';
-
-// const Header = () => {
-//   const [scrolled, setScrolled] = useState(false);
-//   const [mobileMenu, setMobileMenu] = useState(false);
-//   const location = useLocation();
-
-//   useEffect(() => {
-//     const handleScroll = () => setScrolled(window.scrollY > 50);
-//     window.addEventListener('scroll', handleScroll);
-//     return () => window.removeEventListener('scroll', handleScroll);
-//   }, []);
-
-//   const navLinks = [
-//     { name: 'Home', path: '/' },
-//     { name: 'About', path: '/about' },
-//     { name: 'Skills', path: '/skills' },
-//     { name: 'Projects', path: '/projects' },
-//     { name: 'Experience', path: '/experience' },
-//     { name: 'Education', path: '/education' },
-//     { name: 'Resume', path: '/resume' },
-//     { name: 'Contact', path: '/contact' },
-//   ];
-
-//   return (
-//     <header
-//       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-//         scrolled ? 'py-3 bg-graphite/90 backdrop-blur-xl border-b border-steel/50' : 'py-5 bg-transparent'
-//       }`}
-//     >
-//       <div className="container mx-auto px-4 md:px-6">
-//         <div className="flex items-center justify-between">
-//           {/* Logo */}
-//           <Link to="/" className="flex items-center space-x-3 group">
-//             {/* <div className="w-10 h-10 rounded-lg bg-gradient-ice flex items-center justify-center text-graphite group-hover:scale-110 transition-transform">
-//               <FaTerminal className="text-xl" />
-//             </div>
-//             <div>
-//               <span className="text-xl font-bold bg-gradient-ice bg-clip-text text-transparent">BHAVYA</span>
-//               <span className="text-xs text-soft-ice/70 font-mono block">DEVELOPER</span>
-//             </div> */}
-//             <img src="/logo.png" className='h-16 w-36' alt="" />
-//           </Link>
-
-//           {/* Desktop Nav */}
-//           <nav className="hidden md:flex items-center space-x-1">
-//             {navLinks.map((link) => (
-//               <Link
-//                 key={link.name}
-//                 to={link.path}
-//                 className={`px-4 py-2 text-sm font-medium rounded-lg transition-all ${
-//                   location.pathname === link.path
-//                     ? 'text-ice-blue bg-steel/50'
-//                     : 'text-text-light/70 hover:text-ice-blue hover:bg-steel/30'
-//                 }`}
-//               >
-//                 {link.name}
-//               </Link>
-//             ))}
-//           </nav>
-
-//           {/* Availability Badge */}
-//           <div className="hidden md:flex items-center space-x-2 px-4 py-2 rounded-full bg-ice-blue/10 border border-ice-blue/30 text-ice-blue text-sm font-mono">
-//             <span className="w-2 h-2 bg-deep-ice rounded-full animate-pulse"></span>
-//             <span>Available</span>
-//           </div>
-
-//           {/* Mobile Menu Button */}
-//           <button onClick={() => setMobileMenu(!mobileMenu)} className="md:hidden text-ice-blue p-2">
-//             {mobileMenu ? <FiX size={24} /> : <FiMenu size={24} />}
-//           </button>
-//         </div>
-
-//         {/* Mobile Menu */}
-//         {mobileMenu && (
-//           <div className="md:hidden mt-4 pb-4 border-t border-steel/50 pt-4">
-//             <div className="flex flex-col space-y-2">
-//               {navLinks.map((link) => (
-//                 <Link
-//                   key={link.name}
-//                   to={link.path}
-//                   onClick={() => setMobileMenu(false)}
-//                   className={`px-4 py-3 rounded-lg text-sm font-medium ${
-//                     location.pathname === link.path
-//                       ? 'text-ice-blue bg-steel border-l-4 border-ice-blue'
-//                       : 'text-text-light/70 hover:text-ice-blue hover:bg-steel/30'
-//                   }`}
-//                 >
-//                   {link.name}
-//                 </Link>
-//               ))}
-//               <div className="flex items-center space-x-2 px-4 py-3 mt-2 rounded-lg bg-ice-blue/10 border border-ice-blue/30 text-ice-blue text-sm font-mono">
-//                 <span className="w-2 h-2 bg-deep-ice rounded-full animate-pulse"></span>
-//                 <span>Available for work</span>
-//               </div>
-//             </div>
-//           </div>
-//         )}
-//       </div>
-//     </header>
-//   );
-// };
-
-// export default Header;
-
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { FiMenu, FiX } from 'react-icons/fi';
+import { AnimatePresence, motion } from 'framer-motion';
+import { FiDownload, FiMenu, FiX } from 'react-icons/fi';
+import { navLinks, profile } from '../data/portfolio';
 
 const Header = () => {
   const [scrolled, setScrolled] = useState(false);
-  const [mobileMenu, setMobileMenu] = useState(false);
+  const [open, setOpen] = useState(false);
   const location = useLocation();
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 50);
+    const handleScroll = () => setScrolled(window.scrollY > 24);
+    handleScroll();
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const navLinks = [
-    { name: 'Home', path: '/' },
-    { name: 'About', path: '/about' },
-    { name: 'Skills', path: '/skills' },
-    { name: 'Projects', path: '/projects' },
-    { name: 'Experience', path: '/experience' },
-    { name: 'Education', path: '/education' },
-    { name: 'Resume', path: '/resume' },
-    { name: 'Contact', path: '/contact' },
-  ];
+  useEffect(() => setOpen(false), [location.pathname]);
 
   return (
-    <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-        scrolled
-          ? 'py-3 bg-graphite/60 backdrop-blur-xl border-b border-white/10 shadow-lg'
-          : 'py-5 bg-transparent'
-      }`}
-    >
-      <div className="container mx-auto px-4 md:px-6">
-        <div className="flex items-center justify-between">
-          {/* Logo */}
-          <Link to="/" className="flex items-center space-x-3 group">
-            {/* Use your logo image – adjust path as needed */}
-            <img src="/logo.png" className="h-12 md:h-16 w-auto transition-transform group-hover:scale-105" alt="Bhavya Lohami" />
-          </Link>
+    <header className="fixed left-0 right-0 top-0 z-50 px-3 py-3 md:px-6">
+      <motion.div
+        initial={{ y: -24, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        className={`mx-auto flex max-w-7xl items-center justify-between rounded-full border px-4 py-3 transition-all duration-500 ${
+          scrolled
+            ? 'border-white/12 bg-[#080B10]/78 shadow-2xl shadow-black/30 backdrop-blur-2xl'
+            : 'border-white/8 bg-white/[0.035] backdrop-blur-xl'
+        }`}
+      >
+        <Link to="/" className="group flex items-center gap-3">
+          <span className="relative flex h-10 w-10 items-center justify-center overflow-hidden rounded-full border border-ice-blue/35 bg-ice-blue/10">
+            <span className="absolute inset-0 bg-ice-blue/20 blur-xl transition-transform group-hover:scale-150" />
+            <span className="relative font-display text-sm font-bold text-ice-blue">BL</span>
+          </span>
+          <span className="hidden leading-tight sm:block">
+            <span className="block font-display text-sm font-bold text-white">Bhavya Lohami</span>
+            <span className="block font-mono text-[10px] uppercase tracking-[0.24em] text-white/45">Developer portfolio</span>
+          </span>
+        </Link>
 
-          {/* Desktop Nav */}
-          <nav className="hidden md:flex items-center space-x-1">
-            {navLinks.map((link) => (
+        <nav className="hidden items-center gap-1 lg:flex">
+          {navLinks.map((item) => {
+            const active = location.pathname === item.path;
+            return (
               <Link
-                key={link.name}
-                to={link.path}
-                className={`px-4 py-2 text-sm font-medium rounded-lg transition-all ${
-                  location.pathname === link.path
-                    ? 'text-ice-blue bg-white/10 backdrop-blur-sm border border-white/10'
-                    : 'text-text-light/70 hover:text-ice-blue hover:bg-white/5 backdrop-blur-sm'
+                key={item.name}
+                to={item.path}
+                className={`relative rounded-full px-4 py-2 text-xs font-semibold uppercase tracking-[0.15em] transition-colors ${
+                  active ? 'text-graphite' : 'text-white/58 hover:text-white'
                 }`}
               >
-                {link.name}
+                {active && (
+                  <motion.span
+                    layoutId="nav-pill"
+                    className="absolute inset-0 rounded-full bg-ice-blue"
+                    transition={{ type: 'spring', stiffness: 420, damping: 34 }}
+                  />
+                )}
+                <span className="relative z-10">{item.name}</span>
               </Link>
-            ))}
-          </nav>
+            );
+          })}
+        </nav>
 
-          {/* Availability Badge */}
-          <div className="hidden md:flex items-center space-x-2 px-4 py-2 rounded-full bg-white/5 backdrop-blur-md border border-white/10 text-ice-blue text-sm font-mono">
-            <span className="w-2 h-2 bg-deep-ice rounded-full animate-pulse"></span>
-            <span>Available</span>
-          </div>
-
-          {/* Mobile Menu Button */}
-          <button
-            onClick={() => setMobileMenu(!mobileMenu)}
-            className="md:hidden text-ice-blue p-2 bg-white/5 backdrop-blur-sm rounded-lg border border-white/10"
+        <div className="flex items-center gap-2">
+          <a
+            href={profile.resume}
+            download
+            className="hidden items-center gap-2 rounded-full bg-white px-4 py-2 text-xs font-bold uppercase tracking-[0.14em] text-graphite transition hover:bg-ice-blue md:flex"
           >
-            {mobileMenu ? <FiX size={24} /> : <FiMenu size={24} />}
+            <FiDownload /> Resume
+          </a>
+          <button
+            type="button"
+            onClick={() => setOpen((value) => !value)}
+            className="rounded-full border border-white/10 bg-white/5 p-3 text-ice-blue lg:hidden"
+            aria-label="Toggle navigation"
+          >
+            {open ? <FiX /> : <FiMenu />}
           </button>
         </div>
+      </motion.div>
 
-        {/* Mobile Menu */}
-        {mobileMenu && (
-          <div className="md:hidden mt-4 pb-4 border-t border-white/10 pt-4 backdrop-blur-xl bg-graphite/70 rounded-2xl p-4">
-            <div className="flex flex-col space-y-2">
-              {navLinks.map((link) => (
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            initial={{ opacity: 0, y: -12, scale: 0.98 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -12, scale: 0.98 }}
+            className="mx-auto mt-3 max-w-7xl rounded-3xl border border-white/10 bg-[#080B10]/95 p-4 shadow-2xl backdrop-blur-2xl lg:hidden"
+          >
+            <div className="grid gap-2 sm:grid-cols-2">
+              {navLinks.map((item) => (
                 <Link
-                  key={link.name}
-                  to={link.path}
-                  onClick={() => setMobileMenu(false)}
-                  className={`px-4 py-3 rounded-lg text-sm font-medium transition-all ${
-                    location.pathname === link.path
-                      ? 'text-ice-blue bg-white/10 border-l-4 border-ice-blue'
-                      : 'text-text-light/70 hover:text-ice-blue hover:bg-white/5'
+                  key={item.name}
+                  to={item.path}
+                  className={`rounded-2xl px-4 py-3 font-display text-lg ${
+                    location.pathname === item.path ? 'bg-ice-blue text-graphite' : 'bg-white/[0.04] text-white'
                   }`}
                 >
-                  {link.name}
+                  {item.name}
                 </Link>
               ))}
-              <div className="flex items-center space-x-2 px-4 py-3 mt-2 rounded-lg bg-white/5 backdrop-blur-sm border border-white/10 text-ice-blue text-sm font-mono">
-                <span className="w-2 h-2 bg-deep-ice rounded-full animate-pulse"></span>
-                <span>Available for work</span>
-              </div>
             </div>
-          </div>
+          </motion.div>
         )}
-      </div>
+      </AnimatePresence>
     </header>
   );
 };
