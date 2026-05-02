@@ -218,7 +218,7 @@ export function CustomCursor() {
   return (
     <motion.div
       style={{ x: springX, y: springY }}
-      className={`pointer-events-none fixed left-0 top-0 z-[80] hidden h-7 w-7 rounded-full border border-ice-blue/80 transition-opacity md:block ${
+      className={`pointer-events-none fixed left-0 top-0 z-[80] hidden h-7 w-7 rounded-full border border-ice-blue/80 transition-opacity lg:block ${
         visible ? 'opacity-100' : 'opacity-0'
       }`}
     />

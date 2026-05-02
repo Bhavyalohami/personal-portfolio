@@ -11,7 +11,7 @@ const Education = () => {
           <p className="story-chip mb-6 w-fit">EDUCATION.BASE_LAYER</p>
           <div className="grid gap-8 lg:grid-cols-[0.75fr_1fr] lg:items-end">
             <div>
-              <h1 className="font-display text-[clamp(3.4rem,9vw,9.4rem)] font-black uppercase leading-[0.82]">
+              <h1 className="font-display text-[clamp(3rem,7vw,7.2rem)] font-black uppercase leading-[0.88]">
                 Foundation map
               </h1>
             </div>
@@ -40,7 +40,7 @@ const Education = () => {
                   <span className="story-chip bg-soft-ice/60">{String(index + 1).padStart(2, '0')}</span>
                   <span className="font-mono text-xs uppercase tracking-[0.22em] text-slate-500">{item.period}</span>
                 </div>
-                <h2 className="font-display text-4xl font-black uppercase leading-none md:text-6xl">{item.degree}</h2>
+                <h2 className="font-display text-3xl font-black uppercase leading-tight md:text-5xl">{item.degree}</h2>
                 <p className="mt-5 text-xl font-semibold text-ice-blue">{item.field}</p>
                 <p className="mt-2 text-slate-600">{item.institution}</p>
                 <p className="mt-1 font-mono text-sm uppercase tracking-[0.16em] text-slate-500">{item.location}</p>
@@ -59,9 +59,9 @@ const Education = () => {
       </section>
 
       <section className="story-grid-bg px-4 py-20 md:px-6 md:py-28">
-        <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[0.42fr_1fr]">
-          <div>
-            <p className="story-chip mb-5 w-fit">Learning logic</p>
+        <div className="mx-auto max-w-7xl">
+          <div className="mx-auto mb-10 max-w-5xl text-center">
+            <p className="story-chip mx-auto mb-5 w-fit">Learning logic</p>
             <h2 className="story-heading">How it compounds</h2>
           </div>
           <div className="grid gap-5 md:grid-cols-3">

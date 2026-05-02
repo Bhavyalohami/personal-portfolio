@@ -45,7 +45,7 @@ const About = () => {
               className="lg:pl-8"
             >
               <p className="font-mono text-xs uppercase tracking-[0.28em] text-ice-blue">Engineering as a creative act.</p>
-              <h1 className="mt-5 font-display text-[clamp(3.2rem,8vw,8.6rem)] font-black uppercase leading-[0.82]">
+              <h1 className="mt-5 font-display text-[clamp(2.9rem,6.2vw,6.8rem)] font-black uppercase leading-[0.88]">
                 Developer with a designer's eye
               </h1>
               <p className="mt-7 max-w-2xl text-lg leading-8 text-slate-600">{profile.intro}</p>
@@ -71,8 +71,8 @@ const About = () => {
 
       <section className="border-b border-steel bg-card/64 px-4 py-20 md:px-6 md:py-28">
         <div className="mx-auto max-w-7xl">
-          <div className="mb-12 max-w-2xl">
-            <p className="story-chip mb-5 w-fit">The toolkit</p>
+          <div className="mx-auto mb-12 max-w-4xl text-center">
+            <p className="story-chip mx-auto mb-5 w-fit">The toolkit</p>
             <h2 className="story-heading">Modules I rely on</h2>
           </div>
 
@@ -107,7 +107,7 @@ const About = () => {
               className="story-panel bg-ice-blue p-6 text-white md:col-span-2"
             >
               <p className="font-mono text-xs uppercase tracking-[0.28em] text-white/76">Current direction</p>
-              <h3 className="mt-8 font-display text-4xl font-black uppercase leading-none md:text-6xl">
+              <h3 className="mt-8 font-display text-3xl font-black uppercase leading-tight md:text-5xl">
                 Build interfaces that feel precise, fast, and memorable.
               </h3>
             </motion.article>
@@ -116,9 +116,9 @@ const About = () => {
       </section>
 
       <section className="story-grid-bg px-4 py-20 md:px-6 md:py-28">
-        <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[0.32fr_1fr]">
-          <aside>
-            <p className="story-chip mb-5 w-fit">Profile log</p>
+        <div className="mx-auto max-w-7xl">
+          <aside className="mx-auto mb-10 max-w-4xl text-center">
+            <p className="story-chip mx-auto mb-5 w-fit">Profile log</p>
             <h2 className="font-display text-4xl font-black uppercase leading-none">Signals</h2>
           </aside>
 

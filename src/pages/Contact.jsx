@@ -26,7 +26,7 @@ const Contact = () => {
           <div className="grid gap-10 lg:grid-cols-[1.05fr_0.95fr]">
             <div>
               <p className="story-chip mb-6 w-fit">STATUS: AVAILABLE FOR WORK</p>
-              <h1 className="font-display text-[clamp(4.2rem,11vw,11rem)] font-black uppercase leading-[0.78]">
+              <h1 className="font-display text-[clamp(3.4rem,8vw,8.6rem)] font-black uppercase leading-[0.86]">
                 Init contact_
               </h1>
               <p className="mt-7 max-w-xl text-xl leading-8 text-slate-600">
@@ -43,7 +43,7 @@ const Contact = () => {
                     <a
                       key={card.label}
                       href={card.href}
-                      className="group flex items-center justify-between border-b border-steel pb-3 font-display text-4xl font-black uppercase"
+                      className="group flex items-center justify-between border-b border-steel pb-3 font-display text-3xl font-black uppercase md:text-4xl"
                     >
                       {card.label}
                       <FaExternalLinkAlt className="text-2xl text-ice-blue transition group-hover:translate-x-1 group-hover:-translate-y-1" />
@@ -51,14 +51,14 @@ const Contact = () => {
                   ))}
                 <a
                   href={profile.socials.find((social) => social.label === 'GitHub')?.href}
-                  className="group flex items-center justify-between border-b border-steel pb-3 font-display text-4xl font-black uppercase"
+                  className="group flex items-center justify-between border-b border-steel pb-3 font-display text-3xl font-black uppercase md:text-4xl"
                 >
                   GitHub
                   <FaExternalLinkAlt className="text-2xl text-ice-blue transition group-hover:translate-x-1 group-hover:-translate-y-1" />
                 </a>
                 <a
                   href={profile.socials.find((social) => social.label === 'LinkedIn')?.href}
-                  className="group flex items-center justify-between border-b border-steel pb-3 font-display text-4xl font-black uppercase"
+                  className="group flex items-center justify-between border-b border-steel pb-3 font-display text-3xl font-black uppercase md:text-4xl"
                 >
                   LinkedIn
                   <FaExternalLinkAlt className="text-2xl text-ice-blue transition group-hover:translate-x-1 group-hover:-translate-y-1" />

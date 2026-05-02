@@ -12,9 +12,9 @@ const Skills = () => {
       <section className="story-grid-bg border-b border-steel px-4 pb-16 pt-32 md:px-6 md:pb-24">
         <div className="mx-auto max-w-7xl">
           <p className="story-chip mb-5 w-fit">CORE MODULES</p>
-          <h1 className="font-display text-[clamp(3rem,10vw,9rem)] font-black uppercase leading-[0.82]">
+          <h1 className="font-display text-[clamp(3rem,7.5vw,7.4rem)] font-black uppercase leading-[0.88]">
             <span className="block">System</span>
-            <span className="block text-[clamp(2.6rem,8.2vw,7.4rem)]">Architecture</span>
+            <span className="block text-[clamp(2.5rem,6.2vw,6.2rem)]">Architecture</span>
           </h1>
           <div className="mt-12 grid gap-10 lg:grid-cols-[0.34fr_1fr] lg:items-start">
             <p className="max-w-sm text-lg leading-8 text-slate-600">
@@ -54,12 +54,12 @@ const Skills = () => {
 
       <section className="border-b border-steel bg-card/70 px-4 py-20 md:px-6 md:py-28">
         <div className="mx-auto max-w-7xl">
-          <div className="mb-12 flex flex-col justify-between gap-5 md:flex-row md:items-end">
+          <div className="mx-auto mb-12 flex max-w-5xl flex-col items-center text-center">
             <div>
-              <p className="story-chip mb-5 w-fit">Capability board</p>
+              <p className="story-chip mx-auto mb-5 w-fit">Capability board</p>
               <h2 className="story-heading">Mapped stack</h2>
             </div>
-            <p className="max-w-xl text-lg leading-8 text-slate-600">
+            <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-600">
               Each module is grouped by how it supports the product: interface, data flow, delivery, and performance.
             </p>
           </div>
@@ -115,12 +115,12 @@ const Skills = () => {
 
       <section className="story-grid-bg px-4 py-20 md:px-6 md:py-28">
         <div className="mx-auto max-w-7xl">
-          <div className="mb-10 grid gap-6 md:grid-cols-[0.85fr_1fr] md:items-end">
+          <div className="mx-auto mb-10 flex max-w-5xl flex-col items-center text-center">
             <div>
-              <p className="story-chip mb-5 w-fit">Tech archive</p>
+              <p className="story-chip mx-auto mb-5 w-fit">Tech archive</p>
               <h2 className="story-heading">Inventory</h2>
             </div>
-            <p className="text-lg leading-8 text-slate-600">
+            <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-600">
               A faster scan view for recruiters and collaborators who want the exact stack signal.
             </p>
           </div>

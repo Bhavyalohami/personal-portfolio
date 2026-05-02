@@ -37,7 +37,7 @@ const ProjectCard = memo(function ProjectCard({ project, index, featured = false
               </span>
             ))}
           </div>
-          <h3 className="mt-6 font-display text-4xl font-black uppercase leading-[0.9] md:text-6xl">
+          <h3 className="mt-6 font-display text-3xl font-black uppercase leading-[0.95] md:text-5xl">
             {project.title}
           </h3>
           <p className="mt-5 max-w-2xl leading-7 text-slate-600">{project.summary}</p>
@@ -64,7 +64,7 @@ const Projects = () => {
         <div className="mx-auto max-w-7xl">
           <p className="story-chip mb-6 w-fit">WORK.INDEX</p>
           <div className="grid gap-8 lg:grid-cols-[1fr_0.62fr] lg:items-end">
-            <h1 className="font-display text-[clamp(5rem,13vw,13rem)] font-black uppercase leading-[0.76]">
+            <h1 className="font-display text-[clamp(4.4rem,10vw,10rem)] font-black uppercase leading-[0.82]">
               Work
             </h1>
             <div className="border-l-4 border-ice-blue pl-6">
@@ -91,12 +91,12 @@ const Projects = () => {
 
       <section className="border-b border-steel bg-card/70 px-4 py-20 md:px-6 md:py-28">
         <div className="mx-auto max-w-7xl">
-          <div className="mb-10 flex flex-col justify-between gap-6 md:flex-row md:items-end">
+          <div className="mx-auto mb-10 flex max-w-5xl flex-col items-center text-center">
             <div>
-              <p className="story-chip mb-5 w-fit">SYS.ARCHIVE_V3</p>
+              <p className="story-chip mx-auto mb-5 w-fit">SYS.ARCHIVE_V3</p>
               <h2 className="story-heading">Project gallery</h2>
             </div>
-            <p className="max-w-xl text-lg leading-8 text-slate-600">
+            <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-600">
               The archive keeps the reference-site technical table feeling, but with your real project categories and stack.
             </p>
           </div>

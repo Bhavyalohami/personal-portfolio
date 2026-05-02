@@ -11,7 +11,7 @@ const Experience = () => {
           <div className="grid gap-8 lg:grid-cols-[1fr_0.55fr] lg:items-end">
             <div>
               <p className="story-chip mb-5 w-fit">EXPERIENCE.LOG</p>
-              <h1 className="font-display text-[clamp(3rem,10vw,10rem)] font-black uppercase leading-[0.78] [overflow-wrap:anywhere]">
+              <h1 className="font-display text-[clamp(3rem,7vw,7.2rem)] font-black uppercase leading-[0.88] [overflow-wrap:anywhere]">
                 Career sequence
               </h1>
             </div>
@@ -46,7 +46,7 @@ const Experience = () => {
                 <div className="grid gap-5 border-b border-steel pb-6 md:grid-cols-[1fr_auto]">
                   <div>
                     <p className="story-chip mb-5 w-fit">{String(index + 1).padStart(2, '0')} / Role</p>
-                    <h3 className="font-display text-4xl font-black uppercase leading-none md:text-6xl">{item.role}</h3>
+                    <h3 className="font-display text-3xl font-black uppercase leading-tight md:text-5xl">{item.role}</h3>
                   </div>
                   <div className="font-mono text-sm uppercase tracking-[0.18em] text-slate-500 md:text-right">
                     <p>{item.period}</p>
@@ -79,7 +79,7 @@ const Experience = () => {
           <div className="story-panel grid gap-8 bg-card p-7 md:grid-cols-[1fr_auto] md:items-center">
             <div>
               <p className="story-chip mb-5 w-fit">Resume handoff</p>
-              <h2 className="font-display text-4xl font-black uppercase leading-none md:text-6xl">
+              <h2 className="font-display text-3xl font-black uppercase leading-tight md:text-5xl">
                 Want the clean PDF version?
               </h2>
             </div>

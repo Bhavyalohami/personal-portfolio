@@ -117,6 +117,10 @@ img {
   background: rgba(251, 253, 255, 0.88);
 }
 
+.story-panel .font-display {
+  overflow-wrap: anywhere;
+}
+
 .story-panel-shadow {
   box-shadow: 9px 9px 0 rgba(31, 111, 235, 0.2);
 }
@@ -139,17 +143,7 @@ img {
 
 .story-display {
   font-family: 'Space Grotesk', Inter, system-ui, sans-serif;
-  font-size: clamp(3.6rem, 10vw, 9rem);
-  font-weight: 700;
-  line-height: 0.82;
-  letter-spacing: 0;
-  text-transform: uppercase;
-  overflow-wrap: anywhere;
-}
-
-.story-heading {
-  font-family: 'Space Grotesk', Inter, system-ui, sans-serif;
-  font-size: clamp(3rem, 7vw, 6.75rem);
+  font-size: clamp(3rem, 7.2vw, 7.25rem);
   font-weight: 700;
   line-height: 0.86;
   letter-spacing: 0;
@@ -157,20 +151,33 @@ img {
   overflow-wrap: anywhere;
 }
 
-@media (max-width: 640px) {
-  .story-display {
-    font-size: clamp(2.5rem, 11.5vw, 3.45rem);
-    line-height: 0.9;
-  }
+.story-heading {
+  font-family: 'Space Grotesk', Inter, system-ui, sans-serif;
+  font-size: clamp(2.7rem, 5.35vw, 5.35rem);
+  font-weight: 700;
+  line-height: 0.9;
+  letter-spacing: 0;
+  text-transform: uppercase;
+  overflow-wrap: anywhere;
+}
 
-  .story-heading {
-    font-size: clamp(2.35rem, 10.5vw, 3.25rem);
-    line-height: 0.92;
-  }
-
+@media (max-width: 1023px) {
   .story-panel-shadow {
     box-shadow: 0 7px 0 rgba(31, 111, 235, 0.18);
   }
+}
+
+@media (max-width: 640px) {
+  .story-display {
+    font-size: clamp(2.35rem, 10.5vw, 3.15rem);
+    line-height: 0.92;
+  }
+
+  .story-heading {
+    font-size: clamp(2.15rem, 9.8vw, 3rem);
+    line-height: 0.94;
+  }
+
 }
 
 .image-skeleton {

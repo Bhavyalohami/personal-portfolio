@@ -14,7 +14,7 @@ const Resume = () => {
           <div className="grid gap-8 lg:grid-cols-[0.8fr_1fr] lg:items-end">
             <div>
               <p className="story-chip mb-5 w-fit">RESUME.SNAPSHOT</p>
-              <h1 className="font-display text-[clamp(3.4rem,9vw,9.4rem)] font-black uppercase leading-[0.82]">
+              <h1 className="font-display text-[clamp(3rem,7vw,7.2rem)] font-black uppercase leading-[0.88]">
                 Candidate dossier
               </h1>
             </div>
@@ -34,7 +34,7 @@ const Resume = () => {
         <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[0.42fr_1fr]">
           <aside className="story-panel story-panel-shadow bg-card p-7">
             <p className="story-chip mb-6 w-fit">Candidate card</p>
-            <h2 className="font-display text-5xl font-black uppercase leading-none">{profile.name}</h2>
+            <h2 className="font-display text-4xl font-black uppercase leading-tight">{profile.name}</h2>
             <p className="mt-4 text-xl font-semibold text-ice-blue">{profile.role}</p>
             <div className="mt-8 space-y-4 text-slate-600">
               <p className="flex items-center gap-3">
@@ -116,12 +116,14 @@ const Resume = () => {
 
       <section className="story-grid-bg px-4 py-20 md:px-6 md:py-28">
         <div className="mx-auto max-w-7xl">
-          <div className="mb-8 flex flex-col justify-between gap-5 md:flex-row md:items-end">
+          <div className="mx-auto mb-8 flex max-w-5xl flex-col items-center text-center">
             <div>
-              <p className="story-chip mb-5 w-fit">Skill scan</p>
+              <p className="story-chip mx-auto mb-5 w-fit">Skill scan</p>
               <h2 className="story-heading">Readable stack</h2>
             </div>
-            <MagneticButton to="/contact">Contact me</MagneticButton>
+            <div className="mt-6">
+              <MagneticButton to="/contact">Contact me</MagneticButton>
+            </div>
           </div>
           <div className="flex flex-wrap gap-3">
             {skills.map((skill) => (

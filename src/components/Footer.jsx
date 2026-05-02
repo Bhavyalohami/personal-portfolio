@@ -54,7 +54,7 @@ const Footer = () => {
         </div>
 
         <div className="mt-12 flex flex-col justify-between gap-4 border-t border-steel pt-6 text-sm text-slate-500 md:flex-row md:items-center">
-          <p>Copyright {year} Bhavya Lohami. Built with React, Tailwind, and Framer Motion.</p>
+          <p>Copyright {year} Bhavya Lohami. Designed and engineered with care.</p>
           <motion.button
             whileHover={{ y: -4 }}
             onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
