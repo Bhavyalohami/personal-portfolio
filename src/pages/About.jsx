@@ -104,9 +104,9 @@ const About = () => {
               initial="hidden"
               whileInView="show"
               viewport={{ once: true, margin: '-80px' }}
-              className="story-panel bg-ice-blue p-6 text-white md:col-span-2"
+              className="border border-ice-blue bg-ice-blue p-6 text-white shadow-[0_7px_0_rgba(31,111,235,0.18)] md:col-span-2 lg:shadow-[9px_9px_0_rgba(31,111,235,0.2)]"
             >
-              <p className="font-mono text-xs uppercase tracking-[0.28em] text-white/76">Current direction</p>
+              <p className="font-mono text-xs uppercase tracking-[0.28em] text-white/80">Current direction</p>
               <h3 className="mt-8 font-display text-3xl font-black uppercase leading-tight md:text-5xl">
                 Build interfaces that feel precise, fast, and memorable.
               </h3>
