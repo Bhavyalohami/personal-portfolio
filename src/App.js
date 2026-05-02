@@ -1,5 +1,5 @@
 import React, { Suspense, lazy, useEffect } from 'react';
-import { BrowserRouter, Route, Routes, useLocation } from 'react-router-dom';
+import { BrowserRouter, Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
 import Header from './components/Header';
 import Footer from './components/Footer';
@@ -23,6 +23,31 @@ function ScrollToTop() {
       window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
     });
   }, [pathname]);
+
+  return null;
+}
+
+function GitHubPagesRedirect() {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const redirectPath = params.get('redirect');
+    const validRoutes = new Set([
+      '/',
+      '/about',
+      '/skills',
+      '/projects',
+      '/experience',
+      '/education',
+      '/resume',
+      '/contact',
+    ]);
+
+    if (redirectPath && validRoutes.has(redirectPath)) {
+      navigate(redirectPath, { replace: true });
+    }
+  }, [navigate]);
 
   return null;
 }
@@ -71,6 +96,7 @@ function App() {
   return (
     <BrowserRouter basename={basename}>
       <ScrollToTop />
+      <GitHubPagesRedirect />
       <Preloader />
       <CustomCursor />
       <div className="min-h-screen bg-graphite font-sans text-text-light selection:bg-ice-blue selection:text-white">
