@@ -218,6 +218,7 @@ kbd {
 .mission-hero__copy {
   position: relative;
   z-index: 2;
+  min-width: 0;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -245,6 +246,7 @@ kbd {
   line-height: 0.9;
   letter-spacing: -0.065em;
   text-transform: none;
+  overflow-wrap: anywhere;
 }
 
 .mission-hero h1[tabindex='-1']:focus,
@@ -285,6 +287,7 @@ kbd {
 
 .mission-hero__media {
   position: relative;
+  min-width: 0;
   min-height: 580px;
   overflow: hidden;
   border-left: 1px solid var(--lunar-line-soft);
@@ -306,6 +309,7 @@ kbd {
 .mission-section__heading > p { max-width: var(--mission-copy); margin: 0; color: var(--lunar-muted); font-family: system-ui, sans-serif; font-size: 0.96rem; line-height: 1.7; }
 
 .evidence-badge {
+  max-width: 100%;
   width: fit-content;
   display: inline-flex;
   align-items: center;
@@ -317,6 +321,7 @@ kbd {
   letter-spacing: 0.07em;
   line-height: 1.2;
   text-transform: uppercase;
+  overflow-wrap: anywhere;
 }
 
 .evidence-badge::before { content: ''; width: 5px; height: 5px; border-radius: 50%; background: var(--lunar-dim); }
@@ -484,7 +489,7 @@ kbd {
 .quality-grid .case-list { margin-top: auto; border-top: 1px solid var(--lunar-line-soft); padding-top: 1rem; }
 
 .outcome-grid { display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid var(--lunar-line); border-left: 1px solid var(--lunar-line); }
-.outcome-grid article { min-height: 390px; display: flex; flex-direction: column; border-right: 1px solid var(--lunar-line); border-bottom: 1px solid var(--lunar-line); padding: 1.2rem; }
+.outcome-grid article { min-width: 0; min-height: 390px; display: flex; flex-direction: column; border-right: 1px solid var(--lunar-line); border-bottom: 1px solid var(--lunar-line); padding: 1.2rem; }
 .outcome-grid article > span { color: var(--lunar-muted); font-size: 0.62rem; text-transform: uppercase; }
 .outcome-grid article > strong { margin: 3rem 0 1rem; font-family: var(--font-display); font-size: clamp(3.3rem, 5vw, 5.8rem); font-stretch: 104%; font-weight: 760; line-height: 0.94; letter-spacing: -0.055em; color: var(--lunar-text); }
 .outcome-grid article > p { color: var(--lunar-muted); font-family: system-ui, sans-serif; font-size: 0.8rem; line-height: 1.6; }
@@ -862,7 +867,7 @@ html[data-motion='off'] .lunar-contact__video { display: none; }
 @media (max-width: 900px) {
   .mission-page { padding-top: 64px; }
   .mission-hero,
-  .mission-hero--visual { min-height: auto; grid-template-columns: 1fr; }
+  .mission-hero--visual { min-height: auto; grid-template-columns: minmax(0, 1fr); }
   .mission-hero__copy { min-height: 620px; }
   .mission-hero__media { min-height: 480px; border-left: 0; border-top: 1px solid var(--lunar-line-soft); }
   .case-toc { top: 64px; }
@@ -871,7 +876,7 @@ html[data-motion='off'] .lunar-contact__video { display: none; }
   .case-role-card,
   .signal-atlas,
   .note-article,
-  .contact-mission__grid { grid-template-columns: 1fr; }
+  .contact-mission__grid { grid-template-columns: minmax(0, 1fr); }
   .work-card { grid-template-rows: minmax(260px, 64vw) 1fr; }
   .case-role-card aside { border-top: 1px solid var(--lunar-accent); border-left: 0; padding: 1rem 0 0; }
   .signal-atlas > aside { min-height: 300px; border-top: 1px solid var(--lunar-line); border-left: 0; }
@@ -886,11 +891,11 @@ html[data-motion='off'] .lunar-contact__video { display: none; }
   .about-principles > div,
   .capability-process > div,
   .education-grid > div,
-  .certificate-grid > div { grid-template-columns: repeat(2, 1fr); }
+  .certificate-grid > div { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .quality-grid > article { min-height: 390px; }
-  .experience-timeline > div > article { grid-template-columns: 110px 1fr; }
+  .experience-timeline > div > article { grid-template-columns: 110px minmax(0, 1fr); }
   .experience-timeline__detail { grid-column: 2; border-top: 1px solid var(--lunar-line-soft); }
-  .semantic-resume > section { grid-template-columns: 1fr; }
+  .semantic-resume > section { grid-template-columns: minmax(0, 1fr); }
 }
 
 @media (max-width: 767px) {
@@ -908,16 +913,16 @@ html[data-motion='off'] .lunar-contact__video { display: none; }
   .case-pagination { border-inline: 0; }
   .mission-hero__copy { min-height: 570px; padding-block: 4.2rem; }
   .mission-hero h1 { font-size: clamp(3.2rem, 12.5vw, 5.4rem); }
-  .mission-hero__meta { grid-template-columns: 1fr; }
+  .mission-hero__meta { grid-template-columns: minmax(0, 1fr); }
   .mission-hero__meta > div { min-height: 65px; border-right: 0; border-bottom: 1px solid var(--lunar-line-soft); }
   .mission-hero__meta > div:last-child { border-bottom: 0; }
   .mission-hero__media { min-height: 380px; }
   .mission-section { padding-block: 4.8rem; }
-  .mission-section__heading { grid-template-columns: 1fr; gap: 1.3rem; }
+  .mission-section__heading { grid-template-columns: minmax(0, 1fr); gap: 1.3rem; }
   .mission-section__heading > p { grid-column: auto; }
   .mission-section__heading h2 { font-size: clamp(2.7rem, 11.5vw, 4.8rem); }
   .lunar-proof__lead,
-  .lunar-now { min-height: auto; grid-template-columns: 1fr; }
+  .lunar-now { min-height: auto; grid-template-columns: minmax(0, 1fr); }
   .lunar-proof__lead p,
   .lunar-now > a { grid-column: auto; }
   .lunar-proof__grid,
@@ -951,52 +956,52 @@ html[data-motion='off'] .lunar-contact__video { display: none; }
   .semantic-resume__header,
   .semantic-resume__projects,
   .semantic-resume__capabilities,
-  .contact-form__row { grid-template-columns: 1fr; }
+  .contact-form__row { grid-template-columns: minmax(0, 1fr); }
   .work-filter > div,
   .notes-tools > div { justify-content: flex-start; }
   .work-filter button,
   .notes-tools button { flex: 1 1 auto; }
   .case-role-card { gap: 1.2rem; }
-  .architecture-stack li { grid-template-columns: 44px 1fr; }
-  .architecture-stack li > div { grid-template-columns: 1fr; gap: 0.7rem; }
-  .case-undocumented { grid-template-columns: 1fr; }
+  .architecture-stack li { grid-template-columns: 44px minmax(0, 1fr); }
+  .architecture-stack li > div { grid-template-columns: minmax(0, 1fr); gap: 0.7rem; }
+  .case-undocumented { grid-template-columns: minmax(0, 1fr); }
   .tradeoff-table { overflow-x: auto; }
   .tradeoff-table > div { min-width: 760px; }
-  .case-pagination { grid-template-columns: 1fr; }
+  .case-pagination { grid-template-columns: minmax(0, 1fr); }
   .case-pagination a { min-height: 140px; border-right: 0; border-bottom: 1px solid var(--lunar-line-soft); }
   .case-pagination a:last-child { border-bottom: 0; }
   .signal-atlas__visual { min-height: 520px; }
-  .signal-atlas__controls { grid-template-columns: 1fr; }
-  .system-architecture li { grid-template-columns: 44px 44px 1fr; }
-  .system-architecture li > div { grid-template-columns: 1fr; gap: 0.7rem; }
+  .signal-atlas__controls { grid-template-columns: minmax(0, 1fr); }
+  .system-architecture li { grid-template-columns: 44px 44px minmax(0, 1fr); }
+  .system-architecture li > div { grid-template-columns: minmax(0, 1fr); gap: 0.7rem; }
   .system-source,
   .about-next,
-  .experience-cta { grid-template-columns: 1fr; }
+  .experience-cta { grid-template-columns: minmax(0, 1fr); }
   .about-next p { margin: 0; }
-  .about-method li { grid-template-columns: 44px 1fr; }
-  .about-method li > div { min-height: 180px; grid-template-columns: 1fr; gap: 0.8rem; }
-  .experience-timeline > div > article { grid-template-columns: 44px 1fr; }
+  .about-method li { grid-template-columns: 44px minmax(0, 1fr); }
+  .about-method li > div { min-height: 180px; grid-template-columns: minmax(0, 1fr); gap: 0.8rem; }
+  .experience-timeline > div > article { grid-template-columns: 44px minmax(0, 1fr); }
   .experience-timeline article > aside { padding: 0.6rem; }
   .experience-timeline article > aside time { writing-mode: vertical-rl; }
   .semantic-resume { padding-inline: 14px; }
   .contact-form__submit { align-items: stretch; flex-direction: column; }
-  .contact-expectation { grid-template-columns: 1fr; }
-  .changelog-list > article { grid-template-columns: 60px 1fr; }
+  .contact-expectation { grid-template-columns: minmax(0, 1fr); }
+  .changelog-list > article { grid-template-columns: 60px minmax(0, 1fr); }
   .changelog-list aside { min-height: 260px; padding: 0.6rem; }
   .changelog-list aside time { writing-mode: vertical-rl; }
-  .roadmap-table article { grid-template-columns: 44px 1fr; }
+  .roadmap-table article { grid-template-columns: 44px minmax(0, 1fr); }
   .roadmap-table p,
   .roadmap-table strong { grid-column: 2; text-align: left; }
-  .privacy-content article { grid-template-columns: 44px 1fr; }
+  .privacy-content article { grid-template-columns: 44px minmax(0, 1fr); }
   .privacy-content article p { grid-column: 2; }
   .privacy-content > aside { align-items: flex-start; flex-direction: column; }
-  .not-found { grid-template-columns: 1fr; align-content: center; }
+  .not-found { grid-template-columns: minmax(0, 1fr); align-content: center; }
   .not-found__code { position: absolute; inset: 24% auto auto -8%; font-size: 80vw; }
-  .lunar-footer__signal { min-height: 560px; grid-template-columns: 1fr; align-content: center; }
+  .lunar-footer__signal { min-height: 560px; grid-template-columns: minmax(0, 1fr); align-content: center; }
   .lunar-footer__signal h2 { font-size: clamp(2.65rem, 12.2vw, 4.7rem); line-height: 0.94; }
   .lunar-footer__map { grid-template-columns: repeat(2, 1fr); }
   .lunar-footer__identity { grid-column: 1 / -1; margin-bottom: 1rem; }
-  .lunar-footer__base { grid-template-columns: 1fr; justify-items: start; }
+  .lunar-footer__base { grid-template-columns: minmax(0, 1fr); justify-items: start; }
   .lunar-footer__base > span:last-child { text-align: left; }
 }
 
@@ -1005,9 +1010,9 @@ html[data-motion='off'] .lunar-contact__video { display: none; }
   .mission-actions { flex-direction: column; }
   .mission-actions .lunar-button { width: 100%; }
   .case-hero__evidence,
-  .note-detail__boundary { grid-template-columns: 1fr; align-items: flex-start; flex-direction: column; }
+  .note-detail__boundary { grid-template-columns: minmax(0, 1fr); align-items: flex-start; flex-direction: column; }
   .signal-atlas__visual { min-height: 590px; }
-  .lunar-footer__map { grid-template-columns: 1fr; }
+  .lunar-footer__map { grid-template-columns: minmax(0, 1fr); }
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -3208,7 +3208,8 @@ html[data-scene='lunar'] {
   }
 
   .lunar-project-card__media {
-    min-height: 220px;
+    width: 100%;
+    min-height: 0;
     aspect-ratio: 16 / 10;
     border-right: 0;
     border-bottom: 1px solid var(--lunar-line-soft);
@@ -3258,7 +3259,7 @@ html[data-scene='lunar'] {
 
   .lunar-log article {
     min-height: auto;
-    grid-template-columns: 32px 1fr;
+    grid-template-columns: 32px minmax(0, 1fr);
     gap: 1rem;
   }
 
