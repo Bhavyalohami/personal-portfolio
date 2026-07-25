@@ -3115,6 +3115,7 @@ html[data-scene='lunar'] {
   }
 
   .lunar-identity {
+    order: 1;
     min-height: 360px;
     justify-content: center;
   }
@@ -3129,19 +3130,46 @@ html[data-scene='lunar'] {
   }
 
   .lunar-stage {
+    order: 3;
     height: 360px;
     margin-inline: -14px;
     margin-top: 0;
   }
 
   .lunar-hero__words {
-    inset: 440px 8px auto;
-    height: 330px;
+    position: relative;
+    inset: auto;
+    z-index: 1;
+    order: 2;
+    height: auto;
+    min-width: 0;
+    grid-template-rows: repeat(2, auto);
+    gap: 0.35rem 1rem;
+    margin-inline: -14px;
+    border-top: 1px solid var(--lunar-line-soft);
+    border-bottom: 1px solid var(--lunar-line-soft);
+    background: rgba(7, 7, 7, 0.84);
+    padding: 1rem 14px 1.1rem;
+    overflow: hidden;
+    will-change: auto;
   }
 
   .lunar-hero__word {
-    font-size: clamp(3.2rem, 15vw, 5rem);
-    color: rgba(220, 216, 210, 0.17);
+    width: 100%;
+    font-size: clamp(2rem, 10.5vw, 4rem);
+    line-height: 0.88;
+    color: rgba(220, 216, 210, 0.42);
+    white-space: normal;
+  }
+
+  .lunar-hero__word:nth-child(2),
+  .lunar-hero__word:nth-child(3) {
+    color: rgba(239, 75, 63, 0.72);
+  }
+
+  .lunar-hero__word:nth-child(even) {
+    justify-self: stretch;
+    text-align: right;
   }
 
   .lunar-orbit-link {
@@ -3156,7 +3184,19 @@ html[data-scene='lunar'] {
     right: 1%;
   }
 
+  .lunar-orbit-link.is-contact {
+    bottom: 4.25rem;
+  }
+
+  .lunar-canvas__static span {
+    right: 14px;
+    bottom: 10px;
+    left: 14px;
+    text-align: center;
+  }
+
   .lunar-mission {
+    order: 4;
     grid-column: auto;
     grid-template-columns: 1fr;
     margin-top: 0.5rem;
@@ -3305,8 +3345,11 @@ html[data-scene='lunar'] {
   }
 
   .lunar-hero__words {
-    top: 440px;
-    height: 300px;
+    padding-block: 0.9rem 1rem;
+  }
+
+  .lunar-hero__word {
+    font-size: clamp(1.85rem, 10vw, 2.45rem);
   }
 
   .lunar-orbit-link.is-about,

@@ -19,6 +19,7 @@ import { SiDjango, SiNextdotjs } from 'react-icons/si';
 import { experiences, profile, projects, skillGroups, stats } from '../data/portfolio';
 import { capabilityGroups, now, technicalNotes, verifiedSignals } from '../data/siteContent';
 import Seo from '../components/Seo';
+import useMediaQuery from '../hooks/useMediaQuery';
 import usePortfolioMotion from '../hooks/usePortfolioMotion';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -140,6 +141,7 @@ function Home() {
   const rootRef = useRef(null);
   const wordsRef = useRef(null);
   const reduceMotion = usePortfolioMotion();
+  const compactHero = useMediaQuery('(max-width: 767px)');
 
   useEffect(() => {
     document.documentElement.dataset.scene = 'lunar';
@@ -167,15 +169,17 @@ function Home() {
         });
       });
 
-      gsap.to(words, {
-        yPercent: -7,
-        ease: 'none',
-        scrollTrigger: { trigger: '.lunar-hero', start: 'top top', end: 'bottom top', scrub: 0.7 },
-      });
+      if (!compactHero) {
+        gsap.to(words, {
+          yPercent: -7,
+          ease: 'none',
+          scrollTrigger: { trigger: '.lunar-hero', start: 'top top', end: 'bottom top', scrub: 0.7 },
+        });
+      }
     }, root);
 
     let moveHandler;
-    if (!reduceMotion && words) {
+    if (!reduceMotion && !compactHero && words) {
       const xTo = gsap.quickTo(words, 'x', { duration: 0.8, ease: 'power3.out' });
       const yTo = gsap.quickTo(words, 'y', { duration: 0.8, ease: 'power3.out' });
       moveHandler = (event) => {
@@ -191,7 +195,7 @@ function Home() {
       ctx.revert();
       delete document.documentElement.dataset.scene;
     };
-  }, [reduceMotion]);
+  }, [compactHero, reduceMotion]);
 
   return (
     <main id="main-content" tabIndex="-1" data-route="/" ref={rootRef} className="lunar-home">
