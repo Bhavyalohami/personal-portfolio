@@ -1,5 +1,5 @@
 import React, { memo, useEffect, useMemo, useRef, useState } from 'react';
-import { motion, useMotionValue, useSpring } from 'framer-motion';
+import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import { FaArrowRight } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 
@@ -186,13 +186,18 @@ export const OptimizedImage = memo(function OptimizedImage({
   );
 });
 
-export function CustomCursor() {
+export function ExperienceChrome() {
   const [visible, setVisible] = useState(false);
+  const [active, setActive] = useState(false);
+  const [label, setLabel] = useState('MOVE');
+  const [progress, setProgress] = useState(0);
   const visibleRef = useRef(false);
   const x = useMotionValue(-100);
   const y = useMotionValue(-100);
-  const springX = useSpring(x, { stiffness: 450, damping: 35 });
-  const springY = useSpring(y, { stiffness: 450, damping: 35 });
+  const springX = useSpring(x, { stiffness: 520, damping: 34, mass: 0.45 });
+  const springY = useSpring(y, { stiffness: 520, damping: 34, mass: 0.45 });
+  const size = useSpring(active ? 86 : 34, { stiffness: 280, damping: 24 });
+  const cursorOffset = useTransform(size, (value) => value / -2);
 
   useEffect(() => {
     const move = (event) => {
@@ -200,36 +205,106 @@ export function CustomCursor() {
         visibleRef.current = true;
         setVisible(true);
       }
-      x.set(event.clientX - 14);
-      y.set(event.clientY - 14);
+      x.set(event.clientX);
+      y.set(event.clientY);
+      document.documentElement.style.setProperty('--cursor-x', `${event.clientX}px`);
+      document.documentElement.style.setProperty('--cursor-y', `${event.clientY}px`);
     };
+
+    const detectTarget = (event) => {
+      const target = event.target.closest?.('a, button, [role="button"], input, textarea, select, .project-panel, .philosophy-item');
+      if (!target) {
+        setActive(false);
+        setLabel('MOVE');
+        return;
+      }
+
+      setActive(true);
+      if (target.matches('a')) setLabel('LOCK');
+      else if (target.matches('button, [role="button"]')) setLabel('SEND');
+      else if (target.matches('input, textarea, select')) setLabel('INPUT');
+      else if (target.matches('.project-panel')) setLabel('CASE');
+      else setLabel('VIEW');
+    };
+
+    const syncProgress = () => {
+      const max = Math.max(document.documentElement.scrollHeight - window.innerHeight, 1);
+      setProgress(Math.min(1, Math.max(0, window.scrollY / max)));
+    };
+
     const leave = () => {
       visibleRef.current = false;
       setVisible(false);
     };
+
+    syncProgress();
     window.addEventListener('mousemove', move);
+    window.addEventListener('mouseover', detectTarget);
+    window.addEventListener('scroll', syncProgress, { passive: true });
     window.addEventListener('mouseleave', leave);
     return () => {
       window.removeEventListener('mousemove', move);
+      window.removeEventListener('mouseover', detectTarget);
+      window.removeEventListener('scroll', syncProgress);
       window.removeEventListener('mouseleave', leave);
     };
   }, [x, y]);
 
   return (
-    <motion.div
-      style={{ x: springX, y: springY }}
-      className={`pointer-events-none fixed left-0 top-0 z-[80] hidden h-7 w-7 rounded-full border border-ice-blue/80 transition-opacity lg:block ${
-        visible ? 'opacity-100' : 'opacity-0'
-      }`}
-    />
+    <>
+      <div className="experience-spotlight pointer-events-none fixed inset-0 z-[3]" />
+      <div className="experience-vignette pointer-events-none fixed inset-0 z-[71]" />
+      <div className="fixed right-4 top-1/2 z-[76] hidden h-40 w-px -translate-y-1/2 bg-ice-blue/15 md:block">
+        <motion.div
+          className="absolute left-0 top-0 w-px origin-top bg-ice-blue shadow-[0_0_18px_rgba(125,249,255,0.72)]"
+          style={{ height: `${Math.max(progress * 100, 8)}%` }}
+        />
+      </div>
+      <div className="fixed bottom-4 left-4 z-[76] hidden font-mono text-[10px] uppercase tracking-[0.24em] text-ice-blue/70 md:block">
+        scroll / {String(Math.round(progress * 100)).padStart(3, '0')}%
+      </div>
+      <motion.div
+        style={{ x: springX, y: springY, opacity: visible ? 1 : 0 }}
+        className="pointer-events-none fixed left-0 top-0 z-[85] hidden lg:block"
+      >
+        <motion.div
+          style={{ width: size, height: size, x: cursorOffset, y: cursorOffset }}
+          className={`relative rounded-full border transition-colors duration-300 ${
+            active ? 'border-[rgba(var(--scene-accent),0.95)] bg-[rgba(var(--scene-accent),0.10)]' : 'border-[rgba(var(--scene-accent),0.70)] bg-transparent'
+          }`}
+        >
+          <span className="absolute left-1/2 top-1/2 h-1.5 w-1.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[rgb(var(--scene-accent))] shadow-[0_0_20px_rgba(var(--scene-accent),0.9)]" />
+          <span className="absolute left-1/2 top-1/2 -translate-x-1/2 translate-y-6 font-mono text-[9px] font-bold uppercase tracking-[0.18em] text-[rgb(var(--scene-accent))]">
+            {active ? label : ''}
+          </span>
+        </motion.div>
+      </motion.div>
+    </>
   );
 }
+
+export const CustomCursor = ExperienceChrome;
 
 export function Preloader() {
   const [done, setDone] = useState(false);
 
   useEffect(() => {
-    const timer = setTimeout(() => setDone(true), 650);
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches || document.documentElement.dataset.motion === 'off';
+    if (reduced) {
+      setDone(true);
+      return undefined;
+    }
+    let alreadySeen = false;
+    try { alreadySeen = window.sessionStorage.getItem('bl-lunar-intro'); } catch {}
+    if (alreadySeen) {
+      setDone(true);
+      return undefined;
+    }
+
+    const timer = setTimeout(() => {
+      try { window.sessionStorage.setItem('bl-lunar-intro', 'seen'); } catch {}
+      setDone(true);
+    }, 720);
     return () => clearTimeout(timer);
   }, []);
 
@@ -237,25 +312,16 @@ export function Preloader() {
 
   return (
     <motion.div
-      initial={{ y: 0 }}
-      animate={{ y: '-100%' }}
-      transition={{ delay: 0.45, duration: 0.45, ease: [0.76, 0, 0.24, 1] }}
-      className="fixed inset-0 z-[90] flex items-center justify-center bg-graphite"
+      initial={{ opacity: 1 }}
+      animate={{ opacity: 0 }}
+      transition={{ delay: 0.48, duration: 0.24, ease: 'easeOut' }}
+      className="lunar-preloader"
+      aria-hidden="true"
     >
-      <div className="text-center">
-        <motion.div
-          initial={{ width: 0 }}
-          animate={{ width: 220 }}
-          transition={{ duration: 0.8, ease: 'easeOut' }}
-          className="mx-auto h-[2px] bg-gradient-to-r from-transparent via-ice-blue to-transparent"
-        />
-        <motion.p
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="mt-6 font-mono text-xs uppercase tracking-[0.45em] text-ice-blue"
-        >
-          Loading portfolio
-        </motion.p>
+      <div>
+        <b className="lunar-preloader__mark">BL</b>
+        <span>Initializing portfolio / BL-26</span>
+        <motion.i initial={{ scaleX: 0 }} animate={{ scaleX: 1 }} transition={{ duration: 0.62, ease: [0.22, 1, 0.36, 1] }} />
       </div>
     </motion.div>
   );

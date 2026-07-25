@@ -1,167 +1,129 @@
-import React, { memo, useMemo, useState } from 'react';
-import { AnimatePresence, motion } from 'framer-motion';
-import { FaCheckCircle, FaExternalLinkAlt, FaPaperPlane } from 'react-icons/fa';
-import { OptimizedImage, PageShell } from '../components/Premium';
-import { storyAssets } from '../components/Storytelling';
-import { contactCards, profile } from '../data/portfolio';
+import { memo, useMemo, useState } from 'react';
+import { FiArrowUpRight, FiCheck, FiCopy, FiMail, FiMapPin, FiSend } from 'react-icons/fi';
+import PageShell, { PageHero, SectionHeading } from '../components/PageShell';
+import { profile } from '../data/portfolio';
+import { availability } from '../data/siteContent';
+import { trackEvent } from '../utils/analytics';
 
-const prompts = ['Project idea', 'Timeline', 'Budget range', 'What should feel premium?'];
+const initialForm = {
+  name: '',
+  email: '',
+  projectType: '',
+  timeline: '',
+  message: '',
+  website: '',
+  consent: false,
+};
 
-const Contact = () => {
-  const [form, setForm] = useState({ name: '', email: '', message: '' });
-  const [sent, setSent] = useState(false);
-  const filled = useMemo(() => Object.values(form).filter(Boolean).length, [form]);
+function validate(form) {
+  const errors = {};
+  if (form.name.trim().length < 2) errors.name = 'Please enter at least two characters.';
+  if (!/^\S+@\S+\.\S+$/.test(form.email)) errors.email = 'Enter a valid reply email.';
+  if (!form.projectType) errors.projectType = 'Choose the closest project type.';
+  if (form.message.trim().length < 30) errors.message = 'A little more context helps—please use at least 30 characters.';
+  if (!form.consent) errors.consent = 'Please confirm that Bhavya may use these details to reply.';
+  return errors;
+}
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    setSent(true);
-    setForm({ name: '', email: '', message: '' });
-    setTimeout(() => setSent(false), 3200);
+function Contact() {
+  const [form, setForm] = useState(initialForm);
+  const [errors, setErrors] = useState({});
+  const [status, setStatus] = useState({ state: 'idle', message: '' });
+  const [copied, setCopied] = useState(false);
+  const progress = useMemo(() => {
+    const fields = [form.name, form.email, form.projectType, form.message, form.consent];
+    return Math.round((fields.filter(Boolean).length / fields.length) * 100);
+  }, [form]);
+
+  const update = (event) => {
+    const { name, value, checked, type } = event.target;
+    setForm((current) => ({ ...current, [name]: type === 'checkbox' ? checked : value }));
+    setErrors((current) => ({ ...current, [name]: undefined }));
   };
 
+  const submit = async (event) => {
+    event.preventDefault();
+    const nextErrors = validate(form);
+    setErrors(nextErrors);
+    if (Object.keys(nextErrors).length) {
+      setStatus({ state: 'error', message: 'Review the highlighted fields and try again.' });
+      document.getElementById(`contact-${Object.keys(nextErrors)[0]}`)?.focus();
+      return;
+    }
+
+    setStatus({ state: 'sending', message: 'Sending your project signal...' });
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: form.name,
+          email: form.email,
+          projectType: form.projectType,
+          timeline: form.timeline,
+          message: form.message,
+          website: form.website,
+        }),
+      });
+      const result = await response.json().catch(() => ({}));
+      if (!response.ok) throw new Error(result.error || 'The secure form endpoint is not available on this deployment.');
+      setForm(initialForm);
+      setStatus({ state: 'success', message: 'Message sent. Your project context is now in Bhavya’s inbox.' });
+      trackEvent('contact_success', { project_type: form.projectType });
+    } catch (error) {
+      setStatus({ state: 'error', message: `${error.message} You can still use the direct email link below.` });
+      trackEvent('contact_failure', { reason: 'delivery_unavailable' });
+    }
+  };
+
+  const mailto = `mailto:${profile.email}?subject=${encodeURIComponent(`Portfolio inquiry${form.name ? ` from ${form.name}` : ''}`)}&body=${encodeURIComponent(`${form.message}\n\nReply to: ${form.email}\nProject type: ${form.projectType}\nTimeline: ${form.timeline || 'Not specified'}`)}`;
+
   return (
-    <PageShell>
-      <section className="story-grid-bg border-b border-steel px-4 pb-20 pt-32 md:px-6 md:pb-28">
-        <div className="mx-auto max-w-7xl">
-          <div className="grid gap-10 lg:grid-cols-[1.05fr_0.95fr]">
-            <div>
-              <p className="story-chip mb-6 w-fit">STATUS: AVAILABLE FOR WORK</p>
-              <h1 className="font-display text-[clamp(3.4rem,8vw,8.6rem)] font-black uppercase leading-[0.86]">
-                Init contact_
-              </h1>
-              <p className="mt-7 max-w-xl text-xl leading-8 text-slate-600">
-                Execute a connection sequence. Drop a line below to initiate a collaboration or request a secure transmission.
-              </p>
-            </div>
-
-            <aside className="border-l-4 border-ice-blue pl-7 lg:mt-24">
-              <p className="font-mono text-xs uppercase tracking-[0.28em] text-slate-500">Direct channels</p>
-              <div className="mt-8 space-y-5">
-                {contactCards
-                  .filter((card) => card.href)
-                  .map((card) => (
-                    <a
-                      key={card.label}
-                      href={card.href}
-                      className="group flex items-center justify-between border-b border-steel pb-3 font-display text-3xl font-black uppercase md:text-4xl"
-                    >
-                      {card.label}
-                      <FaExternalLinkAlt className="text-2xl text-ice-blue transition group-hover:translate-x-1 group-hover:-translate-y-1" />
-                    </a>
-                  ))}
-                <a
-                  href={profile.socials.find((social) => social.label === 'GitHub')?.href}
-                  className="group flex items-center justify-between border-b border-steel pb-3 font-display text-3xl font-black uppercase md:text-4xl"
-                >
-                  GitHub
-                  <FaExternalLinkAlt className="text-2xl text-ice-blue transition group-hover:translate-x-1 group-hover:-translate-y-1" />
-                </a>
-                <a
-                  href={profile.socials.find((social) => social.label === 'LinkedIn')?.href}
-                  className="group flex items-center justify-between border-b border-steel pb-3 font-display text-3xl font-black uppercase md:text-4xl"
-                >
-                  LinkedIn
-                  <FaExternalLinkAlt className="text-2xl text-ice-blue transition group-hover:translate-x-1 group-hover:-translate-y-1" />
-                </a>
-              </div>
-              <div className="story-panel story-panel-shadow mt-12 bg-card p-2">
-                <OptimizedImage src={storyAssets.projects} alt="Portfolio system preview" aspect="aspect-[16/9]" />
-              </div>
-            </aside>
-          </div>
-        </div>
-      </section>
-
-      <section className="border-b border-steel bg-card/70 px-4 py-20 md:px-6 md:py-28">
-        <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[1.15fr_0.85fr]">
-          <form onSubmit={handleSubmit} className="story-panel story-panel-shadow bg-card">
-            <div className="flex items-center justify-between border-b border-steel bg-soft-ice/55 px-5 py-3">
-              <span className="font-mono text-xs font-bold uppercase tracking-[0.18em]">~/contact/form.sh</span>
-              <span className="story-chip bg-card">{filled}/3</span>
-            </div>
-            <div className="p-6 md:p-8">
-              <AnimatePresence>
-                {sent && (
-                  <motion.div
-                    initial={{ opacity: 0, y: -10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -10 }}
-                    className="mb-5 flex items-center gap-3 border border-emerald-400/40 bg-emerald-400/10 p-4 text-emerald-700"
-                  >
-                    <FaCheckCircle /> Transmission staged. I will get back to you soon.
-                  </motion.div>
-                )}
-              </AnimatePresence>
-
-              {[
-                ['name', '$USER_NAME', 'Enter your designation...'],
-                ['email', '$REPLY_ADDRESS', 'name@domain.com'],
-              ].map(([name, label, placeholder]) => (
-                <label key={name} className="mb-8 block">
-                  <span className="mb-3 block font-mono text-xs font-bold uppercase tracking-[0.18em] text-ice-blue">{label}</span>
-                  <input
-                    name={name}
-                    value={form[name]}
-                    onChange={(event) => setForm({ ...form, [name]: event.target.value })}
-                    required
-                    placeholder={placeholder}
-                    className="w-full border-0 border-b-2 border-steel bg-transparent px-0 py-4 text-lg outline-none transition placeholder:text-slate-400 focus:border-ice-blue focus:ring-0"
-                  />
-                </label>
-              ))}
-
-              <label className="block">
-                <span className="mb-3 block font-mono text-xs font-bold uppercase tracking-[0.18em] text-ice-blue">$PAYLOAD</span>
-                <textarea
-                  name="message"
-                  value={form.message}
-                  onChange={(event) => setForm({ ...form, message: event.target.value })}
-                  required
-                  rows="7"
-                  placeholder="Enter transmission details..."
-                  className="w-full resize-none border-0 border-b-2 border-steel bg-transparent px-0 py-4 text-lg outline-none transition placeholder:text-slate-400 focus:border-ice-blue focus:ring-0"
-                />
-              </label>
-
-              <div className="mt-6 flex flex-wrap gap-2">
-                {prompts.map((prompt) => (
-                  <button
-                    key={prompt}
-                    type="button"
-                    onClick={() => setForm((prev) => ({ ...prev, message: `${prev.message}${prev.message ? '\n' : ''}${prompt}: ` }))}
-                    className="story-chip bg-soft-ice/60"
-                  >
-                    + {prompt}
-                  </button>
-                ))}
-              </div>
-
-              <motion.button
-                whileHover={{ x: -4, y: -4 }}
-                whileTap={{ scale: 0.98 }}
-                className="mt-8 flex w-full items-center justify-center gap-3 bg-ice-blue px-6 py-5 font-mono text-sm font-bold uppercase tracking-[0.18em] text-white shadow-[8px_8px_0_rgba(20,32,51,0.16)]"
-              >
-                <FaPaperPlane /> Execute submit
-              </motion.button>
-            </div>
-          </form>
-
-          <aside className="story-panel bg-card p-7">
-            <p className="story-chip mb-6 w-fit">Message brief</p>
-            <h2 className="font-display text-4xl font-black uppercase leading-none">What helps me reply fast</h2>
-            <div className="mt-8 space-y-4">
-              {prompts.map((prompt, index) => (
-                <div key={prompt} className="story-panel bg-soft-ice/45 p-4">
-                  <p className="font-mono text-xs uppercase tracking-[0.2em] text-ice-blue">0{index + 1}</p>
-                  <p className="mt-2 font-display text-2xl font-black uppercase">{prompt}</p>
-                </div>
-              ))}
+    <PageShell title="Contact" description="Start a scoped React, full-stack, or creative frontend project conversation with Bhavya Lohami." className="contact-page">
+      <PageHero
+        eyebrow="Contact / open channel"
+        title={<>Tell me what<br />must work.</>}
+        lede="The best first message names the user, current stage, desired outcome, constraints, and the part you want me to own."
+        meta={[
+          { label: 'Status', value: availability.status },
+          { label: 'Timezone', value: availability.timezone },
+          { label: 'Channel', value: availability.preferredContact.channel },
+        ]}
+      />
+      <section className="mission-section contact-mission">
+        <SectionHeading index="01" eyebrow="Project brief" title="Enough context to make the first reply useful." copy="Fields marked required are validated in your browser and again by the same-origin endpoint when it is configured." />
+        <div className="contact-mission__grid">
+          <aside>
+            <div className="contact-progress"><span>Brief completeness</span><strong>{progress}%</strong><i><b style={{ width: `${progress}%` }} /></i></div>
+            <h2>A strong fit usually involves</h2>
+            <ul>{availability.relevantWork.map((item) => <li key={item}><FiCheck aria-hidden="true" />{item}</li>)}</ul>
+            <div className="contact-direct">
+              <span>Direct channel</span><a href={`mailto:${profile.email}`}><FiMail aria-hidden="true" />{profile.email}</a>
+              <button type="button" onClick={async () => { await navigator.clipboard?.writeText(profile.email); setCopied(true); window.setTimeout(() => setCopied(false), 1600); }}><FiCopy aria-hidden="true" />{copied ? 'Copied' : 'Copy email'}</button>
+              <p><FiMapPin aria-hidden="true" />{availability.location}</p>
             </div>
           </aside>
+          <form onSubmit={submit} noValidate>
+            <div className="contact-form__row">
+              <label htmlFor="contact-name"><span>Name *</span><input id="contact-name" name="name" value={form.name} onChange={update} autoComplete="name" aria-invalid={Boolean(errors.name)} aria-describedby={errors.name ? 'contact-name-error' : undefined} />{errors.name && <small id="contact-name-error">{errors.name}</small>}</label>
+              <label htmlFor="contact-email"><span>Email *</span><input id="contact-email" name="email" type="email" value={form.email} onChange={update} autoComplete="email" aria-invalid={Boolean(errors.email)} aria-describedby={errors.email ? 'contact-email-error' : undefined} />{errors.email && <small id="contact-email-error">{errors.email}</small>}</label>
+            </div>
+            <div className="contact-form__row">
+              <label htmlFor="contact-projectType"><span>Project type *</span><select id="contact-projectType" name="projectType" value={form.projectType} onChange={update} aria-invalid={Boolean(errors.projectType)} aria-describedby={errors.projectType ? 'contact-projectType-error' : undefined}><option value="">Choose one</option><option>React / Next.js product</option><option>Full-stack workflow</option><option>Creative frontend</option><option>Performance or accessibility</option><option>Other / still framing</option></select>{errors.projectType && <small id="contact-projectType-error">{errors.projectType}</small>}</label>
+              <label htmlFor="contact-timeline"><span>Timeline</span><select id="contact-timeline" name="timeline" value={form.timeline} onChange={update}><option value="">Not fixed yet</option><option>Within 4 weeks</option><option>1–3 months</option><option>3–6 months</option><option>Ongoing collaboration</option></select></label>
+            </div>
+            <label htmlFor="contact-message"><span>Project context *</span><textarea id="contact-message" name="message" rows="9" value={form.message} onChange={update} placeholder="What are you building, who is it for, and what must change?" aria-invalid={Boolean(errors.message)} aria-describedby={errors.message ? 'contact-message-error' : undefined} />{errors.message && <small id="contact-message-error">{errors.message}</small>}</label>
+            <label className="contact-honeypot" aria-hidden="true"><span>Website</span><input name="website" value={form.website} onChange={update} tabIndex="-1" autoComplete="off" /></label>
+            <label className="contact-consent" htmlFor="contact-consent"><input id="contact-consent" name="consent" type="checkbox" checked={form.consent} onChange={update} aria-invalid={Boolean(errors.consent)} /><span>I agree that these details may be used to reply to this inquiry. See the <a href="/privacy">privacy note</a>.</span></label>
+            {errors.consent && <small id="contact-consent-error">{errors.consent}</small>}
+            <div className="contact-form__submit"><button type="submit" className="lunar-button lunar-button--primary" disabled={status.state === 'sending'}><FiSend aria-hidden="true" />{status.state === 'sending' ? 'Sending...' : 'Send project signal'}</button><a href={mailto}>Use email client <FiArrowUpRight aria-hidden="true" /></a></div>
+            <p className={`contact-status contact-status--${status.state}`} role="status" aria-live="polite">{status.message}</p>
+          </form>
         </div>
       </section>
+      <section className="mission-section contact-expectation"><span>Response expectation</span><p>{availability.responseExpectation}</p></section>
     </PageShell>
   );
-};
+}
 
 export default memo(Contact);

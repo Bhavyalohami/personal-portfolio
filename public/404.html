@@ -1,12 +1,27 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="en">
   <head>
-    <meta charset="utf-8">
-    <script>
-      var l = window.location;
-      var redirect = l.pathname.replace('/personal-portfolio', '');
-      l.replace('/personal-portfolio/?redirect=' + redirect);
-    </script>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex" />
+    <title>Redirecting...</title>
   </head>
-  <body></body>
+  <body>
+    <p>Redirecting to the portfolio...</p>
+    <script>
+      (function redirectGitHubPagesRoute(locationObject) {
+        var pathParts = locationObject.pathname.split("/").filter(Boolean);
+        var allowedRoutes = new Set(["/", "/about", "/capabilities", "/skills", "/work", "/projects", "/experience", "/education", "/resume", "/contact", "/notes", "/lab", "/system", "/colophon", "/changelog", "/privacy"]);
+        var isDirectRoute = allowedRoutes.has(locationObject.pathname);
+        var isGitHubProjectPage = locationObject.hostname.endsWith(".github.io") && !isDirectRoute && pathParts.length > 1;
+        var basePath = isGitHubProjectPage ? "/" + pathParts[0] : "";
+        var routePath = locationObject.pathname.slice(basePath.length) || "/";
+        var dynamicRoute = /^\/(work|projects|notes)\/[a-z0-9-]+$/.test(routePath);
+        var safeRoute = allowedRoutes.has(routePath) || dynamicRoute ? routePath : "/";
+        var destination = basePath + "/?redirect=" + encodeURIComponent(safeRoute);
+        if (locationObject.hash) destination += locationObject.hash;
+        locationObject.replace(destination);
+      })(window.location);
+    </script>
+  </body>
 </html>

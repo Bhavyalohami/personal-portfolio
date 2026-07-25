@@ -1,146 +1,52 @@
-import React, { memo } from 'react';
-import { motion } from 'framer-motion';
-import { PageShell } from '../components/Premium';
-import { skillGroups } from '../data/portfolio';
+import { memo } from 'react';
+import { FiArrowRight, FiCheckCircle } from 'react-icons/fi';
+import { Link } from 'react-router-dom';
+import PageShell, { EvidenceBadge, PageHero, SectionHeading } from '../components/PageShell';
+import { capabilityGroups } from '../data/siteContent';
 
-const Skills = () => {
-  const allSkills = skillGroups.flatMap((group) => group.items.map((item) => ({ ...item, group: group.title })));
-  const topSkills = allSkills.slice(0, 9);
-
+function Skills() {
   return (
-    <PageShell>
-      <section className="story-grid-bg border-b border-steel px-4 pb-16 pt-32 md:px-6 md:pb-24">
-        <div className="mx-auto max-w-7xl">
-          <p className="story-chip mb-5 w-fit">CORE MODULES</p>
-          <h1 className="font-display text-[clamp(3rem,7.5vw,7.4rem)] font-black uppercase leading-[0.88]">
-            <span className="block">System</span>
-            <span className="block text-[clamp(2.5rem,6.2vw,6.2rem)]">Architecture</span>
-          </h1>
-          <div className="mt-12 grid gap-10 lg:grid-cols-[0.34fr_1fr] lg:items-start">
-            <p className="max-w-sm text-lg leading-8 text-slate-600">
-              A board-style view of the stack behind the portfolio, grouped by the way each layer supports real product work.
-            </p>
-            <div className="story-panel story-panel-shadow bg-card p-6 md:p-8">
-              <div className="flex items-center justify-between border-b border-steel pb-5">
-                <h2 className="font-display text-2xl font-black uppercase">System status</h2>
-                <span className="story-chip bg-soft-ice/60">v.24.0.1</span>
-              </div>
-              <div className="mt-7 space-y-6">
-                {skillGroups.map((group) => {
-                  const average = Math.round(group.items.reduce((sum, item) => sum + item.level, 0) / group.items.length);
-                  return (
-                    <div key={group.title}>
-                      <div className="mb-2 flex items-center justify-between font-mono text-xs uppercase tracking-[0.18em] text-slate-600">
-                        <span>{group.title} architecture</span>
-                        <span>{average}%</span>
-                      </div>
-                      <div className="h-3 border border-slate-300 bg-white">
-                        <motion.div
-                          initial={{ width: 0 }}
-                          whileInView={{ width: `${average}%` }}
-                          viewport={{ once: true }}
-                          transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
-                          className="h-full bg-ice-blue"
-                        />
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-          </div>
+    <PageShell title="Capabilities" description="Frontend, API, search, validation, and operational product capabilities connected to real project evidence." image="/assets/lunar/system-orbit.webp" className="capabilities-page">
+      <PageHero
+        eyebrow="Capabilities / evidence map"
+        title={<>Skills are useful<br />only in context.</>}
+        lede="No arbitrary proficiency bars. Each capability is attached to a shipped problem, an implementation record, and a clear limit on what the evidence proves."
+        image="/assets/lunar/system-orbit.webp"
+        imageAlt="Abstract lunar system representing connected engineering capabilities."
+        meta={[
+          { label: 'Primary', value: 'React / Next.js' },
+          { label: 'Backend', value: 'Django / REST' },
+          { label: 'Method', value: 'Evidence-linked' },
+        ]}
+      />
+      <section className="mission-section capability-map">
+        <SectionHeading index="01" eyebrow="Capability matrix" title="Tools connected to responsibility." />
+        <div>
+          {capabilityGroups.map((group, index) => (
+            <article key={group.id}>
+              <header><span>{String(index + 1).padStart(2, '0')}</span><EvidenceBadge level="documented">Project-linked</EvidenceBadge></header>
+              <h2>{group.title}</h2><p>{group.summary}</p>
+              <ul>{group.capabilities.map((capability) => <li key={capability}><FiCheckCircle aria-hidden="true" />{capability}</li>)}</ul>
+              <footer><p>{group.evidenceBoundary}</p><div>{group.projectSlugs.map((slug) => <Link key={slug} to={`/work/${slug}`}>Project evidence <FiArrowRight aria-hidden="true" /></Link>)}</div></footer>
+            </article>
+          ))}
         </div>
       </section>
-
-      <section className="border-b border-steel bg-card/70 px-4 py-20 md:px-6 md:py-28">
-        <div className="mx-auto max-w-7xl">
-          <div className="mx-auto mb-12 flex max-w-5xl flex-col items-center text-center">
-            <div>
-              <p className="story-chip mx-auto mb-5 w-fit">Capability board</p>
-              <h2 className="story-heading">Mapped stack</h2>
-            </div>
-            <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-600">
-              Each module is grouped by how it supports the product: interface, data flow, delivery, and performance.
-            </p>
-          </div>
-
-          <div className="grid gap-5 lg:grid-cols-3">
-            {skillGroups.map((group, index) => {
-              const Icon = group.icon;
-              return (
-                <motion.article
-                  key={group.title}
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: '-80px' }}
-                  transition={{ duration: 0.55, delay: index * 0.08 }}
-                  className={`story-panel bg-card p-6 ${index === 0 ? 'lg:row-span-2' : ''}`}
-                >
-                  <div className="flex items-center justify-between">
-                    <span className="story-chip bg-soft-ice/60">{String(index + 1).padStart(2, '0')}</span>
-                    <Icon className="text-4xl text-ice-blue" />
-                  </div>
-                  <h3 className="mt-10 font-display text-4xl font-black uppercase leading-none">{group.title}</h3>
-                  <div className="mt-7 space-y-5">
-                    {group.items.map((item) => {
-                      const SkillIcon = item.icon;
-                      return (
-                        <div key={item.name}>
-                          <div className="mb-2 flex items-center justify-between gap-3">
-                            <span className="flex items-center gap-3 font-semibold text-slate-700">
-                              <SkillIcon className="text-ice-blue" /> {item.name}
-                            </span>
-                            <span className="font-mono text-xs text-slate-500">{item.level}%</span>
-                          </div>
-                          <div className="h-2 bg-soft-ice">
-                            <motion.div
-                              initial={{ scaleX: 0 }}
-                              whileInView={{ scaleX: 1 }}
-                              viewport={{ once: true }}
-                              transition={{ duration: 0.7 }}
-                              className="h-full origin-left bg-ice-blue"
-                              style={{ width: `${item.level}%` }}
-                            />
-                          </div>
-                        </div>
-                      );
-                    })}
-                  </div>
-                </motion.article>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
-      <section className="story-grid-bg px-4 py-20 md:px-6 md:py-28">
-        <div className="mx-auto max-w-7xl">
-          <div className="mx-auto mb-10 flex max-w-5xl flex-col items-center text-center">
-            <div>
-              <p className="story-chip mx-auto mb-5 w-fit">Tech archive</p>
-              <h2 className="story-heading">Inventory</h2>
-            </div>
-            <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-600">
-              A faster scan view for recruiters and collaborators who want the exact stack signal.
-            </p>
-          </div>
-          <div className="story-panel overflow-hidden bg-card">
-            {topSkills.map((item, index) => (
-              <div
-                key={`${item.group}-${item.name}`}
-                className="grid gap-4 border-b border-steel px-5 py-5 last:border-b-0 md:grid-cols-[0.25fr_1fr_0.55fr_0.35fr] md:items-center"
-              >
-                <span className="font-mono text-sm text-slate-500">{String(index + 1).padStart(3, '0')}</span>
-                <span className="font-display text-2xl font-black uppercase">{item.name}</span>
-                <span className="story-chip w-fit bg-soft-ice/60">{item.group}</span>
-                <span className="font-mono text-sm font-bold text-ice-blue">{item.level}%</span>
-              </div>
-            ))}
-          </div>
+      <section className="mission-section capability-process">
+        <SectionHeading index="02" eyebrow="From stack to outcome" title="What the technology is for." />
+        <div>
+          {[
+            ['Interface architecture', 'Reusable composition, responsive behavior, accessible states, and a deliberate loading strategy.'],
+            ['API integration', 'Stable contracts, predictable error handling, guarded writes, and a clear owner for shared state.'],
+            ['Search and discovery', 'Normalized filter models, meaningful empty states, map-aware journeys, and reversible decisions.'],
+            ['Operational workflows', 'Role-aware surfaces, scheduling, dashboards, validation, and next-step clarity under pressure.'],
+            ['Performance', 'Code splitting, WebGL isolation, capped rendering cost, asset compression, and budgets that stay visible.'],
+            ['Delivery quality', 'Testing strategy, security boundaries, monitoring readiness, privacy, CI, and honest documentation.'],
+          ].map(([title, copy], index) => <article key={title}><span>{String(index + 1).padStart(2, '0')}</span><h3>{title}</h3><p>{copy}</p></article>)}
         </div>
       </section>
     </PageShell>
   );
-};
+}
 
 export default memo(Skills);

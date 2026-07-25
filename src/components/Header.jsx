@@ -1,114 +1,102 @@
-import React, { useEffect, useState } from 'react';
+import React, { memo, useCallback, useEffect, useRef, useState } from 'react';
+import { FiMenu, FiPause, FiPlay, FiX } from 'react-icons/fi';
 import { Link, useLocation } from 'react-router-dom';
-import { AnimatePresence, motion } from 'framer-motion';
-import { FiDownload, FiMenu, FiX } from 'react-icons/fi';
-import { navLinks, profile } from '../data/portfolio';
+import CommandPalette, { CommandButton, useCommandMenu } from './CommandPalette';
 
-const Header = () => {
-  const [scrolled, setScrolled] = useState(false);
+const primaryLinks = [
+  { label: 'Work', to: '/work' },
+  { label: 'About', to: '/about' },
+  { label: 'Lab', to: '/lab' },
+  { label: 'Notes', to: '/notes' },
+];
+
+const utilityLinks = [
+  { label: 'Capabilities', to: '/capabilities' },
+  { label: 'Experience', to: '/experience' },
+  { label: 'Resume', to: '/resume' },
+  { label: 'System', to: '/system' },
+  { label: 'Changelog', to: '/changelog' },
+  { label: 'Contact', to: '/contact' },
+];
+
+function Header() {
   const [open, setOpen] = useState(false);
+  const [motionOff, setMotionOff] = useState(() => {
+    try { return window.localStorage.getItem('portfolio-motion') === 'off'; } catch { return false; }
+  });
+  const { open: commandOpen, setOpen: setCommandOpen } = useCommandMenu(open);
   const location = useLocation();
+  const triggerRef = useRef(null);
+  const commandTriggerRef = useRef(null);
+  const closeRef = useRef(null);
+  const menuRef = useRef(null);
+  const restoreFocusRef = useRef(false);
+  const closeCommand = useCallback(() => setCommandOpen(false), [setCommandOpen]);
+
+  useEffect(() => setOpen(false), [location.pathname, location.hash]);
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 24);
-    handleScroll();
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+    document.documentElement.dataset.motion = motionOff ? 'off' : 'on';
+    try { window.localStorage.setItem('portfolio-motion', motionOff ? 'off' : 'on'); } catch {}
+    window.dispatchEvent(new CustomEvent('portfolio-motion-change', { detail: { reduced: motionOff } }));
+  }, [motionOff]);
 
-  useEffect(() => setOpen(false), [location.pathname]);
+  useEffect(() => {
+    const focusTarget = triggerRef.current;
+    document.body.style.overflow = open ? 'hidden' : '';
+    const backgroundNodes = [document.querySelector('.lunar-nav'), document.querySelector('main'), document.querySelector('.lunar-footer')].filter(Boolean);
+    if (open) {
+      backgroundNodes.forEach((node) => node.setAttribute('inert', ''));
+      closeRef.current?.focus();
+    }
+    const onKeyDown = (event) => {
+      if (event.key === 'Escape' && open) { restoreFocusRef.current = true; setOpen(false); }
+      if (event.key === 'Tab' && open && menuRef.current) {
+        const focusable = Array.from(menuRef.current.querySelectorAll('a[href], button:not([disabled])'));
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+        if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last?.focus(); }
+        else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first?.focus(); }
+      }
+    };
+    window.addEventListener('keydown', onKeyDown);
+    return () => {
+      document.body.style.overflow = '';
+      backgroundNodes.forEach((node) => node.removeAttribute('inert'));
+      window.removeEventListener('keydown', onKeyDown);
+      if (restoreFocusRef.current) { restoreFocusRef.current = false; requestAnimationFrame(() => focusTarget?.focus()); }
+    };
+  }, [open]);
+
+  const closeMenu = () => { restoreFocusRef.current = true; setOpen(false); };
+  const isCurrent = (to) => location.pathname === to || (to !== '/' && location.pathname.startsWith(`${to}/`));
 
   return (
-    <header className="fixed left-0 right-0 top-0 z-50 px-3 py-3 md:px-6">
-      <motion.div
-        initial={{ y: -24, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        className={`mx-auto flex max-w-7xl items-center justify-between rounded-full border px-4 py-3 transition-all duration-500 ${
-          scrolled
-            ? 'border-steel bg-card/88 shadow-2xl shadow-blue-950/10 backdrop-blur-2xl'
-            : 'border-steel bg-card/72 backdrop-blur-xl'
-        }`}
-      >
-        <Link to="/" className="group flex items-center gap-3">
-          <span className="relative flex h-10 w-10 items-center justify-center overflow-hidden rounded-full border border-ice-blue/20 bg-soft-ice">
-            <span className="absolute inset-0 bg-ice-blue/20 blur-xl transition-transform group-hover:scale-150" />
-            <span className="relative font-display text-sm font-bold text-ice-blue">BL</span>
-          </span>
-          <span className="hidden leading-tight sm:block">
-            <span className="block font-display text-sm font-bold text-text-light">Bhavya Lohami</span>
-            <span className="block font-mono text-[10px] uppercase tracking-[0.24em] text-slate-500">Developer portfolio</span>
-          </span>
-        </Link>
-
-        <nav className="hidden items-center gap-1 lg:flex">
-          {navLinks.map((item) => {
-            const active = location.pathname === item.path;
-            return (
-              <Link
-                key={item.name}
-                to={item.path}
-                className={`relative rounded-full px-4 py-2 text-xs font-semibold uppercase tracking-[0.15em] transition-colors ${
-                  active ? 'text-white' : 'text-slate-600 hover:text-text-light'
-                }`}
-              >
-                {active && (
-                  <motion.span
-                    layoutId="nav-pill"
-                    className="absolute inset-0 rounded-full bg-ice-blue"
-                    transition={{ type: 'spring', stiffness: 420, damping: 34 }}
-                  />
-                )}
-                <span className="relative z-10">{item.name}</span>
-              </Link>
-            );
-          })}
+    <>
+      <header className="lunar-nav">
+        <Link to="/" className="lunar-brand" aria-label="Bhavya Lohami home"><span aria-hidden="true">BL</span><b>Bhavya Lohami</b></Link>
+        <nav className="lunar-nav__links" aria-label="Primary navigation">
+          {primaryLinks.map((item) => <Link key={item.to} to={item.to} aria-current={isCurrent(item.to) ? 'page' : undefined}>{item.label}</Link>)}
         </nav>
-
-        <div className="flex items-center gap-2">
-          <a
-            href={profile.resume}
-            download
-            className="hidden items-center gap-2 rounded-full bg-ice-blue px-4 py-2 text-xs font-bold uppercase tracking-[0.14em] text-white transition hover:bg-deep-ice md:flex"
-          >
-            <FiDownload /> Resume
-          </a>
-          <button
-            type="button"
-            onClick={() => setOpen((value) => !value)}
-            className="rounded-full border border-steel bg-card p-3 text-ice-blue lg:hidden"
-            aria-label="Toggle navigation"
-          >
-            {open ? <FiX /> : <FiMenu />}
-          </button>
+        <div className="lunar-nav__tools">
+          <button type="button" className="lunar-nav__motion" onClick={() => setMotionOff((value) => !value)} aria-pressed={motionOff} aria-label={motionOff ? 'Enable portfolio motion' : 'Reduce portfolio motion'}>{motionOff ? <FiPlay /> : <FiPause />}<span>{motionOff ? 'Motion off' : 'Motion on'}</span></button>
+          <CommandButton buttonRef={commandTriggerRef} onClick={() => setCommandOpen(true)} />
+          <Link className="lunar-nav__contact" to="/contact" aria-current={isCurrent('/contact') ? 'page' : undefined}>Contact <i aria-hidden="true" /></Link>
+          <button ref={triggerRef} type="button" className="lunar-nav__menu" onClick={() => { restoreFocusRef.current = false; setOpen(true); }} aria-label="Open navigation" aria-expanded={open} aria-controls="lunar-mobile-menu"><FiMenu /></button>
         </div>
-      </motion.div>
+      </header>
 
-      <AnimatePresence>
-        {open && (
-          <motion.div
-            initial={{ opacity: 0, y: -12, scale: 0.98 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: -12, scale: 0.98 }}
-            className="mx-auto mt-3 max-w-7xl rounded-3xl border border-steel bg-card/95 p-4 shadow-2xl shadow-blue-950/10 backdrop-blur-2xl lg:hidden"
-          >
-            <div className="grid gap-2 sm:grid-cols-2">
-              {navLinks.map((item) => (
-                <Link
-                  key={item.name}
-                  to={item.path}
-                  className={`rounded-2xl px-4 py-3 font-display text-lg ${
-                    location.pathname === item.path ? 'bg-ice-blue text-white' : 'bg-soft-ice text-text-light'
-                  }`}
-                >
-                  {item.name}
-                </Link>
-              ))}
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </header>
+      {open && (
+        <div ref={menuRef} id="lunar-mobile-menu" className="lunar-menu" role="dialog" aria-modal="true" aria-label="Navigation menu">
+          <div className="lunar-menu__top"><span>Navigation / BL-26</span><button ref={closeRef} type="button" onClick={closeMenu} aria-label="Close navigation"><FiX /></button></div>
+          <nav aria-label="Mobile navigation">
+            {[...primaryLinks, ...utilityLinks].map((item, index) => <Link key={item.to} to={item.to} onClick={closeMenu} aria-current={isCurrent(item.to) ? 'page' : undefined}><span>{String(index + 1).padStart(2, '0')}</span><strong>{item.label}</strong><i aria-hidden="true" /></Link>)}
+          </nav>
+        </div>
+      )}
+      <CommandPalette open={commandOpen} onClose={closeCommand} openerRef={commandTriggerRef} />
+    </>
   );
-};
+}
 
-export default Header;
+export default memo(Header);

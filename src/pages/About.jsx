@@ -1,160 +1,78 @@
-import React, { memo } from 'react';
-import { motion } from 'framer-motion';
-import { FaDownload } from 'react-icons/fa';
-import { MagneticButton, OptimizedImage, PageShell } from '../components/Premium';
-import { storyAssets } from '../components/Storytelling';
-import { education, experiences, profile, skillGroups, stats } from '../data/portfolio';
+import { memo } from 'react';
+import { FiArrowRight, FiGithub, FiMapPin } from 'react-icons/fi';
+import { Link } from 'react-router-dom';
+import PageShell, { EvidenceBadge, PageHero, SectionHeading } from '../components/PageShell';
+import { profile } from '../data/portfolio';
+import { now, professionalPrinciples, socialProof, verifiedSignals } from '../data/siteContent';
 
-const fadeUp = {
-  hidden: { opacity: 0, y: 34 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.65, ease: [0.22, 1, 0.36, 1] } },
-};
-
-const About = () => {
-  const toolkit = skillGroups.map((group) => ({
-    title: group.title,
-    copy: group.items.slice(0, 2).map((item) => item.name).join(' + '),
-    tags: group.items.slice(0, 4).map((item) => item.name),
-  }));
-
+function About() {
   return (
-    <PageShell>
-      <section className="story-grid-bg border-b border-steel px-4 pb-20 pt-32 md:px-6 md:pb-28">
-        <div className="mx-auto max-w-7xl">
-          <motion.div initial="hidden" animate="show" variants={fadeUp} className="max-w-xl">
-            <p className="story-chip mb-5 w-fit">THE PERSPECTIVE</p>
-            <p className="text-lg leading-8 text-slate-600">
-              I bridge polished interface craft and practical delivery.
-            </p>
-          </motion.div>
+    <PageShell title="About" description="Bhavya Lohami's engineering principles, working style, current focus, and evidence policy." image="/assets/lunar/bhavya-portrait.webp" className="about-page">
+      <PageHero
+        eyebrow="About / person behind the system"
+        title={<>Product pressure<br />into usable flow.</>}
+        lede="I am a Jaipur-based developer working across React interfaces, full-stack workflows, and the systems that make complex products easier to trust."
+        image="/assets/lunar/bhavya-portrait.webp"
+        imageAlt="Portrait of Bhavya Lohami, sourced from his public GitHub profile."
+        meta={[
+          { label: 'Base', value: profile.location },
+          { label: 'Timezone', value: 'UTC+05:30' },
+          { label: 'Focus', value: 'React / full-stack products' },
+        ]}
+      >
+        <p className="portrait-source"><FiGithub aria-hidden="true" /> Portrait sourced from Bhavya's public GitHub profile.</p>
+      </PageHero>
 
-          <div className="mt-16 grid items-center gap-8 lg:grid-cols-[0.92fr_1.08fr]">
-            <motion.div
-              initial={{ opacity: 0, x: -34 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-              className="story-panel story-panel-shadow bg-card"
-            >
-              <OptimizedImage src={storyAssets.system} alt="System architecture visual" priority aspect="aspect-[4/5]" />
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, x: 34 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.7, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
-              className="lg:pl-8"
-            >
-              <p className="font-mono text-xs uppercase tracking-[0.28em] text-ice-blue">Engineering as a creative act.</p>
-              <h1 className="mt-5 font-display text-[clamp(2.9rem,6.2vw,6.8rem)] font-black uppercase leading-[0.88]">
-                Developer with a designer's eye
-              </h1>
-              <p className="mt-7 max-w-2xl text-lg leading-8 text-slate-600">{profile.intro}</p>
-
-              <div className="mt-8 flex flex-wrap gap-3">
-                {['Design', 'Engineering', 'Delivery'].map((item) => (
-                  <span key={item} className="story-chip bg-card">
-                    {item}
-                  </span>
-                ))}
-              </div>
-
-              <div className="mt-10 flex flex-col gap-4 sm:flex-row">
-                <MagneticButton to="/projects">See work</MagneticButton>
-                <a href={profile.resume} download className="story-chip bg-card px-6 py-4">
-                  <FaDownload className="mr-2" /> Download resume
-                </a>
-              </div>
-            </motion.div>
-          </div>
+      <section className="mission-section about-story">
+        <SectionHeading index="01" eyebrow="Origin story" title="Engineering gave me structure. Product work gave it consequence." />
+        <div className="about-story__grid">
+          <p>I started with computer science fundamentals and moved quickly toward the part of software people actually have to live with: the interface, its states, and the decisions behind it.</p>
+          <p>Production work taught me that visual polish is only convincing when the system beneath it handles search, permissions, validation, loading, failure, and change with equal care.</p>
+          <p>That is the work I want more of: operational products with real constraints, ambitious frontend craft, and enough engineering discipline to keep both reliable.</p>
         </div>
       </section>
 
-      <section className="border-b border-steel bg-card/64 px-4 py-20 md:px-6 md:py-28">
-        <div className="mx-auto max-w-7xl">
-          <div className="mx-auto mb-12 max-w-4xl text-center">
-            <p className="story-chip mx-auto mb-5 w-fit">The toolkit</p>
-            <h2 className="story-heading">Modules I rely on</h2>
-          </div>
-
-          <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-4">
-            {toolkit.map((item, index) => (
-              <motion.article
-                key={item.title}
-                variants={fadeUp}
-                initial="hidden"
-                whileInView="show"
-                viewport={{ once: true, margin: '-80px' }}
-                transition={{ delay: index * 0.06 }}
-                className={`story-panel min-h-[250px] bg-card p-6 ${index === 3 ? 'md:col-span-2 xl:col-span-1' : ''}`}
-              >
-                <p className="story-chip mb-8 w-fit">{String(index + 1).padStart(2, '0')}</p>
-                <h3 className="font-display text-3xl font-black uppercase leading-none">{item.title}</h3>
-                <p className="mt-4 leading-7 text-slate-600">{item.copy}</p>
-                <div className="mt-8 flex flex-wrap gap-2">
-                  {item.tags.map((tag) => (
-                    <span key={tag} className="story-chip bg-soft-ice/60">
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-              </motion.article>
-            ))}
-            <motion.article
-              variants={fadeUp}
-              initial="hidden"
-              whileInView="show"
-              viewport={{ once: true, margin: '-80px' }}
-              className="border border-ice-blue bg-ice-blue p-6 text-white shadow-[0_7px_0_rgba(31,111,235,0.18)] md:col-span-2 lg:shadow-[9px_9px_0_rgba(31,111,235,0.2)]"
-            >
-              <p className="font-mono text-xs uppercase tracking-[0.28em] text-white/80">Current direction</p>
-              <h3 className="mt-8 font-display text-3xl font-black uppercase leading-tight md:text-5xl">
-                Build interfaces that feel precise, fast, and memorable.
-              </h3>
-            </motion.article>
-          </div>
+      <section className="mission-section about-principles">
+        <SectionHeading index="02" eyebrow="Operating principles" title="Rules I can be held to." copy="These are working commitments, not adjectives arranged to sound senior." />
+        <div>
+          {professionalPrinciples.map((principle, index) => <article key={principle.id}><span>{String(index + 1).padStart(2, '0')}</span><h3>{principle.title}</h3><p>{principle.statement}</p></article>)}
         </div>
       </section>
 
-      <section className="story-grid-bg px-4 py-20 md:px-6 md:py-28">
-        <div className="mx-auto max-w-7xl">
-          <aside className="mx-auto mb-10 max-w-4xl text-center">
-            <p className="story-chip mx-auto mb-5 w-fit">Profile log</p>
-            <h2 className="font-display text-4xl font-black uppercase leading-none">Signals</h2>
-          </aside>
+      <section className="mission-section about-method">
+        <SectionHeading index="03" eyebrow="How I work" title="Ambiguity becomes a decision trail." />
+        <ol>
+          {[
+            ['Frame', 'Name the user, desired change, evidence, constraints, and what is still unknown.'],
+            ['Model', 'Map states, data ownership, failure paths, permissions, and the smallest reliable contract.'],
+            ['Prototype', 'Build the critical path in semantic HTML and responsive layout before expensive visual layers.'],
+            ['Pressure-test', 'Check empty, slow, invalid, denied, concurrent, mobile, keyboard, and reduced-motion states.'],
+            ['Ship and learn', 'Measure the real outcome, document trade-offs, and make the next iteration explicit.'],
+          ].map(([title, copy], index) => <li key={title}><span>{String(index + 1).padStart(2, '0')}</span><div><h3>{title}</h3><p>{copy}</p></div></li>)}
+        </ol>
+      </section>
 
-          <div className="space-y-5">
-            {stats.map((stat, index) => (
-              <motion.div
-                key={stat.label}
-                variants={fadeUp}
-                initial="hidden"
-                whileInView="show"
-                viewport={{ once: true, margin: '-80px' }}
-                className="story-panel grid gap-4 bg-card p-5 md:grid-cols-[0.2fr_1fr_0.35fr] md:items-center"
-              >
-                <span className="font-mono text-sm text-slate-500">{String(index + 1).padStart(3, '0')}</span>
-                <span className="font-display text-2xl font-black uppercase">{stat.label}</span>
-                <span className="font-display text-4xl font-black text-ice-blue">{stat.value}</span>
-              </motion.div>
-            ))}
-            <div className="story-panel grid gap-6 bg-card p-6 md:grid-cols-2">
-              <div>
-                <p className="story-chip mb-4 w-fit">Education</p>
-                <p className="font-display text-2xl font-black uppercase">{education[0]?.degree}</p>
-                <p className="mt-2 text-slate-600">{education[0]?.institution}</p>
-              </div>
-              <div>
-                <p className="story-chip mb-4 w-fit">Current work</p>
-                <p className="font-display text-2xl font-black uppercase">{experiences[0]?.role}</p>
-                <p className="mt-2 text-slate-600">{experiences[0]?.company}</p>
-              </div>
-            </div>
-            <MagneticButton to="/contact">Start a conversation</MagneticButton>
-          </div>
+      <section className="mission-section about-now">
+        <SectionHeading index="04" eyebrow={`Now / updated ${now.lastUpdated}`} title="Current orbit." copy={now.learningBoundary} />
+        <div className="about-now__grid">
+          <article><span><FiMapPin aria-hidden="true" /> Focus</span><ul>{now.focus.map((item) => <li key={item}>{item}</li>)}</ul></article>
+          <article><span>Building</span><ul>{now.building.map((item) => <li key={item}>{item}</li>)}</ul></article>
         </div>
+      </section>
+
+      <section className="mission-section about-proof">
+        <SectionHeading index="05" eyebrow="Proof policy" title="Evidence over borrowed authority." copy="Testimonials, awards, and talks are not shown because permission-backed records are not currently available." />
+        <div className="verified-signal-grid">
+          {verifiedSignals.map((signal) => <article key={signal.id}><EvidenceBadge level="documented">Verified signal</EvidenceBadge><h3>{signal.label}</h3><strong>{signal.value}</strong><p>{signal.limitation}</p>{signal.href && <a href={signal.href} target={signal.href.startsWith('http') ? '_blank' : undefined} rel="noreferrer">Inspect evidence <FiArrowRight aria-hidden="true" /></a>}</article>)}
+        </div>
+        <details className="proof-unavailable"><summary>What is intentionally absent</summary><div>{socialProof.unavailable.map((item) => <p key={item.type}><strong>{item.type}</strong>{item.statement}</p>)}</div></details>
+      </section>
+
+      <section className="mission-section about-next">
+        <span>Next signal</span><h2>Bring the difficult workflow.</h2><p>I am most useful where interface clarity, API behavior, and product risk meet.</p><Link to="/contact">Start a project conversation <FiArrowRight aria-hidden="true" /></Link>
       </section>
     </PageShell>
   );
-};
+}
 
 export default memo(About);

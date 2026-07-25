@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#070707" />
+    <meta name="robots" content="noindex" />
+    <title>Signal interrupted | Bhavya Lohami</title>
+    <style>
+      :root { color-scheme: dark; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+      * { box-sizing: border-box; }
+      body {
+        min-height: 100vh;
+        margin: 0;
+        display: grid;
+        place-items: center;
+        color: #dcd8d2;
+        background: #070707 url("./assets/lunar/starfield.webp") center / cover fixed;
+      }
+      main {
+        width: min(92vw, 52rem);
+        padding: clamp(2rem, 7vw, 5rem);
+        border: 1px solid rgba(229, 225, 220, .22);
+        background: rgba(7, 7, 7, .9);
+      }
+      p:first-child { color: #ff6b5d; letter-spacing: .14em; text-transform: uppercase; }
+      h1 { max-width: 12ch; margin: .5em 0; font: 700 clamp(3rem, 10vw, 7rem) / .9 system-ui, sans-serif; text-transform: uppercase; }
+      p { max-width: 42rem; color: #9f9b96; line-height: 1.7; }
+      nav { display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 2rem; }
+      a { padding: 1rem 1.25rem; color: #dcd8d2; border: 1px solid #666360; text-decoration: none; }
+      a:first-child { color: #070707; border-color: #ef4b3f; background: #ef4b3f; }
+      a:focus-visible { outline: 2px solid #ff6b5d; outline-offset: 4px; }
+    </style>
+  </head>
+  <body>
+    <main>
+      <p>Network status / offline</p>
+      <h1>Signal interrupted.</h1>
+      <p>The live portfolio cannot reach the network right now. Previously cached pages may still work, or you can reconnect and try again.</p>
+      <nav aria-label="Offline options">
+        <a href="./">Try the portfolio again</a>
+        <a href="mailto:bhavyalohami@gmail.com">Email Bhavya</a>
+      </nav>
+    </main>
+  </body>
+</html>

@@ -1,141 +1,30 @@
-import React, { memo } from 'react';
-import { motion } from 'framer-motion';
-import { FaDownload, FaEnvelope, FaMapMarkerAlt, FaPhone } from 'react-icons/fa';
-import { MagneticButton, PageShell } from '../components/Premium';
-import { education, experiences, profile, projects, skillGroups, stats } from '../data/portfolio';
+import { memo } from 'react';
+import { FiArrowUpRight, FiDownload, FiMail, FiMapPin, FiPrinter } from 'react-icons/fi';
+import PageShell, { EvidenceBadge, PageHero } from '../components/PageShell';
+import { caseStudies } from '../data/caseStudies';
+import { certificates, education, experiences, profile } from '../data/portfolio';
+import { capabilityGroups } from '../data/siteContent';
+import { trackEvent } from '../utils/analytics';
 
-const Resume = () => {
-  const skills = skillGroups.flatMap((group) => group.items.map((item) => item.name)).slice(0, 12);
-
+function Resume() {
   return (
-    <PageShell>
-      <section className="story-grid-bg border-b border-steel px-4 pb-16 pt-32 md:px-6 md:pb-24">
-        <div className="mx-auto max-w-7xl">
-          <div className="grid gap-8 lg:grid-cols-[0.8fr_1fr] lg:items-end">
-            <div>
-              <p className="story-chip mb-5 w-fit">RESUME.SNAPSHOT</p>
-              <h1 className="font-display text-[clamp(3rem,7vw,7.2rem)] font-black uppercase leading-[0.88]">
-                Candidate dossier
-              </h1>
-            </div>
-            <div className="story-panel story-panel-shadow bg-card p-6">
-              <p className="text-lg leading-8 text-slate-600">
-                A compact scan of profile, current role, stack, education, and proof of work, with the PDF one tap away.
-              </p>
-              <a href={profile.resume} download className="story-chip mt-6 bg-ice-blue px-6 py-4 text-white">
-                <FaDownload className="mr-2" /> Download PDF
-              </a>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="border-b border-steel bg-card/70 px-4 py-20 md:px-6 md:py-28">
-        <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[0.42fr_1fr]">
-          <aside className="story-panel story-panel-shadow bg-card p-7">
-            <p className="story-chip mb-6 w-fit">Candidate card</p>
-            <h2 className="font-display text-4xl font-black uppercase leading-tight">{profile.name}</h2>
-            <p className="mt-4 text-xl font-semibold text-ice-blue">{profile.role}</p>
-            <div className="mt-8 space-y-4 text-slate-600">
-              <p className="flex items-center gap-3">
-                <FaEnvelope className="text-ice-blue" /> {profile.email}
-              </p>
-              <p className="flex items-center gap-3">
-                <FaPhone className="text-ice-blue" /> {profile.phone}
-              </p>
-              <p className="flex items-center gap-3">
-                <FaMapMarkerAlt className="text-ice-blue" /> {profile.location}
-              </p>
-            </div>
-            <div className="mt-8 grid grid-cols-2 gap-3">
-              {stats.map((stat) => (
-                <div key={stat.label} className="story-panel bg-soft-ice/45 p-4">
-                  <p className="font-display text-3xl font-black text-ice-blue">{stat.value}</p>
-                  <p className="font-mono text-[0.62rem] uppercase tracking-[0.14em] text-slate-500">{stat.label}</p>
-                </div>
-              ))}
-            </div>
-          </aside>
-
-          <div className="grid gap-6">
-            <motion.article
-              initial={{ opacity: 0, y: 28 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: '-80px' }}
-              className="story-panel bg-card p-6 md:p-8"
-            >
-              <p className="story-chip mb-5 w-fit">Experience</p>
-              <div className="space-y-6">
-                {experiences.map((item) => (
-                  <div key={`${item.role}-${item.company}`} className="border-b border-steel pb-5 last:border-b-0 last:pb-0">
-                    <div className="flex flex-col justify-between gap-2 md:flex-row">
-                      <h3 className="font-display text-3xl font-black uppercase">{item.role}</h3>
-                      <span className="font-mono text-xs uppercase tracking-[0.18em] text-slate-500">{item.period}</span>
-                    </div>
-                    <p className="text-ice-blue">{item.company}</p>
-                    <p className="mt-2 leading-7 text-slate-600">{item.description}</p>
-                  </div>
-                ))}
-              </div>
-            </motion.article>
-
-            <div className="grid gap-6 md:grid-cols-2">
-              <motion.article
-                initial={{ opacity: 0, y: 28 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: '-80px' }}
-                className="story-panel bg-card p-6"
-              >
-                <p className="story-chip mb-5 w-fit">Projects</p>
-                <div className="space-y-4">
-                  {projects.slice(0, 3).map((project) => (
-                    <p key={project.title} className="font-display text-2xl font-black uppercase leading-none">
-                      {project.title}
-                    </p>
-                  ))}
-                </div>
-              </motion.article>
-              <motion.article
-                initial={{ opacity: 0, y: 28 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: '-80px' }}
-                className="story-panel bg-card p-6"
-              >
-                <p className="story-chip mb-5 w-fit">Education</p>
-                {education.map((item) => (
-                  <div key={item.degree} className="mb-5 last:mb-0">
-                    <p className="font-display text-2xl font-black uppercase leading-none">{item.degree}</p>
-                    <p className="mt-2 text-sm text-slate-600">{item.institution}</p>
-                  </div>
-                ))}
-              </motion.article>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="story-grid-bg px-4 py-20 md:px-6 md:py-28">
-        <div className="mx-auto max-w-7xl">
-          <div className="mx-auto mb-8 flex max-w-5xl flex-col items-center text-center">
-            <div>
-              <p className="story-chip mx-auto mb-5 w-fit">Skill scan</p>
-              <h2 className="story-heading">Readable stack</h2>
-            </div>
-            <div className="mt-6">
-              <MagneticButton to="/contact">Contact me</MagneticButton>
-            </div>
-          </div>
-          <div className="flex flex-wrap gap-3">
-            {skills.map((skill) => (
-              <span key={skill} className="story-chip bg-card px-4 py-3">
-                {skill}
-              </span>
-            ))}
-          </div>
-        </div>
-      </section>
+    <PageShell title="Resume" description="A semantic, printable resume for Bhavya Lohami, React and full-stack product developer." className="resume-page">
+      <PageHero eyebrow="Resume / candidate dossier" title={<>Bhavya<br />Lohami.</>} lede={profile.intro} meta={[
+        { label: 'Role', value: profile.role },
+        { label: 'Location', value: profile.location },
+        { label: 'Updated', value: '19 Jul 2026' },
+      ]} actions={<><a className="lunar-button lunar-button--primary" href={profile.resume} download onClick={() => trackEvent('resume_download', { format: 'pdf' })}><FiDownload aria-hidden="true" /> Download PDF</a><button type="button" className="lunar-button" onClick={() => window.print()}><FiPrinter aria-hidden="true" /> Print this page</button></>} />
+      <article className="mission-section semantic-resume">
+        <header className="semantic-resume__header"><div><h1>{profile.name}</h1><p>{profile.role}</p></div><address><span><FiMapPin aria-hidden="true" />{profile.location}</span><a href={`mailto:${profile.email}`}><FiMail aria-hidden="true" />{profile.email}</a>{profile.socials.filter((social) => social.href.startsWith('http')).map((social) => <a key={social.label} href={social.href} target="_blank" rel="noreferrer">{social.label}<FiArrowUpRight aria-hidden="true" /></a>)}</address></header>
+        <section><h2>Profile</h2><p>{profile.intro} I focus on reliable operational interfaces, reusable systems, search, scheduling, API integration, and product states that remain clear under pressure.</p></section>
+        <section><h2>Experience</h2><div className="semantic-resume__timeline">{experiences.map((item) => <article key={`${item.role}-${item.period}`}><header><div><h3>{item.role}</h3><p>{item.company} / {item.location}</p></div><time>{item.period}</time></header><p>{item.description}</p><ul>{item.wins.map((win) => <li key={win}>{win}</li>)}</ul></article>)}</div></section>
+        <section><h2>Selected project evidence</h2><div className="semantic-resume__projects">{caseStudies.map((study) => <article key={study.slug}><h3>{study.title}</h3><p>{study.summary}</p><div>{study.outcomes.slice(0, 2).map((outcome) => <span key={outcome.label}><strong>{outcome.value}</strong>{outcome.label}</span>)}</div><EvidenceBadge level={study.evidence.sources[0].type}>Qualified evidence</EvidenceBadge></article>)}</div></section>
+        <section><h2>Capabilities</h2><div className="semantic-resume__capabilities">{capabilityGroups.map((group) => <article key={group.id}><h3>{group.title}</h3><p>{group.capabilities.join(' / ')}</p></article>)}</div></section>
+        <section><h2>Education and training</h2><div className="semantic-resume__education">{[...education, ...certificates].map((item) => <article key={item.degree || item.title}><div><h3>{item.degree || item.title}</h3><p>{item.institution || item.issuer}</p></div><time>{item.period}</time></article>)}</div></section>
+        <footer><p>Metrics in this resume remain qualified in the linked case studies. Public repositories and independent testimonials are not presented where documentation is unavailable.</p></footer>
+      </article>
     </PageShell>
   );
-};
+}
 
 export default memo(Resume);

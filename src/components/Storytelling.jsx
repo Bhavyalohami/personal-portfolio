@@ -7,8 +7,8 @@ const assetBase =
   typeof window !== 'undefined' && window.location.hostname.endsWith('github.io') ? '/personal-portfolio' : '';
 
 export const storyAssets = {
-  system: `${assetBase}/assets/portfolio-story-system.jpg`,
-  projects: `${assetBase}/assets/portfolio-project-story.jpg`,
+  system: `${assetBase}/assets/generated-pages/about-interface-craft.png`,
+  projects: `${assetBase}/assets/generated-pages/projects-worlds.png`,
 };
 
 const quadrantClass = {

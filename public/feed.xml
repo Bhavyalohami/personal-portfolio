@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Bhavya Lohami - Field Notes</title>
+    <link>https://bhavyalohami.github.io/personal-portfolio/notes</link>
+    <description>Original engineering notes about validation, product state, security boundaries, and trustworthy interfaces.</description>
+    <language>en-IN</language>
+    <lastBuildDate>Sun, 19 Jul 2026 00:00:00 +0530</lastBuildDate>
+    <atom:link href="https://bhavyalohami.github.io/personal-portfolio/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Displayed availability is not confirmed availability</title>
+      <link>https://bhavyalohami.github.io/personal-portfolio/notes/validate-time-sensitive-state-at-commit</link>
+      <guid isPermaLink="true">https://bhavyalohami.github.io/personal-portfolio/notes/validate-time-sensitive-state-at-commit</guid>
+      <pubDate>Sun, 19 Jul 2026 00:00:00 +0530</pubDate>
+      <description>A reliable booking flow validates time-sensitive state again at the point of commitment.</description>
+    </item>
+    <item>
+      <title>Design filters as a state model, not a drawer</title>
+      <link>https://bhavyalohami.github.io/personal-portfolio/notes/design-filters-as-a-state-model</link>
+      <guid isPermaLink="true">https://bhavyalohami.github.io/personal-portfolio/notes/design-filters-as-a-state-model</guid>
+      <pubDate>Sun, 19 Jul 2026 00:00:00 +0530</pubDate>
+      <description>Property discovery improves when filter state is understandable, reversible, and shareable.</description>
+    </item>
+    <item>
+      <title>Role-based UI is not authorization</title>
+      <link>https://bhavyalohami.github.io/personal-portfolio/notes/role-based-ui-is-not-authorization</link>
+      <guid isPermaLink="true">https://bhavyalohami.github.io/personal-portfolio/notes/role-based-ui-is-not-authorization</guid>
+      <pubDate>Sun, 19 Jul 2026 00:00:00 +0530</pubDate>
+      <description>A hidden control can simplify an interface, but only a server policy protects the operation.</description>
+    </item>
+    <item>
+      <title>Put trust boundaries in the interface</title>
+      <link>https://bhavyalohami.github.io/personal-portfolio/notes/put-trust-boundaries-in-the-interface</link>
+      <guid isPermaLink="true">https://bhavyalohami.github.io/personal-portfolio/notes/put-trust-boundaries-in-the-interface</guid>
+      <pubDate>Sun, 19 Jul 2026 00:00:00 +0530</pubDate>
+      <description>Verification, pricing, privacy, and transaction scope should appear where a user decides.</description>
+    </item>
+  </channel>
+</rss>

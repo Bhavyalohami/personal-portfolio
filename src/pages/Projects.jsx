@@ -1,135 +1,132 @@
-import React, { memo } from 'react';
-import { motion } from 'framer-motion';
-import { FaExternalLinkAlt, FaGithub } from 'react-icons/fa';
-import { MagneticButton, OptimizedImage, PageShell } from '../components/Premium';
-import { profile, projects } from '../data/portfolio';
+import { memo, useMemo, useState } from 'react';
+import { FiArrowRight, FiArrowUpRight, FiSearch } from 'react-icons/fi';
+import { Link } from 'react-router-dom';
+import PageShell, { EvidenceBadge, PageHero, SectionHeading } from '../components/PageShell';
+import { caseStudies } from '../data/caseStudies';
+import { projects } from '../data/portfolio';
+import { trackEvent } from '../utils/analytics';
 
-const ProjectCard = memo(function ProjectCard({ project, index, featured = false, reversed = false }) {
-  const github = profile.socials.find((social) => social.label === 'GitHub')?.href;
+const caseSlugByProjectId = {
+  1: 'uphomes-rental-marketplace',
+  2: 'real-estate-management-system',
+  3: 'hospital-management-system',
+};
+
+const filters = ['All', 'Product systems', 'Frontend', 'Brand websites', 'Concept'];
+
+function bucketForProject(project) {
+  if ([1, 2, 3].includes(project.id)) return 'Product systems';
+  if ([4, 5].includes(project.id)) return 'Brand websites';
+  return 'Concept';
+}
+
+function ProjectLink({ project }) {
+  const slug = caseSlugByProjectId[project.id];
+  if (slug) {
+    return <Link to={`/work/${slug}`}>Read the full case study <FiArrowRight aria-hidden="true" /></Link>;
+  }
+  if (project.source && project.id !== 6) {
+    return <a href={project.source} target="_blank" rel="noreferrer" onClick={() => trackEvent('project_exit', { project: project.title })}>Visit public project <FiArrowUpRight aria-hidden="true" /></a>;
+  }
+  return <span className="work-card__unavailable">Project note / public proof unavailable</span>;
+}
+
+function Projects() {
+  const [activeFilter, setActiveFilter] = useState('All');
+  const [query, setQuery] = useState('');
+
+  const filteredProjects = useMemo(() => {
+    const term = query.trim().toLowerCase();
+    return projects.filter((project) => {
+      const matchesBucket = activeFilter === 'All' || bucketForProject(project) === activeFilter || (activeFilter === 'Frontend' && [1, 2, 3].includes(project.id));
+      const matchesSearch = !term || `${project.title} ${project.category} ${project.story} ${project.tags.join(' ')}`.toLowerCase().includes(term);
+      return matchesBucket && matchesSearch;
+    });
+  }, [activeFilter, query]);
+
+  const projectJsonLd = useMemo(() => ({
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    name: 'Selected work by Bhavya Lohami',
+    hasPart: caseStudies.map((study) => ({
+      '@type': 'CreativeWork',
+      name: study.title,
+      description: study.summary,
+      url: `/work/${study.slug}`,
+    })),
+  }), []);
 
   return (
-    <motion.article
-      initial={{ opacity: 0, y: 34 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: '-80px' }}
-      transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
-      className={`story-panel story-panel-shadow grid overflow-hidden bg-card ${
-        featured ? 'lg:grid-cols-[1.18fr_0.82fr]' : reversed ? 'lg:grid-cols-[0.72fr_1.28fr]' : ''
-      }`}
+    <PageShell
+      title="Work"
+      description="Product systems, frontend engineering, and evidence-aware case studies by Bhavya Lohami."
+      image="/assets/lunar/property-discovery.webp"
+      jsonLd={projectJsonLd}
+      className="work-index"
     >
-      <OptimizedImage
-        src={project.image}
-        alt={`${project.title} preview`}
-        aspect={featured || reversed ? 'aspect-[16/10] lg:aspect-auto' : 'aspect-[4/3]'}
-        className={reversed ? 'lg:order-2' : ''}
-        imgClassName="group-hover:scale-105"
+      <PageHero
+        eyebrow="Work archive / shipped systems"
+        title={<>Products made for<br />real operating pressure.</>}
+        lede="A curated record of product systems, interface work, and experiments. Flagship projects include the decisions, trade-offs, gaps, and evidence behind the polished surface."
+        image="/assets/lunar/property-discovery.webp"
+        imageAlt="Abstract property discovery system with a coral route across layered dark terrain."
+        meta={[
+          { label: 'Flagship studies', value: '03' },
+          { label: 'Public products', value: '04 verified links' },
+          { label: 'Evidence policy', value: 'Claims qualified' },
+        ]}
       />
-      <div className="flex min-h-[330px] flex-col justify-between p-6 md:p-8">
-        <div>
-          <div className="mb-6 flex flex-wrap items-center gap-3">
-            <span className="story-chip bg-soft-ice/60">{String(index + 1).padStart(3, '0')}</span>
-            <span className="story-chip bg-card">{project.category}</span>
-          </div>
-          <div className="flex flex-wrap gap-2">
-            {project.tags.slice(0, 4).map((tag) => (
-              <span key={tag} className="story-chip bg-soft-ice/55">
-                {tag}
-              </span>
+
+      <section className="mission-section work-index__archive" aria-labelledby="work-archive-title">
+        <SectionHeading
+          index="01"
+          eyebrow="Complete archive"
+          title="Browse by problem, not hype."
+          copy="Search by domain or technology. Every card identifies whether a deeper case study or only public-product evidence is available."
+        />
+        <div className="work-filter" aria-label="Filter projects">
+          <label>
+            <FiSearch aria-hidden="true" />
+            <span className="sr-only">Search projects</span>
+            <input type="search" value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search work, stack, or domain" />
+          </label>
+          <div role="group" aria-label="Project categories">
+            {filters.map((filter) => (
+              <button key={filter} type="button" className={activeFilter === filter ? 'is-active' : ''} aria-pressed={activeFilter === filter} onClick={() => setActiveFilter(filter)}>{filter}</button>
             ))}
           </div>
-          <h3 className="mt-6 font-display text-3xl font-black uppercase leading-[0.95] md:text-5xl">
-            {project.title}
-          </h3>
-          <p className="mt-5 max-w-2xl leading-7 text-slate-600">{project.summary}</p>
         </div>
-        <div className="mt-8 flex items-center gap-3">
-          <a href={github} className="story-chip bg-card" aria-label="GitHub profile">
-            <FaGithub />
-          </a>
-          <button type="button" className="story-chip bg-card" aria-label="Live preview">
-            <FaExternalLinkAlt />
-          </button>
-        </div>
-      </div>
-    </motion.article>
-  );
-});
 
-const Projects = () => {
-  const [firstProject, secondProject, thirdProject, ...restProjects] = projects;
-
-  return (
-    <PageShell>
-      <section className="story-grid-bg border-b border-steel px-4 pb-20 pt-32 md:px-6 md:pb-28">
-        <div className="mx-auto max-w-7xl">
-          <p className="story-chip mb-6 w-fit">WORK.INDEX</p>
-          <div className="grid gap-8 lg:grid-cols-[1fr_0.62fr] lg:items-end">
-            <h1 className="font-display text-[clamp(4.4rem,10vw,10rem)] font-black uppercase leading-[0.82]">
-              Work
-            </h1>
-            <div className="border-l-4 border-ice-blue pl-6">
-              <p className="text-xl leading-8 text-slate-600">
-                A curated selection of engineering projects built around clean architecture, performance, and polished user experience.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="story-grid-bg border-b border-steel px-4 py-16 md:px-6 md:py-24">
-        <div className="mx-auto max-w-7xl space-y-8">
-          {firstProject && <ProjectCard project={firstProject} index={0} featured />}
-          <div className="grid gap-8 lg:grid-cols-[0.7fr_1fr]">
-            {secondProject && <ProjectCard project={secondProject} index={1} />}
-            {thirdProject && <ProjectCard project={thirdProject} index={2} />}
-          </div>
-          {restProjects.map((project, index) => (
-            <ProjectCard key={project.title} project={project} index={index + 3} reversed />
-          ))}
-        </div>
-      </section>
-
-      <section className="border-b border-steel bg-card/70 px-4 py-20 md:px-6 md:py-28">
-        <div className="mx-auto max-w-7xl">
-          <div className="mx-auto mb-10 flex max-w-5xl flex-col items-center text-center">
-            <div>
-              <p className="story-chip mx-auto mb-5 w-fit">SYS.ARCHIVE_V3</p>
-              <h2 className="story-heading">Project gallery</h2>
-            </div>
-            <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-600">
-              The archive keeps the reference-site technical table feeling, but with your real project categories and stack.
-            </p>
-          </div>
-
-          <div className="story-panel overflow-hidden bg-card">
-            <div className="hidden grid-cols-[0.28fr_1.2fr_0.75fr_0.65fr] border-b border-steel bg-soft-ice/55 px-5 py-4 font-mono text-xs uppercase tracking-[0.18em] text-slate-500 md:grid">
-              <span>ID</span>
-              <span>System name</span>
-              <span>Stack</span>
-              <span>Signal</span>
-            </div>
-            {projects.map((project, index) => (
-              <div
-                key={project.title}
-                className="grid gap-4 border-b border-steel px-5 py-6 last:border-b-0 md:grid-cols-[0.28fr_1.2fr_0.75fr_0.65fr] md:items-center"
-              >
-                <span className="font-mono text-sm text-slate-500">{String(index + 1).padStart(3, '0')}</span>
-                <span className="font-display text-2xl font-black uppercase">{project.title}</span>
-                <span className="font-mono text-xs uppercase tracking-[0.16em] text-ice-blue">
-                  {project.tags.slice(0, 3).join(' / ')}
-                </span>
-                <span className="text-sm text-slate-500">{project.metrics?.[0] || project.category}</span>
-              </div>
-            ))}
-          </div>
-
-          <div className="mt-12 flex justify-center">
-            <MagneticButton to="/contact">Talk about a build</MagneticButton>
-          </div>
+        <div className="work-archive-grid" aria-live="polite">
+          {filteredProjects.map((project, index) => {
+            const hasCaseStudy = Boolean(caseSlugByProjectId[project.id]);
+            return (
+              <article className="work-card" key={project.id}>
+                <div className="work-card__media">
+                  <img src={project.image} alt={`${project.title} project preview`} loading={index > 1 ? 'lazy' : 'eager'} decoding="async" />
+                  <span>{String(project.id).padStart(2, '0')}</span>
+                </div>
+                <div className="work-card__body">
+                  <div className="work-card__topline">
+                    <span>{project.period}</span>
+                    <EvidenceBadge level={hasCaseStudy ? 'documented' : 'public-product'}>{hasCaseStudy ? 'Deep dive' : 'Public record'}</EvidenceBadge>
+                  </div>
+                  <p>{project.category}</p>
+                  <h2>{project.title}</h2>
+                  <strong>{project.summary}</strong>
+                  <ul aria-label={`${project.title} project signals`}>
+                    {project.metrics.map((metric) => <li key={metric}>{metric}</li>)}
+                  </ul>
+                  <ProjectLink project={project} />
+                </div>
+              </article>
+            );
+          })}
+          {filteredProjects.length === 0 && <p className="work-empty">No project matches that signal. Clear the search or choose another filter.</p>}
         </div>
       </section>
     </PageShell>
   );
-};
+}
 
 export default memo(Projects);

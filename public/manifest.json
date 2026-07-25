@@ -1,20 +1,53 @@
 {
-  "short_name": "Bhavya Portfolio",
-  "name": "Bhavya Lohami Developer Portfolio",
+  "id": ".",
+  "short_name": "Bhavya",
+  "name": "Bhavya Lohami - Developer Portfolio",
+  "description": "Selected product work, engineering decisions, and interactive experiments by Bhavya Lohami.",
+  "lang": "en-IN",
+  "dir": "ltr",
+  "start_url": ".",
+  "scope": ".",
+  "display": "standalone",
+  "display_override": ["window-controls-overlay", "standalone", "minimal-ui"],
+  "orientation": "any",
+  "theme_color": "#070707",
+  "background_color": "#070707",
+  "categories": ["portfolio", "developer", "design"],
   "icons": [
     {
       "src": "favicon.ico",
-      "sizes": "64x64 32x32 24x24 16x16",
-      "type": "image/x-icon"
+      "sizes": "16x16 24x24 32x32 64x64",
+      "type": "image/x-icon",
+      "purpose": "any"
     },
     {
-      "src": "logo.png",
-      "type": "image/png",
-      "sizes": "512x512"
+      "src": "assets/lunar/lunar-app-icon.webp",
+      "type": "image/webp",
+      "sizes": "512x512",
+      "purpose": "any maskable"
     }
   ],
-  "start_url": ".",
-  "display": "standalone",
-  "theme_color": "#EEF5FF",
-  "background_color": "#EEF5FF"
+  "shortcuts": [
+    {
+      "name": "Selected work",
+      "short_name": "Work",
+      "description": "Browse selected portfolio projects.",
+      "url": "./work"
+    },
+    {
+      "name": "Contact Bhavya",
+      "short_name": "Contact",
+      "description": "Open the portfolio contact page.",
+      "url": "./contact"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "assets/lunar/og-image.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Lunar Atelier portfolio overview"
+    }
+  ]
 }
